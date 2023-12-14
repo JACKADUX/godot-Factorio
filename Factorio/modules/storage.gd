@@ -2,14 +2,31 @@ class_name Storage extends RefCounted
 
 signal storage_changed
 
+var _type_fixed := false
 var _type:int = 0
 var _number:int = 0
 var _max_number:int = 64
 
+#region Interface
+func set_type_fixed(value:bool):
+	_type_fixed = value
+
+func is_type_fixed():
+	return _type_fixed
+
+func is_same_type(other:Storage):
+	return _type == other.get_type()
+
+func set_type(type:int):
+	_type = type
+		
 func get_type():
-	if _number == 0:
-		_type = 0
 	return _type
+
+func set_number(value:int):
+	assert(value>=0)
+	_number = value
+	storage_changed.emit()
 
 func get_number():
 	return _number
@@ -20,34 +37,31 @@ func is_full():
 func is_empty():
 	return _number <= 0
 
-func request_feed(type:int, num:int) -> int:
-	assert(type!=0)
-	assert(num>=0)
-	if _number == 0:
-		_type = type
-	elif _type != type:
-		return 0
+func request_feed(value:int) -> int:
+	assert(value>=0)
 	var space_left = _max_number -_number
-	if num > space_left:
-		num = space_left
-	return num
+	if value > space_left:
+		value = space_left
+	return value
 	
-func take(num:int) -> int:
-	assert(num>=0)
-	if num == 0:
+func take(value:int) -> int:
+	assert(value>=0)
+	if value == 0:
 		return 0
-	if num > _number:
-		num = _number
-	_number -= num
+	if value > _number:
+		value = _number
+	_number -= value
 	storage_changed.emit()
-	return num
+	return value
 	
-func feed(num:int):
-	assert(num>=0)
-	if num == 0:
+func feed(value:int):
+	assert(value>=0)
+	if value == 0:
 		return
-	if _number +num <= _max_number:
-		_number += num
+	if _number + value <= _max_number:
+		_number += value
 		storage_changed.emit()
 	else:
 		push_error("feed _number larger than spaceleft")
+
+#endregion
