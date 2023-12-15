@@ -1,15 +1,70 @@
 class_name Converter extends RefCounted
 
-signal start_convert
+signal formula_changed
 
-var inputs :Array[Storage] = []
-var outputs :Array[Storage] = []
+var _formula :Formula
 
-var formula := Formula.new()
+var _start_state:=false
 
-func convert():
-	if not formula.apply_formula(inputs):
-		return 
-	start_convert.emit()
+func is_started():
+	return _start_state
 	
-	outputs = formula.get_outputs()
+func set_formula(formula:Formula):
+	_formula = formula
+	formula_changed.emit()
+	
+func consume_inputs(inputs:StorageCollection) -> bool:
+	if _start_state:
+		#push_error("already started")
+		return false
+	if _formula.consume_inputs(inputs):
+		_start_state = true
+		return true
+	return false
+	
+func get_time_cost():
+	return _formula.get_time_cost()
+
+func collect_outputs(outputs:StorageCollection) -> bool:
+	if not _start_state:
+		#push_error("not started")
+		return false
+	if _formula.collect_outputs(outputs):
+		_start_state = false
+		return true
+	return false
+				
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
