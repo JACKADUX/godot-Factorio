@@ -1,17 +1,6 @@
-class_name StorageCollection extends RefCounted
+class_name StorageCollection extends Resource
 
-const EmptyStorageType :int = 0
-
-var _storages := []
-
-func duplicate(deep:=false):
-	var storages = StorageCollection.new()
-	if not deep:
-		storages._storages = _storages
-	else:
-		for st in _storages:
-			storages.append_storage(st.duplicate())
-	return storages
+@export var _storages :Array[Storage] = []
 	
 func get_storages():
 	return _storages
@@ -64,11 +53,25 @@ func get_type_total_data() -> Dictionary:
 		data[type].storage_list.append(storage)
 	return data
 
+func collect_storages_by(storage_type:int) -> StorageCollection:
+	var data = get_type_total_data()
+	if data.has(storage_type):
+		return create_from_strages(data[storage_type].storage_list)
+	return null
 
-
-
-
-
+func get_first_storage_by(storage_type:int) -> Storage:
+	var data = get_type_total_data()
+	if data.has(storage_type):
+		return data[storage_type].storage_list[0]
+	return null
+	
+## Statics
+static func create_from_strages(storages:Array) -> StorageCollection:
+	var sc = StorageCollection.new()
+	for storage in storages:
+		if storage is Storage:
+			sc.append_storage(storage)
+	return sc
 
 
 

@@ -1,28 +1,19 @@
-class_name Storage extends RefCounted
+class_name Storage extends Resource
 
 signal storage_changed
 
-var _type:int = 0
-var _number:int = 0
-var _max_number:int = 64
+@export var _type:int = 0
+@export var _number:int = 0
+@export var _max_number:int = 100
 
-
-static func create(type:int, number:int, max_number:int=64) -> Storage:
+static func create(type:int, number:int, max_number:int=100) -> Storage:
 	var storage = Storage.new() 
 	storage._type = type
 	storage._number = number
 	storage._max_number = max_number
 	return storage
 
-
 #region Interface
-func duplicate():
-	var storage = Storage.new() 
-	storage._type = _type
-	storage._number = _number
-	storage._max_number = _max_number
-	return storage
-
 func is_same_type(other:Storage):
 	return _type == other.get_type()
 

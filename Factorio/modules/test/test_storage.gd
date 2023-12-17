@@ -19,9 +19,4 @@ func test_storage():
 	f_sc.append_storage(Storage.create(1, 2))
 	f_sc.append_storage(Storage.create(2, 1))
 	
-	var f_sc2 = StorageCollection.new()
-	f_sc2.append_storage(Storage.create(3, 1))
-	var form = Formula.create(f_sc, f_sc2)
-	
-	if form.apply_formula(sc):
-		print(form.get_results().get_type_total_data())
+
