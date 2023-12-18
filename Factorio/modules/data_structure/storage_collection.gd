@@ -1,28 +1,27 @@
 class_name StorageCollection extends Resource
 
+signal storages_changed
+
 @export var _storages :Array[Storage] = []
-	
+
+
 func get_storages():
 	return _storages
+
+func set_storages_changed():
+	storages_changed.emit()
 
 func append_storage(value:Storage):
 	if value not in _storages:
 		_storages.append(value)
+		value.storage_changed.connect(set_storages_changed)
+		storages_changed.emit()
 
 func remove_storage(value:Storage):
 	if value in _storages:
 		_storages.erase(value)
-
-func clear():
-	_storages = [] 
-
-func remove_empty_storage():
-	var new_storage = []
-	for storage in _storages:
-		if storage.is_empty():
-			continue
-		new_storage.append(storage)
-	_storages = new_storage
+		value.storage_changed.disconnect(set_storages_changed)
+		storages_changed.emit()
 
 func size():
 	return _storages.size()
@@ -33,7 +32,7 @@ func is_empty():
 func set_all_storage_to_empty():
 	for storage:Storage in _storages:
 		storage.set_number(0)
-		
+	
 func is_all_storage_empty() -> bool:
 	for storage:Storage in _storages:
 		if storage.get_number() != 0:
@@ -59,10 +58,10 @@ func collect_storages_by(storage_type:int) -> StorageCollection:
 		return create_from_strages(data[storage_type].storage_list)
 	return null
 
-func get_first_storage_by(storage_type:int) -> Storage:
-	var data = get_type_total_data()
-	if data.has(storage_type):
-		return data[storage_type].storage_list[0]
+func get_storage_by(storage_type:int) -> Storage:
+	for storage in _storages:
+		if storage.get_type() == storage_type:
+			return storage
 	return null
 	
 ## Statics
@@ -73,7 +72,11 @@ static func create_from_strages(storages:Array) -> StorageCollection:
 			sc.append_storage(storage)
 	return sc
 
-
+static func clone(storages:StorageCollection) -> StorageCollection:
+	var new_storages = StorageCollection.new()
+	for storage:Storage in storages.get_storages():
+		new_storages.append_storage(Storage.clone(storage))
+	return new_storages
 
 
 

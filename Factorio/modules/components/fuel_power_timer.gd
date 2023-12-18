@@ -1,4 +1,4 @@
-class_name PowerComponent extends StateTimer
+class_name FuelPowerTimer extends StateTimer
 
 # 1 MJ = 1,000,000 J
 # 1 kW = 1,000 W
@@ -14,9 +14,10 @@ class_name PowerComponent extends StateTimer
 		max_consumption = value
 		_update_wait_time()
 
+func _ready():
+	_update_wait_time()
+
 func _update_wait_time():
 	wait_time = fuel_value*1000/max_consumption
-
-
 
 

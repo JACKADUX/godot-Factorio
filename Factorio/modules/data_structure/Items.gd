@@ -4,7 +4,6 @@ enum Items {Null,
 			Coal,
 			IronOre,
 			CopperOre, 
-			
 	}
 
 

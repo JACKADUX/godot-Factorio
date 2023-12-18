@@ -76,5 +76,6 @@ func feed(value:int):
 		push_error("feed _number larger than spaceleft")
 #endregion
 
-
+static func clone(storage:Storage) -> Storage:
+	return Storage.create(storage.get_type(), storage.get_number(), storage.get_max_number())
 
