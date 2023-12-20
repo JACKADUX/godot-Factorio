@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://d0sf5881yv62w"]
+
+[ext_resource type="Script" path="res://scenes/picture_viewer/base_picture_view/pv_elements/pv_base_element.gd" id="1_bk28a"]
+[ext_resource type="Texture2D" uid="uid://bpd67ijbvy1ys" path="res://folder.png" id="2_mjbvw"]
+[ext_resource type="Script" path="res://scenes/picture_viewer/base_picture_view/pv_elements/components/selection_component.gd" id="3_ug5l6"]
+[ext_resource type="Script" path="res://scenes/picture_viewer/base_picture_view/pv_elements/components/image_region_component.gd" id="3_vsfij"]
+[ext_resource type="Script" path="res://scenes/picture_viewer/base_picture_view/pv_elements/components/outline_component.gd" id="5_wx34y"]
+
+[node name="PVBaseElement" type="Node2D"]
+script = ExtResource("1_bk28a")
+
+[node name="Image" type="Sprite2D" parent="."]
+texture = ExtResource("2_mjbvw")
+centered = false
+
+[node name="ImageRegionComponent" type="Node" parent="." node_paths=PackedStringArray("sprite")]
+script = ExtResource("3_vsfij")
+sprite = NodePath("../Image")
+
+[node name="OutlineComponent" type="Node2D" parent="." node_paths=PackedStringArray("image_area_component")]
+script = ExtResource("5_wx34y")
+image_area_component = NodePath("../ImageRegionComponent")
+outline_color = null
+outline_width = null
+
+[node name="SelectionComponent" type="Node" parent="."]
+script = ExtResource("3_ug5l6")

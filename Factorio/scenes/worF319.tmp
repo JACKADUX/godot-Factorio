@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://0rheik858pf0"]
+
+[ext_resource type="Script" path="res://scenes/world.gd" id="1_1q7cu"]
+[ext_resource type="PackedScene" uid="uid://diqx4wj04agyr" path="res://modules/easy_graph_editor/eg_editor.tscn" id="2_g35rb"]
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_1q7cu")
+
+[node name="EGEditor" parent="." instance=ExtResource("2_g35rb")]

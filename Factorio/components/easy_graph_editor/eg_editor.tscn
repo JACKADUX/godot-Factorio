@@ -1,0 +1,45 @@
+[gd_scene load_steps=8 format=3 uid="uid://diqx4wj04agyr"]
+
+[ext_resource type="Script" path="res://components/easy_graph_editor/eg_editor.gd" id="1_1d8si"]
+[ext_resource type="Script" path="res://components/easy_graph_editor/handlers/mouse_input_handler.gd" id="2_jsh0m"]
+[ext_resource type="Script" path="res://components/easy_graph_editor/components/eg_rect.gd" id="2_lbfdy"]
+[ext_resource type="Script" path="res://components/easy_graph_editor/components/eg_camera.gd" id="3_keaue"]
+[ext_resource type="Script" path="res://components/easy_graph_editor/components/eg_grid.gd" id="4_vyfum"]
+[ext_resource type="PackedScene" uid="uid://clggee5hlh01" path="res://components/easy_graph_editor/eg_elements_manager/eg_elements_manager.tscn" id="5_dtwsl"]
+[ext_resource type="PackedScene" uid="uid://bi880w5tiq5og" path="res://components/easy_graph_editor/eg_tools_manager/eg_tools_manager.tscn" id="7_hpiyh"]
+
+[node name="EGEditor" type="Node2D"]
+script = ExtResource("1_1d8si")
+metadata/_edit_lock_ = true
+
+[node name="Background" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_lbfdy")
+fill = true
+fill_color = Color(0.184314, 0.184314, 0.184314, 1)
+
+[node name="MouseInputHandler" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_jsh0m")
+
+[node name="EGCamera" type="Camera2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(362, 292)
+script = ExtResource("3_keaue")
+
+[node name="EGGrid" type="Node2D" parent="." node_paths=PackedStringArray("eg_camera")]
+unique_name_in_owner = true
+script = ExtResource("4_vyfum")
+eg_camera = NodePath("../EGCamera")
+metadata/_edit_lock_ = true
+
+[node name="EGElementsManager" parent="." node_paths=PackedStringArray("eg_camera") instance=ExtResource("5_dtwsl")]
+unique_name_in_owner = true
+eg_camera = NodePath("../EGCamera")
+metadata/_edit_lock_ = true
+
+[node name="EGToolsManager" parent="." node_paths=PackedStringArray("eg_elements_manager", "mouse_input_handler", "eg_camera") instance=ExtResource("7_hpiyh")]
+unique_name_in_owner = true
+eg_elements_manager = NodePath("../EGElementsManager")
+mouse_input_handler = NodePath("../MouseInputHandler")
+eg_camera = NodePath("../EGCamera")

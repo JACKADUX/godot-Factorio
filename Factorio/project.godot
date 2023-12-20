@@ -11,6 +11,10 @@ config_version=5
 [application]
 
 config/name="Factorio"
-run/main_scene="res://modules/entities/mining_machine.tscn"
+run/main_scene="res://scenes/world.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Globals="*res://globals/globals.gd"

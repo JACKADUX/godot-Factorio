@@ -1,6 +1,29 @@
-[gd_scene load_steps=2 format=3 uid="uid://0rheik858pf0"]
+[gd_scene load_steps=5 format=3 uid="uid://cntr6xfnip6nc"]
 
-[ext_resource type="Script" path="res://scenes/world.gd" id="1_1q7cu"]
+[ext_resource type="PackedScene" uid="uid://diqx4wj04agyr" path="res://components/easy_graph_editor/eg_editor.tscn" id="1_kw6c3"]
+[ext_resource type="Script" path="res://modules/tools/building_tool.gd" id="2_0maqw"]
+[ext_resource type="Texture2D" uid="uid://bgpcy1wmkqrf3" path="res://icon.svg" id="3_j5t1p"]
+[ext_resource type="Script" path="res://components/easy_graph_editor/components/eg_rect.gd" id="3_xtcus"]
 
-[node name="World" type="Node2D"]
-script = ExtResource("1_1q7cu")
+[node name="Node2D" type="Node2D"]
+
+[node name="EGEditor" parent="." instance=ExtResource("1_kw6c3")]
+
+[node name="EGGrid" parent="EGEditor" index="3"]
+larg_grid = Vector2(1024, 1024)
+
+[node name="BuildingTool" type="Node" parent="EGEditor/EGToolsManager" index="0"]
+script = ExtResource("2_0maqw")
+
+[node name="BuildingToolArea" type="Node2D" parent="EGEditor/EGToolsManager/BuildingTool"]
+script = ExtResource("3_xtcus")
+rect = Rect2(0, 0, 96, 96)
+outline = true
+
+[node name="Icon" type="Sprite2D" parent="."]
+position = Vector2(-1, -2)
+scale = Vector2(0.22, 0.22)
+texture = ExtResource("3_j5t1p")
+
+[editable path="EGEditor"]
+[editable path="EGEditor/EGToolsManager"]
