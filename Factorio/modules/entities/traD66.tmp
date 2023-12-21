@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=3 uid="uid://1s2m3jiquf7u"]
+
+[ext_resource type="Script" path="res://modules/entities/transport_belt.gd" id="1_shuim"]
+
+[node name="TransportBelt" type="Node2D"]
+position = Vector2(32, 32)
+scale = Vector2(4, 4)
+script = ExtResource("1_shuim")
+
+[node name="TimerInput" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[node name="TimerOutput" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
+[node name="TimerRandomPick" type="Timer" parent="."]
+wait_time = 0.7
+autostart = true
+
+[connection signal="timeout" from="TimerInput" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="TimerOutput" to="." method="_on_timer_output_timeout"]
+[connection signal="timeout" from="TimerRandomPick" to="." method="_on_timer_random_pick_timeout"]

@@ -19,7 +19,8 @@ func _draw():
 	if fill:
 		draw_rect(rect, fill_color, true)
 	if outline:
-		draw_rect(rect, outline_color, false, outline_width/_eg_camera.zoom.x)
+		var zoom = outline_width/_eg_camera.zoom.x if _eg_camera else 1
+		draw_rect(rect, outline_color, false, zoom)
 
 func set_rect(rect:Rect2):
 	self.rect = rect

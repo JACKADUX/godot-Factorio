@@ -11,10 +11,18 @@ config_version=5
 [application]
 
 config/name="Factorio"
-run/main_scene="res://scenes/world.tscn"
+run/main_scene="res://modules/test/belt_test.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
 Globals="*res://globals/globals.gd"
+
+[display]
+
+window/stretch/scale_mode="integer"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
