@@ -9,7 +9,7 @@ signal rect_changed
 @export var outline_color := Color.ALICE_BLUE
 @export var outline_width :float = 2.0
 
-var _eg_camera:EGCamera
+var _eg_camera:Camera2D
 
 func _draw():
 	if not _eg_camera:

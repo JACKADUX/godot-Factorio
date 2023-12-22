@@ -1,8 +1,8 @@
 extends Node2D
 
 @onready var transport_belt = $TransportBelt
+@onready var transport_belt_3 = $TransportBelt3
 
-@onready var debug_draw = $Node
 @onready var tile_map = $TileMap
 
 func _ready():
@@ -14,9 +14,13 @@ func _ready():
 	tile_source.set_tile_animation_speed(Vector2i(0,2), transport_belt.speed)
 	tile_source.set_tile_animation_speed(Vector2i(0,3), transport_belt.speed)
 
-
-
+	transport_belt.input_by(Enums.Items.Coal)
 
 
 func _on_timer_timeout():
-	transport_belt.input(Enums.Items.Coal)
+	transport_belt.input_by(Enums.Items.Coal)
+	if randf()>0:
+		return 
+	if transport_belt_3.wait_for_output():
+		transport_belt_3.output(transport_belt_3.items[0])
+	
