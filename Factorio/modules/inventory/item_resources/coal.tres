@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="BaseItem" load_steps=3 format=3 uid="uid://c6ov70y0tqaw1"]
+
+[ext_resource type="Script" path="res://modules/inventory/data_structure/base_item.gd" id="1_soisj"]
+[ext_resource type="Texture2D" uid="uid://drb7ibbk5ee1w" path="res://resource/test/coal_texture.tres" id="2_anbef"]
+
+[resource]
+script = ExtResource("1_soisj")
+type = 1
+id = 1
+name = "Coal"
+texture = ExtResource("2_anbef")

@@ -1,22 +1,40 @@
 [gd_scene load_steps=4 format=3 uid="uid://cntr6xfnip6nc"]
 
-[ext_resource type="PackedScene" uid="uid://diqx4wj04agyr" path="res://components/easy_graph_editor/eg_editor.tscn" id="1_kw6c3"]
-[ext_resource type="PackedScene" uid="uid://bejkmof161xor" path="res://modules/tools/belt_tool/belt_tool.tscn" id="2_5pjbn"]
-[ext_resource type="Texture2D" uid="uid://bgpcy1wmkqrf3" path="res://icon.svg" id="3_j5t1p"]
+[ext_resource type="PackedScene" uid="uid://rpie6isb64tq" path="res://modules/toolbar/toolbar.tscn" id="1_a6a37"]
+[ext_resource type="PackedScene" uid="uid://bri0k550q48ul" path="res://modules/inventory/inventory.tscn" id="2_wpgam"]
+[ext_resource type="PackedScene" uid="uid://bnyiqe5af1kkn" path="res://modules/inventory/display/display.tscn" id="3_ujrwp"]
 
 [node name="World" type="Node2D"]
 
-[node name="EGEditor" parent="." instance=ExtResource("1_kw6c3")]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="EGGrid" parent="EGEditor" index="3"]
-larg_grid = Vector2(1024, 1024)
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="BeltTool" parent="EGEditor/EGToolsManager" index="0" instance=ExtResource("2_5pjbn")]
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -84.0
+grow_horizontal = 2
+grow_vertical = 0
 
-[node name="Icon" type="Sprite2D" parent="."]
-position = Vector2(-1, -2)
-scale = Vector2(0.22, 0.22)
-texture = ExtResource("3_j5t1p")
+[node name="Toolbar" parent="CanvasLayer/Control/CenterContainer" node_paths=PackedStringArray("display") instance=ExtResource("1_a6a37")]
+layout_mode = 2
+display = NodePath("../../Display")
 
-[editable path="EGEditor"]
-[editable path="EGEditor/EGToolsManager"]
+[node name="Inventory" parent="CanvasLayer/Control" node_paths=PackedStringArray("display") instance=ExtResource("2_wpgam")]
+layout_mode = 1
+offset_right = 211.0
+offset_bottom = 354.0
+display = NodePath("../Display")
+
+[node name="Display" parent="CanvasLayer/Control" instance=ExtResource("3_ujrwp")]
+visible = false

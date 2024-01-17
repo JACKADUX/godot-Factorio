@@ -1,0 +1,51 @@
+[gd_scene load_steps=3 format=3 uid="uid://bri0k550q48ul"]
+
+[ext_resource type="Script" path="res://modules/inventory/inventory.gd" id="1_wbmdq"]
+[ext_resource type="PackedScene" uid="uid://b0ahrnp60stki" path="res://modules/inventory/inventory_slot.tscn" id="2_c1wt4"]
+
+[node name="Inventory" type="PanelContainer"]
+offset_right = 458.0
+offset_bottom = 363.0
+script = ExtResource("1_wbmdq")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/CenterContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 4
+
+[node name="Slot" parent="MarginContainer/CenterContainer/GridContainer" instance=ExtResource("2_c1wt4")]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="GrabSlotDisplay" type="TextureRect" parent="Control"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="Control/GrabSlotDisplay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_alignment = 2
+vertical_alignment = 2

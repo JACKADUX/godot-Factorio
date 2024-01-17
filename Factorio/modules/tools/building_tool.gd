@@ -2,7 +2,7 @@ class_name BuildingTool extends EGBaseTool
 
 @onready var building_tool_area := $BuildingToolArea as Node2D
 
-@onready var half_grid = Globals.GridSizeV*0.5 
+@onready var half_grid = Globals.GridSizeVector*0.5 
 
 var mouse_grid_index:Vector2i
 var mouse_grid_position:Vector2

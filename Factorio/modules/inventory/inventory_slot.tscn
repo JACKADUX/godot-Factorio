@@ -1,0 +1,44 @@
+[gd_scene load_steps=2 format=3 uid="uid://b0ahrnp60stki"]
+
+[ext_resource type="Script" path="res://modules/inventory/inventory_slot.gd" id="1_up6sh"]
+
+[node name="InventorySlot" type="PanelContainer"]
+custom_minimum_size = Vector2(64, 64)
+offset_right = 25.0
+offset_bottom = 25.0
+script = ExtResource("1_up6sh")
+
+[node name="Button" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(58, 58)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LabelCount" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+text = "1"
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="LabelName" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+text = "1"
+clip_text = true

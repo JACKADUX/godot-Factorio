@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=3 uid="uid://bri0k550q48ul"]
+
+[ext_resource type="Script" path="res://modules/inventory/inventory.gd" id="1_wbmdq"]
+[ext_resource type="PackedScene" uid="uid://b0ahrnp60stki" path="res://modules/inventory/inventory_slot.tscn" id="2_c1wt4"]
+[ext_resource type="PackedScene" uid="uid://bnyiqe5af1kkn" path="res://modules/inventory/display/display.tscn" id="3_twboy"]
+
+[node name="Inventory" type="PanelContainer" node_paths=PackedStringArray("display")]
+offset_right = 458.0
+offset_bottom = 363.0
+script = ExtResource("1_wbmdq")
+display = NodePath("debug/Display")
+INVENTORY_SLOT_PACKED = ExtResource("2_c1wt4")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/CenterContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 4
+
+[node name="Slot" parent="MarginContainer/CenterContainer/GridContainer" instance=ExtResource("2_c1wt4")]
+layout_mode = 2
+
+[node name="debug" type="Control" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Display" parent="debug" instance=ExtResource("3_twboy")]
+layout_mode = 1
+offset_right = 48.0
+offset_bottom = 48.0
