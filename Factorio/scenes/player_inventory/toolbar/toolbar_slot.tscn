@@ -1,0 +1,10 @@
+[gd_scene load_steps=4 format=3 uid="uid://bj6l7bb32u06l"]
+
+[ext_resource type="Script" path="res://scenes/player_inventory/toolbar/toolbar_slot.gd" id="1_uuwpa"]
+[ext_resource type="PackedScene" uid="uid://b0ahrnp60stki" path="res://modules/inventory/inventory_slot_ui.tscn" id="1_yk852"]
+[ext_resource type="ButtonGroup" uid="uid://5a18own8mlo5" path="res://scenes/player_inventory/toolbar/toolbar_button_group.tres" id="2_s5qot"]
+
+[node name="ToolbarSlot" instance=ExtResource("1_yk852")]
+toggle_mode = true
+button_group = ExtResource("2_s5qot")
+script = ExtResource("1_uuwpa")
