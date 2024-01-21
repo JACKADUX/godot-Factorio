@@ -1,0 +1,52 @@
+[gd_scene load_steps=4 format=3 uid="uid://cntr6xfnip6nc"]
+
+[ext_resource type="PackedScene" uid="uid://c8mquriqfkhjo" path="res://scenes/player_inventory/player_inventory.tscn" id="1_cugm3"]
+[ext_resource type="PackedScene" uid="uid://e4uxhacqhvgv" path="res://scenes/player_inventory/hand_slot/hand_slot.tscn" id="2_kww6n"]
+[ext_resource type="PackedScene" uid="uid://rpie6isb64tq" path="res://scenes/player_inventory/toolbar/toolbar.tscn" id="3_e58vi"]
+
+[node name="World" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -304.0
+offset_top = -64.0
+offset_right = 304.0
+offset_bottom = -32.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Toolbar" parent="CanvasLayer/Control/CenterContainer" node_paths=PackedStringArray("player_inventory", "hand_slot") instance=ExtResource("3_e58vi")]
+layout_mode = 2
+player_inventory = NodePath("../../PlayerInventory")
+hand_slot = NodePath("../../HandSlot")
+
+[node name="PlayerInventory" parent="CanvasLayer/Control" instance=ExtResource("1_cugm3")]
+layout_mode = 0
+offset_left = 204.0
+offset_top = 88.0
+offset_right = 529.0
+offset_bottom = 454.0
+
+[node name="HandSlot" parent="CanvasLayer/Control" instance=ExtResource("2_kww6n")]
+visible = false
+layout_mode = 0
+offset_left = 534.0
+offset_top = 115.0
+offset_right = 598.0
+offset_bottom = 179.0
+button_mask = 1

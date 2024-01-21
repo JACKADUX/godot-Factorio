@@ -5,7 +5,6 @@
 
 [resource]
 script = ExtResource("1_soisj")
-type = 1
 id = 1
 name = "Coal"
 texture = ExtResource("2_anbef")

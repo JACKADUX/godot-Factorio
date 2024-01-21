@@ -20,9 +20,21 @@ func remove_slot(value:InventorySlot):
 	if value in _slots:
 		_slots.erase(value)
 
-func stack_slot(slot:InventorySlot, other_slot:InventorySlot):
-	pass
+func get_item_count_data() -> Dictionary:
+	""" { base_item : count } """
+	var data := {}
+	for slot:InventorySlot in _slots:
+		var item :BaseItem = slot.get_item() 
+		if not item:
+			continue
+		var key = item
+		if not data.has(key):
+			data[key] = 0
+		data[key] += slot.get_count()
+	return data
+	
 
+	
 ## Statics
 static func create(number:int) -> Inventory:
 	var inventory := Inventory.new()

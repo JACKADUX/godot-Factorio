@@ -1,0 +1,63 @@
+[gd_scene load_steps=8 format=3 uid="uid://ynhxqmm6x1qs"]
+
+[ext_resource type="Texture2D" uid="uid://btn3aahyi322t" path="res://resource/resource.png" id="1_f4w7q"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_35atm"]
+atlas = ExtResource("1_f4w7q")
+region = Rect2(128, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fm8ba"]
+atlas = ExtResource("1_f4w7q")
+region = Rect2(164, 99, 7, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s8x5n"]
+atlas = ExtResource("1_f4w7q")
+region = Rect2(127, 110, 33, 4)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4d8ij"]
+atlas = ExtResource("1_f4w7q")
+region = Rect2(181, 99, 7, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qnchd"]
+atlas = ExtResource("1_f4w7q")
+region = Rect2(163, 114, 11, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dwmy6"]
+atlas = ExtResource("1_f4w7q")
+region = Rect2(178, 113, 13, 14)
+
+[node name="Node2D" type="Node2D"]
+y_sort_enabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 2)
+texture = SubResource("AtlasTexture_35atm")
+
+[node name="R1" type="Sprite2D" parent="Sprite2D"]
+position = Vector2(0, -2)
+rotation = -2.35619
+texture = SubResource("AtlasTexture_fm8ba")
+
+[node name="Sprite2D5" type="Sprite2D" parent="Sprite2D/R1"]
+show_behind_parent = true
+position = Vector2(12, 0)
+texture = SubResource("AtlasTexture_s8x5n")
+
+[node name="R2" type="Sprite2D" parent="Sprite2D/R1"]
+position = Vector2(25, 0)
+rotation = 2.09439
+texture = SubResource("AtlasTexture_4d8ij")
+
+[node name="Sprite2D6" type="Sprite2D" parent="Sprite2D/R1/R2"]
+show_behind_parent = true
+position = Vector2(13, 0)
+texture = SubResource("AtlasTexture_s8x5n")
+
+[node name="R3" type="Sprite2D" parent="Sprite2D/R1/R2/Sprite2D6"]
+position = Vector2(12, 0)
+texture = SubResource("AtlasTexture_qnchd")
+
+[node name="Sprite2D5" type="Sprite2D" parent="Sprite2D/R1/R2/Sprite2D6/R3"]
+show_behind_parent = true
+position = Vector2(7, 0)
+texture = SubResource("AtlasTexture_dwmy6")

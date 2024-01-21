@@ -5,25 +5,17 @@ var mouse_click := 0
 func _ready():
 	Globals.inventory_slot_clicked.connect(_on_inventory_slot_clicked)
 	update()
-
+	
 func _feed_data():
 	inventory_slot = InventorySlot.new()
 	inventory_slot.change(Items.IRON_ORE, 2)
 	update()
 
 func _process(delta):
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-		mouse_click = 1
-	elif Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
-		mouse_click = 2
-	elif Input.is_mouse_button_pressed(MOUSE_BUTTON_MIDDLE):
-		mouse_click = 3
-	else:
-		mouse_click = 0
-		
 	if inventory_slot:
 		global_position = get_global_mouse_position()
-	
+
+
 func update():
 	if inventory_slot and inventory_slot.item:
 		show()
@@ -35,11 +27,12 @@ func update():
 		_set_texture(null)
 
 func _on_inventory_slot_clicked(inventory_ui:InventoryUI, slot_ui:InventorySlotUI):
-	if mouse_click == 1:
+	if Globals.button_index == MOUSE_BUTTON_LEFT:
 		if can_stack(slot_ui):
 			stack_to(slot_ui)
 		elif can_exchange(slot_ui):
 			exchange(slot_ui)
-	elif mouse_click == 2:
+		
+	elif Globals.button_index == MOUSE_BUTTON_RIGHT:
 		pass
 		

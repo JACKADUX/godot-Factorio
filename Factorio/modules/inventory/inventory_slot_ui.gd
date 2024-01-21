@@ -1,49 +1,80 @@
 class_name InventorySlotUI extends Button
 
+signal slot_changed
+
 @onready var texture_rect = %TextureRect
 @onready var label_count = %LabelCount
 @onready var label_name = %LabelName
 
-var inventory_slot:InventorySlot
+var inventory_slot := InventorySlot.new()
+
 
 func _ready():
 	update()
-	
+		
 ## Interface
 func can_exchange(other_slot_ui:InventorySlotUI):
 	return true
 
 func exchange(other_slot_ui:InventorySlotUI):
-	var _temp = inventory_slot
-	set_inventory_slot(other_slot_ui.inventory_slot)
-	other_slot_ui.set_inventory_slot(_temp)
+	## NOTE: 如果调用 set_item 和 set_count 会出现 signal 重复调用的问题
+	var item = other_slot_ui.get_item()
+	var count = other_slot_ui.get_count()
+	
+	other_slot_ui.inventory_slot.item = get_item()
+	other_slot_ui.inventory_slot.count = get_count()
+	
+	inventory_slot.item = item
+	inventory_slot.count = count
+	
+	other_slot_ui.update()
+	other_slot_ui.slot_changed.emit()
+	
+	update()
+	slot_changed.emit()
+
 
 func can_stack(other_slot_ui:InventorySlotUI):
-	if not other_slot_ui.inventory_slot or not inventory_slot:
-		return false
-	if not inventory_slot.is_same_type(other_slot_ui.inventory_slot):
+	if not is_same_type(other_slot_ui):
 		return false
 	return true
 
 func stack_to(other_slot_ui:InventorySlotUI):
 	# self -> other_slot_ui
-	other_slot_ui.change_count(other_slot_ui.inventory_slot.count + inventory_slot.count)
+	other_slot_ui.set_count(other_slot_ui.get_count() + inventory_slot.count)
 	clear()
 
-func set_inventory_slot(value:InventorySlot):
-	inventory_slot = value
-	update()
+func is_same_type(other_slot_ui:InventorySlotUI):
+	if not get_item() or not other_slot_ui.get_item():
+		return false
+	return inventory_slot.is_same_type(other_slot_ui.inventory_slot)
 
-func change_count(value:int):
-	inventory_slot.count = value
-	update()
+func get_item() -> BaseItem:
+	return inventory_slot.item
 
-func clear():
-	inventory_slot = null
-	update()
+func get_count():
+	return inventory_slot.count
+
+func set_item(value:BaseItem):
+	if value != inventory_slot.item:
+		inventory_slot.item = value
+		update()
+		slot_changed.emit()
+
+func set_count(value:int):
+	if value != inventory_slot.count:
+		inventory_slot.count = value
+		update()
+		slot_changed.emit()
+
+func clear():  
+	if inventory_slot.item != null:
+		inventory_slot.clear()
+		update()
+		slot_changed.emit()
 	
 func update():
-	if inventory_slot and inventory_slot.item:
+	if inventory_slot.item:
 		_set_count(inventory_slot.count)
 		_set_texture(inventory_slot.item.texture)
 		_set_name(inventory_slot.item.name)

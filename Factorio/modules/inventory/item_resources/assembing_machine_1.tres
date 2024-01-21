@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="BaseItem" load_steps=3 format=3 uid="uid://bca6vs5kikt8j"]
+
+[ext_resource type="Script" path="res://modules/inventory/data_structure/base_item.gd" id="1_v6bmd"]
+[ext_resource type="Texture2D" uid="uid://vqvaafs7mbkf" path="res://resource/test/assembing_machine_1_texture.tres" id="2_hc0mi"]
+
+[resource]
+script = ExtResource("1_v6bmd")
+id = 2001
+name = "Assembing Machine"
+texture = ExtResource("2_hc0mi")

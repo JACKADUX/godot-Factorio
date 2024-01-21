@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="BaseItem" load_steps=3 format=3 uid="uid://bwd1sdy7klrwl"]
+
+[ext_resource type="Script" path="res://modules/inventory/data_structure/base_item.gd" id="1_hbc1f"]
+[ext_resource type="Texture2D" uid="uid://vaw1sfwpxmqt" path="res://resource/test/mining_drill_texture.tres" id="2_vjiks"]
+
+[resource]
+script = ExtResource("1_hbc1f")
+id = 2003
+name = "MiningDrill"
+texture = ExtResource("2_vjiks")
