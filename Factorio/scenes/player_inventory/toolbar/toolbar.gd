@@ -26,6 +26,9 @@ func _on_toolbar_slot_pressed(tb_slot_ui:InventorySlotUI):
 	if Globals.button_index == MOUSE_BUTTON_LEFT:
 		if not tb_item and hand_item:
 			tb_slot_ui.set_item(hand_slot.get_item())
+		elif tb_item.is_same_type(hand_item):
+			player_inventory.add_item(hand_item, hand_slot.get_count())
+			hand_slot.clear()
 		else:
 			player_inventory.hold_item(tb_item)  
 	elif Globals.button_index == MOUSE_BUTTON_MIDDLE:

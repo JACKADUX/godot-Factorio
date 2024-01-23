@@ -1,4 +1,4 @@
-class_name MouseInputHandler extends Node
+extends Node
 
 signal wheel_scrolled(value)
 signal mouse_state_changed
@@ -19,11 +19,15 @@ var start_position:Vector2
 var current_position:Vector2
 var end_position:Vector2
 
+
+func _unhandled_input(event):
+	handled_input(event)
+
 ## Interface
 func handled_input(event:InputEvent):
 	if not event is InputEventMouse:
 		return 
-	current_position = get_global_mouse_position_from(event)
+	current_position = _get_global_mouse_position_from(event)
 	if event is InputEventMouseButton:
 		if event.is_pressed() and event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			wheel_scrolled.emit(1)
@@ -32,18 +36,18 @@ func handled_input(event:InputEvent):
 			
 		elif event.is_pressed():
 			if button_index == MOUSE_BUTTON_NONE:
-				start_drag(current_position)
+				_start_drag(current_position)
 				button_index = event.button_index
 				mouse_state = MouseState.JUST_PRESSED
 		elif not event.is_pressed():
 			if button_index == event.button_index:
 				mouse_state = MouseState.JUST_RELEASED
 				button_index = MOUSE_BUTTON_NONE
-				end_drag(current_position)
+				_end_drag(current_position)
 				
 	elif event is InputEventMouseMotion:
-		if button_index == conver_mask_to_index(event.button_mask):
-			check_drag(current_position)
+		if button_index == _conver_mask_to_index(event.button_mask):
+			_check_drag(current_position)
 			mouse_state = MouseState.PRESSED_AND_MOVE
 		else:
 			mouse_state = MouseState.HOVERED
@@ -64,27 +68,27 @@ func is_hovered():
 	return mouse_state == MouseState.HOVERED
 
 ## Utils
-func get_global_mouse_position_from(event:InputEventMouse):
+func _get_global_mouse_position_from(event:InputEventMouse):
 	var view_to_world = get_viewport().get_canvas_transform().affine_inverse()
 	var world_position = view_to_world * event.position
 	return world_position
 	
-func conver_mask_to_index(mask):
+func _conver_mask_to_index(mask):
 	match mask:
 		MOUSE_BUTTON_MASK_LEFT: return MOUSE_BUTTON_LEFT
 		MOUSE_BUTTON_MASK_RIGHT: return MOUSE_BUTTON_RIGHT
 		MOUSE_BUTTON_MASK_MIDDLE: return MOUSE_BUTTON_MIDDLE
 
-func start_drag(start_position:Vector2):
+func _start_drag(start_position:Vector2):
 	self.start_position = start_position
 	self.end_position = start_position
 	_dragged = false
 	_hold_time = Time.get_ticks_msec()
 	
-func end_drag(end_position:Vector2):
+func _end_drag(end_position:Vector2):
 	self.end_position = end_position
 			
-func check_drag(end_position:Vector2) -> bool:
+func _check_drag(end_position:Vector2) -> bool:
 	self.end_position = end_position
 	if _dragged:
 		return true
@@ -96,3 +100,5 @@ func check_drag(end_position:Vector2) -> bool:
 	return false
 
 
+
+	

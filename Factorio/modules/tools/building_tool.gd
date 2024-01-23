@@ -1,4 +1,4 @@
-class_name BuildingTool extends EGBaseTool
+extends EGBaseTool
 
 @onready var building_tool_area := $BuildingToolArea as Node2D
 

@@ -26,7 +26,7 @@ region = Rect2(163, 114, 11, 10)
 atlas = ExtResource("1_f4w7q")
 region = Rect2(178, 113, 13, 14)
 
-[node name="Node2D" type="Node2D"]
+[node name="Inserter" type="Node2D"]
 y_sort_enabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

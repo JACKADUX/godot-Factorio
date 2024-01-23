@@ -12,8 +12,7 @@ func add_item(item:BaseItem, count:int):
 	for slot:InventorySlotUI in get_slots():
 		var _item :BaseItem = slot.get_item() 
 		if not _item:
-			slot.set_item(item)
-			slot.set_count(count)
+			slot.change(item, count)
 			return
 		if _item.is_same_type(item):
 			slot.set_count(slot.get_count()+count)

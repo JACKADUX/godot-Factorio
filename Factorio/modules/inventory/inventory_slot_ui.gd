@@ -21,17 +21,8 @@ func exchange(other_slot_ui:InventorySlotUI):
 	var item = other_slot_ui.get_item()
 	var count = other_slot_ui.get_count()
 	
-	other_slot_ui.inventory_slot.item = get_item()
-	other_slot_ui.inventory_slot.count = get_count()
-	
-	inventory_slot.item = item
-	inventory_slot.count = count
-	
-	other_slot_ui.update()
-	other_slot_ui.slot_changed.emit()
-	
-	update()
-	slot_changed.emit()
+	other_slot_ui.change(get_item(), get_count())
+	change(item, count)
 
 
 func can_stack(other_slot_ui:InventorySlotUI):
@@ -66,6 +57,11 @@ func set_count(value:int):
 		inventory_slot.count = value
 		update()
 		slot_changed.emit()
+
+func change(item:BaseItem, count:int):
+	inventory_slot.change(item, count)
+	update()
+	slot_changed.emit()
 
 func clear():  
 	if inventory_slot.item != null:

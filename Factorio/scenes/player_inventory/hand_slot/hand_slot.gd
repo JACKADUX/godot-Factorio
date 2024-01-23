@@ -1,7 +1,6 @@
 extends InventorySlotUI
 
-var mouse_click := 0
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
 	Globals.inventory_slot_clicked.connect(_on_inventory_slot_clicked)
 	update()

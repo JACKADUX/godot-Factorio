@@ -13,20 +13,26 @@ config_version=5
 config/name="Factorio"
 run/main_scene="res://scenes/world.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://resource/icon.png"
 
 [autoload]
 
 Globals="*res://globals/globals.gd"
 Items="*res://globals/items.gd"
+InputHandler="*res://globals/input_handler.gd"
 
 [display]
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
-window/size/window_width_override=1280
-window/size/window_height_override=720
 window/stretch/scale_mode="integer"
+
+[file_customization]
+
+folder_colors={
+"res://resource/": "purple",
+"res://scenes/": "green"
+}
 
 [input]
 

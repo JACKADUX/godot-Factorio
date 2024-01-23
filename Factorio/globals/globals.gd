@@ -9,13 +9,10 @@ const GridSizeHalfVector = Vector2.ONE*GridSizeHalf
 
 var button_index:MouseButton
 
-func _gui_input(event):
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			if event.is_pressed():
-				pass
+var main_camera:Camera2D
 
 
 func _input(event):
 	if event is InputEventMouseButton and event.is_pressed():
+		# NOTE: 必须要这样否则 Button 无法获取按键
 		button_index = event.button_index

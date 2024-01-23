@@ -1,4 +1,4 @@
-class_name BeltTool extends BuildingTool
+class_name BeltTool extends EGBaseTool
 
 @onready var debug_draw = $DebugDraw
 @onready var tile_map = $TileMap

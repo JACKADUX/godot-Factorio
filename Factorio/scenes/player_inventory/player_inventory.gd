@@ -33,6 +33,7 @@ func _on_slot_changed(slot_ui:InventorySlotUI):
 	super(slot_ui)
 	
 func _auto_arrange():
+	## FIXME: slot_ui.set_item 和 slot_ui.set_count 连续调用会出问题 需要使用 slot_ui.change
 	if _block_signal:  
 		# 防止循环调用
 		return
@@ -46,8 +47,7 @@ func _auto_arrange():
 	for i in order_items.size():
 		var slot_ui := get_child(i) as InventorySlotUI
 		var item:BaseItem = order_items[i]
-		slot_ui.set_item(item)
-		slot_ui.set_count(count_data[item])
+		slot_ui.change(item, count_data[item])
 	_block_signal = false
 		
 		
