@@ -68,7 +68,6 @@ player_inventory = NodePath("../../CenterContainer2/HBoxContainer/PanelContainer
 hand_slot = NodePath("../../HandSlot")
 
 [node name="CenterContainer2" type="CenterContainer" parent="CanvasLayer/Control"]
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -148,10 +147,12 @@ metadata/_edit_lock_ = true
 script = ExtResource("8_bfphy")
 
 [node name="EntityManager" type="Node2D" parent="."]
+visible = false
 position = Vector2(60, 76)
 script = ExtResource("8_npqq6")
 
 [node name="BuildingTool" type="Node2D" parent="." node_paths=PackedStringArray("main_tile_map")]
+visible = false
 z_index = 1
 position = Vector2(60, 76)
 script = ExtResource("9_06avh")
@@ -171,6 +172,7 @@ texture = ExtResource("11_jfd28")
 centered = false
 
 [node name="DisplayBox" type="NinePatchRect" parent="."]
+visible = false
 z_index = 1
 texture_filter = 1
 offset_left = 60.0

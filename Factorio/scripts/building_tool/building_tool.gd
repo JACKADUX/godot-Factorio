@@ -26,7 +26,8 @@ var building_grid_index:Vector2i
 var building_grid_position:Vector2
 
 func _ready():
-	InputHandler.mouse_state_changed.connect(_on_mouse_state_changed)
+	pass
+	#InputHandler.mouse_state_changed.connect(_on_mouse_state_changed)
 
 func _process(delta):
 	global_position = global_position.lerp(building_grid_position, 0.8)

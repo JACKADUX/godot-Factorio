@@ -24,7 +24,6 @@ func exchange(other_slot_ui:InventorySlotUI):
 	other_slot_ui.change(get_item(), get_count())
 	change(item, count)
 
-
 func can_stack(other_slot_ui:InventorySlotUI):
 	if not is_same_type(other_slot_ui):
 		return false
