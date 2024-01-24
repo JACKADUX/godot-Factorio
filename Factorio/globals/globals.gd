@@ -1,7 +1,5 @@
 extends Node
 
-signal inventory_slot_clicked(inventory, slot)
-
 const GridSize = 32
 const GridSizeHalf = GridSize*0.5
 const GridSizeVector = Vector2.ONE*GridSize
@@ -11,6 +9,7 @@ var button_index:MouseButton
 
 var main_camera:Camera2D
 
+var player_inventory := PlayerInventory.create(64)
 
 func _input(event):
 	if event is InputEventMouseButton and event.is_pressed():

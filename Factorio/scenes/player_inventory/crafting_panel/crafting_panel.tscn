@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://n7bndryqx7rn"]
+[gd_scene load_steps=3 format=3 uid="uid://n7bndryqx7rn"]
 
 [ext_resource type="Script" path="res://scenes/player_inventory/crafting_panel/crafting_panel.gd" id="1_gerbd"]
+[ext_resource type="PackedScene" uid="uid://b7ttvpntmtre5" path="res://scenes/player_inventory/crafting_panel/craft_item_slot/craft_item_slot.tscn" id="2_fmfsd"]
 
 [node name="CraftingPanel" type="VBoxContainer"]
 anchors_preset = 15
@@ -9,3 +10,4 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_gerbd")
+slot_packed_scene = ExtResource("2_fmfsd")

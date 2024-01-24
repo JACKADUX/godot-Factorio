@@ -1,8 +1,9 @@
 extends VBoxContainer
 
-@export var player_inventory:InventoryUI
+signal slot_pressed(item:BaseItem)
 
-const CRAFT_ITEM_SLOT_PACKED_SCENE = preload("res://scenes/player_inventory/crafting_panel/craft_item_slot/craft_item_slot.tscn")
+@export var slot_packed_scene:PackedScene
+#const CRAFT_ITEM_SLOT_PACKED_SCENE = preload("res://scenes/player_inventory/crafting_panel/craft_item_slot/craft_item_slot.tscn")
 
 var title = "IntermidiateProducts"
 var carft_items = [
@@ -13,6 +14,10 @@ var carft_items = [
 	
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	slot_pressed.connect(
+		func(item, count):
+			Globals.player_inventory.add_item(item, count)
+	)
 	_initialize()
 
 func _initialize():
@@ -20,14 +25,15 @@ func _initialize():
 		var hbox_container = HBoxContainer.new()
 		add_child(hbox_container)
 		for item in items:
-			var slot = CRAFT_ITEM_SLOT_PACKED_SCENE.instantiate()
+			var slot = slot_packed_scene.instantiate()
 			hbox_container.add_child(slot)
-			slot.set_item(item)
-			slot.pressed.connect(_on_craft_slot_pressed.bind(slot))
+			var count = 1
+			slot.set_item(item, count)
+			slot.pressed.connect(func():
+				slot_pressed.emit(item, count)
+				)
 			
-func _on_craft_slot_pressed(slot:CraftItemSlot):
-	var item := slot.get_item()
-	player_inventory.add_item(item, 1)
+
 	
 	
 	
