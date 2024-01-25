@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://byvm14xi466pq"]
+
+[ext_resource type="Script" path="res://_previous/tools/building_tool.gd" id="1_k5q7v"]
+[ext_resource type="Script" path="res://_previous/easy_graph_editor/components/eg_rect.gd" id="2_pxaka"]
+
+[node name="BuildingTool" type="Node"]
+script = ExtResource("1_k5q7v")
+
+[node name="BuildingToolArea" type="Node2D" parent="."]
+script = ExtResource("2_pxaka")
+rect = Rect2(0, 0, 96, 96)
+outline = true

@@ -13,19 +13,23 @@ config_version=5
 config/name="Factorio"
 run/main_scene="res://scenes/world.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
-config/icon="res://resource/icon.png"
+config/icon="res://icon.png"
 
 [autoload]
 
 Globals="*res://globals/globals.gd"
-Items="*res://globals/items.gd"
 InputHandler="*res://globals/input_handler.gd"
+DatatableManager="*res://globals/datatable_manager.gd"
 
 [display]
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/stretch/scale_mode="integer"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/excel_reader/plugin.cfg")
 
 [file_customization]
 

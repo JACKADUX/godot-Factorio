@@ -1,0 +1,47 @@
+[gd_scene load_steps=4 format=3 uid="uid://cy8rxn8ap1i2u"]
+
+[ext_resource type="Script" path="res://_previous/test/belt_test.gd" id="1_trugb"]
+[ext_resource type="PackedScene" uid="uid://1s2m3jiquf7u" path="res://_previous/entities/transport_belt.tscn" id="2_e3as0"]
+[ext_resource type="TileSet" uid="uid://bhq1k4ap1rxcw" path="res://resource/tilemaps/tilemap_belt.tres" id="4_bu1av"]
+
+[node name="BeltTest" type="Node2D"]
+script = ExtResource("1_trugb")
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource("4_bu1av")
+rendering_quadrant_size = 32
+format = 2
+layer_0/name = "belt"
+layer_0/tile_data = PackedInt32Array(131074, 0, 1610612736, 65538, 0, 0, 65539, 0, 0)
+layer_1/name = "right"
+layer_1/tile_data = PackedInt32Array(65540, 0, 3)
+layer_2/name = "bottom"
+layer_2/tile_data = PackedInt32Array(196610, 0, 1610612738)
+layer_3/name = "left"
+layer_3/tile_data = PackedInt32Array(65537, 0, 2)
+layer_4/name = "top"
+layer_4/tile_data = PackedInt32Array(65538, 0, 1610612739)
+
+[node name="TransportBelt" parent="." node_paths=PackedStringArray("next_belt") instance=ExtResource("2_e3as0")]
+position = Vector2(64, 64)
+direction_index = 3
+next_belt = NodePath("../TransportBelt2")
+
+[node name="TransportBelt2" parent="." node_paths=PackedStringArray("next_belt", "prev_belt") instance=ExtResource("2_e3as0")]
+position = Vector2(64, 32)
+next_belt = NodePath("../TransportBelt3")
+prev_belt = NodePath("../TransportBelt")
+
+[node name="TransportBelt3" parent="." node_paths=PackedStringArray("prev_belt") instance=ExtResource("2_e3as0")]
+position = Vector2(96, 32)
+prev_belt = NodePath("../TransportBelt2")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(107, 68)
+zoom = Vector2(8, 8)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

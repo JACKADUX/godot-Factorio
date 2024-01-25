@@ -12,6 +12,7 @@ func _init():
 	_feed_data.call_deferred()
 	
 func _feed_data():
+	var Items = DatatableManager.base_items
 	get_slot(2).change(Items.COAL, 12)
 	get_slot(4).change(Items.COAL, 8)
 	get_slot(7).change(Items.IRON_ORE, 2)
@@ -77,7 +78,25 @@ func interact_with_hotbar(index:int, flag:int=0):
 		return 
 	hold_item(item)
 	
-
+## Utils
+func _auto_arrange():
+	var count_data = get_item_count_data()
+	var order_items = count_data.keys()
+	order_items.sort_custom(
+		func(a,b):
+			return DatatableManager.get_item_type(a.id) < DatatableManager.get_item_type(b.id)
+	)
+		
+	for slot:InventorySlot in get_slots():
+		slot.item = null
+		slot.count = 0
+	
+	for i in order_items.size():
+		var slot := get_slot(i) as InventorySlot
+		var item:BaseItem = order_items[i]
+		slot.item = item
+		slot.count = count_data[item]
+		
 ## Statics
 static func create(number:int) -> PlayerInventory:
 	var inventory := PlayerInventory.new()

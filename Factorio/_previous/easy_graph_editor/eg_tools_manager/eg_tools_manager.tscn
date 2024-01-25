@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://bi880w5tiq5og"]
+
+[ext_resource type="Script" path="res://_previous/easy_graph_editor/eg_tools_manager/eg_tools_manager.gd" id="1_eidw0"]
+[ext_resource type="Script" path="res://_previous/easy_graph_editor/eg_tools_manager/eg_base_tool/eg_selection_tool.gd" id="2_xfd3k"]
+[ext_resource type="Script" path="res://_previous/easy_graph_editor/components/eg_rect.gd" id="3_1vg4f"]
+[ext_resource type="Script" path="res://_previous/easy_graph_editor/eg_tools_manager/eg_base_tool/eg_transform_tool.gd" id="4_eh4hg"]
+[ext_resource type="Script" path="res://_previous/easy_graph_editor/eg_tools_manager/eg_base_tool/eg_camera_tool.gd" id="6_wtedr"]
+
+[node name="EGToolsManager" type="Node"]
+script = ExtResource("1_eidw0")
+
+[node name="EGSelectionTool" type="Node" parent="."]
+script = ExtResource("2_xfd3k")
+
+[node name="EGSelectionArea" type="Node2D" parent="EGSelectionTool"]
+visible = false
+script = ExtResource("3_1vg4f")
+fill = true
+fill_color = Color(0.941176, 0.972549, 1, 0.160784)
+outline = true
+outline_color = Color(0.941176, 0.972549, 1, 0.788235)
+
+[node name="EGTransformTool" type="Node" parent="."]
+script = ExtResource("4_eh4hg")
+
+[node name="EGTransformFrame" type="Node2D" parent="EGTransformTool"]
+visible = false
+script = ExtResource("3_1vg4f")
+outline = true
+outline_color = Color(0, 0.619608, 0.960784, 1)
+
+[node name="EGCameraTool" type="Node" parent="."]
+script = ExtResource("6_wtedr")

@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://dvoxqp4lseggk"]
 
 [ext_resource type="Script" path="res://scenes/world.gd" id="1_nkakt"]
-[ext_resource type="Texture2D" uid="uid://btn3aahyi322t" path="res://resource/resource.png" id="2_qhj0v"]
+[ext_resource type="Texture2D" uid="uid://btn3aahyi322t" path="res://resource/graphics/resource.png" id="2_qhj0v"]
 [ext_resource type="PackedScene" uid="uid://ynhxqmm6x1qs" path="res://test/test_inserter.tscn" id="3_vbppx"]
 [ext_resource type="PackedScene" uid="uid://rpie6isb64tq" path="res://scenes/player_inventory/hotbar/hotbar_ui.tscn" id="4_oieoi"]
 [ext_resource type="PackedScene" uid="uid://c8mquriqfkhjo" path="res://scenes/player_inventory/player_inventory_ui.tscn" id="5_m1y4m"]
@@ -158,10 +158,8 @@ offset_bottom = -35.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="Toolbar" parent="CanvasLayer/Control/CenterContainer" node_paths=PackedStringArray("player_inventory", "hand_slot") instance=ExtResource("4_oieoi")]
+[node name="Toolbar" parent="CanvasLayer/Control/CenterContainer" instance=ExtResource("4_oieoi")]
 layout_mode = 2
-player_inventory = NodePath("../../CenterContainer2/HBoxContainer/PanelContainer/VBoxContainer/PlayerInventory")
-hand_slot = NodePath("../../HandSlot")
 
 [node name="CenterContainer2" type="CenterContainer" parent="CanvasLayer/Control"]
 visible = false
@@ -207,10 +205,9 @@ layout_mode = 2
 text = "Crafting"
 label_settings = SubResource("LabelSettings_yqcvp")
 
-[node name="CraftingPanel" parent="CanvasLayer/Control/CenterContainer2/HBoxContainer/PanelContainer2/VBoxContainer2" node_paths=PackedStringArray("player_inventory") instance=ExtResource("6_swwa5")]
+[node name="CraftingPanel" parent="CanvasLayer/Control/CenterContainer2/HBoxContainer/PanelContainer2/VBoxContainer2" instance=ExtResource("6_swwa5")]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
-player_inventory = NodePath("../../../PanelContainer/VBoxContainer/PlayerInventory")
 
 [node name="HandSlot" parent="CanvasLayer/Control" instance=ExtResource("7_3ir82")]
 visible = false

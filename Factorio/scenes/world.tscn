@@ -1,9 +1,9 @@
-[gd_scene load_steps=20 format=3 uid="uid://cntr6xfnip6nc"]
+[gd_scene load_steps=19 format=3 uid="uid://cntr6xfnip6nc"]
 
 [ext_resource type="Script" path="res://scenes/world.gd" id="1_cqblf"]
 [ext_resource type="PackedScene" uid="uid://c8mquriqfkhjo" path="res://scenes/player_inventory/player_inventory_ui.tscn" id="1_cugm3"]
 [ext_resource type="PackedScene" uid="uid://e4uxhacqhvgv" path="res://scenes/player_inventory/hand_slot_ui/hand_slot_ui.tscn" id="2_kww6n"]
-[ext_resource type="TileSet" uid="uid://dg2wk00sve3dn" path="res://resource/main_tile_map.tres" id="2_yu83q"]
+[ext_resource type="TileSet" uid="uid://dg2wk00sve3dn" path="res://resource/tilemaps/main_tile_map.tres" id="2_yu83q"]
 [ext_resource type="PackedScene" uid="uid://rpie6isb64tq" path="res://scenes/player_inventory/hotbar/hotbar_ui.tscn" id="3_e58vi"]
 [ext_resource type="Script" path="res://scripts/main_camera.gd" id="3_j5271"]
 [ext_resource type="PackedScene" uid="uid://n7bndryqx7rn" path="res://scenes/player_inventory/crafting_panel/crafting_panel.tscn" id="4_rjybd"]
@@ -12,17 +12,16 @@
 [ext_resource type="Script" path="res://scripts/building_tool/entity_manager.gd" id="8_npqq6"]
 [ext_resource type="Script" path="res://scripts/building_tool/building_tool.gd" id="9_06avh"]
 [ext_resource type="Script" path="res://scripts/building_tool/display_box.gd" id="9_ctopb"]
-[ext_resource type="Texture2D" uid="uid://cnabrdx8iqgrd" path="res://resource/test/stone_furnace_texture.tres" id="11_jfd28"]
+[ext_resource type="Texture2D" uid="uid://cnabrdx8iqgrd" path="res://resource/atlas_texture_resources/stone_furnace.tres" id="11_jfd28"]
 
 [sub_resource type="Theme" id="Theme_wdi2a"]
 Label/font_sizes/font_size = 12
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8v4e0"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ufwf4"]
+bg_color = Color(0.372549, 0.372549, 0.372549, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_yqcvp"]
 font_size = 24
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qdk74"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uue3b"]
 size = Vector2(58, 57)
@@ -66,10 +65,11 @@ offset_bottom = -35.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="Toolbar" parent="CanvasLayer/Control/CenterContainer" instance=ExtResource("3_e58vi")]
+[node name="Hotbar" parent="CanvasLayer/Control/CenterContainer" instance=ExtResource("3_e58vi")]
 layout_mode = 2
 
 [node name="CenterContainer2" type="CenterContainer" parent="CanvasLayer/Control"]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -83,38 +83,40 @@ offset_bottom = 275.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/CenterContainer2"]
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/CenterContainer2"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ufwf4")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/CenterContainer2/PanelContainer"]
 layout_mode = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/CenterContainer2/HBoxContainer"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_8v4e0")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/CenterContainer2/HBoxContainer/PanelContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/CenterContainer2/PanelContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/CenterContainer2/HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/CenterContainer2/PanelContainer/HBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/CenterContainer2/PanelContainer/HBoxContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
 text = "Character"
 label_settings = SubResource("LabelSettings_yqcvp")
 
-[node name="PlayerInventoryUI" parent="CanvasLayer/Control/CenterContainer2/HBoxContainer/PanelContainer/VBoxContainer" instance=ExtResource("1_cugm3")]
+[node name="PlayerInventoryUI" parent="CanvasLayer/Control/CenterContainer2/PanelContainer/HBoxContainer/PanelContainer/VBoxContainer" instance=ExtResource("1_cugm3")]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 
-[node name="PanelContainer2" type="PanelContainer" parent="CanvasLayer/Control/CenterContainer2/HBoxContainer"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_qdk74")
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/Control/CenterContainer2/HBoxContainer/PanelContainer2"]
+[node name="PanelContainer2" type="PanelContainer" parent="CanvasLayer/Control/CenterContainer2/PanelContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="CanvasLayer/Control/CenterContainer2/HBoxContainer/PanelContainer2/VBoxContainer2"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/Control/CenterContainer2/PanelContainer/HBoxContainer/PanelContainer2"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="CanvasLayer/Control/CenterContainer2/PanelContainer/HBoxContainer/PanelContainer2/VBoxContainer2"]
 layout_mode = 2
 text = "Crafting"
 label_settings = SubResource("LabelSettings_yqcvp")
 
-[node name="CraftingPanel" parent="CanvasLayer/Control/CenterContainer2/HBoxContainer/PanelContainer2/VBoxContainer2" instance=ExtResource("4_rjybd")]
+[node name="CraftingPanel" parent="CanvasLayer/Control/CenterContainer2/PanelContainer/HBoxContainer/PanelContainer2/VBoxContainer2" instance=ExtResource("4_rjybd")]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 

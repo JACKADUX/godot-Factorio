@@ -6,14 +6,16 @@ signal slot_pressed(item:BaseItem)
 #const CRAFT_ITEM_SLOT_PACKED_SCENE = preload("res://scenes/player_inventory/crafting_panel/craft_item_slot/craft_item_slot.tscn")
 
 var title = "IntermidiateProducts"
-var carft_items = [
-	[Items.COAL, Items.IRON_ORE],
-	[Items.IRON_CHEST, Items.TRANSPORT_BELT, Items.INSERTER],
-	[Items.MINING_DRILL, Items.STONE_FURNACE, Items.ASSEMBING_MACHINE_1],
-	]
+var carft_items = []
 	
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	var Items = DatatableManager.base_items
+	carft_items = [
+		[Items.COAL, Items.IRON_ORE],
+		[Items.IRON_CHEST, Items.TRANSPORT_BELT_1, Items.INSERTER_1],
+		[Items.MINING_DRILL, Items.STONE_FURNACE, Items.ASSEMBLING_MACHINE_1],
+	]
 	slot_pressed.connect(
 		func(item, count):
 			Globals.player_inventory.add_item(item, count)
