@@ -1,1 +1,5 @@
 # 不要删除这个文件夹，有个 datatables.xlsx 数据文件
+
+["COAL", "IRON_ORE", "WOOD", 
+"IRON_PLATE", "GEAR", "WOODEN_CHEST", "IRON_CHEST", "TRANSPORT_BELT_1", "INSERTER_1", 
+"MINING_DRILL", "STONE_FURNACE", "ASSEMBLING_MACHINE_1"]

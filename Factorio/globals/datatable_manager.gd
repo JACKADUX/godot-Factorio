@@ -3,21 +3,30 @@ extends Node
 此管理器依赖 addons: excel_reader
 """
 
+signal load_complated
+
 var item_type := {}   # { "NATURAL_RESOURCES": 1, "LOGISTICS": 2, "PRODUCTIONS": 3, "INTERMEDIA_PRODUCTS": 4 }
 var item_datas := {}  # { "COAL": { "id": "COAL", "name": "coal", "type": 1 }
 var base_items := {}  # {"COAL": BaseItem } 
 
 func _ready():
+	pass
+
+func load_resource():
 	var table_path = AssetUtility.get_datatable_path("datatable.xlsx")
 	var data = _get_excel_data(table_path)
 	
 	if data.has("item_type"):
-		for id in data.item_type:
-			var type_name = data.item_type[id].name
+		item_type = {}
+		for id in data["item_type"]:
+			var type_name = data["item_type"][id].name
 			item_type[type_name.to_upper()] = id
+		
 	if data.has("items"):
-		for id in data.items:
-			var item_data = data.items[id]
+		item_datas = data["items"]
+		base_items = {}
+		for id in data["items"]:
+			var item_data = data["items"][id]
 			var file_name = item_data.name.replace(" ","_")  # iron_ore
 			var base_item = BaseItem.new()
 			base_item.id = id
@@ -26,7 +35,8 @@ func _ready():
 			if FileAccess.file_exists(path):
 				base_item.texture = load(path)
 			base_items[base_item.id] = base_item
-		item_datas = data.items
+		print(base_items.keys())
+	load_complated.emit()
 
 ## Interface
 func get_item_type(id:String):

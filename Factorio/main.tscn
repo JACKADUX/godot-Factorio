@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://duwv3pd5cupei"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_t7kng"]
+[ext_resource type="Script" path="res://modules/procedure_manager/procedure_manager.gd" id="2_tsqax"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_t7kng")
+
+[node name="ProceduleManager" type="Node" parent="." node_paths=PackedStringArray("agent")]
+script = ExtResource("2_tsqax")
+agent = NodePath("..")

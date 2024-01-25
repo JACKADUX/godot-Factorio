@@ -9,14 +9,15 @@ var hotbar :Array[BaseItem] = []
 func _init():
 	hand_slot.slot_changed.connect(emit_signal.bind("hand_slot_changed"))
 	initialize_hotbar(10)
-	_feed_data.call_deferred()
 	
 func _feed_data():
 	var Items = DatatableManager.base_items
-	get_slot(2).change(Items.COAL, 12)
-	get_slot(4).change(Items.COAL, 8)
-	get_slot(7).change(Items.IRON_ORE, 2)
-	change_hotbar_item(5, Items.COAL)
+	get_slot(1).change(Items.COAL, 12)
+	get_slot(2).change(Items.IRON_ORE, 8)
+	get_slot(3).change(Items.MINING_DRILL, 2)
+	change_hotbar_item(0, Items.COAL)
+	change_hotbar_item(1, Items.IRON_ORE)
+	change_hotbar_item(2, Items.MINING_DRILL)
 	_auto_arrange()
 	emit_signal("invetory_changed")
 	
