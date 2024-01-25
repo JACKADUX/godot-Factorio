@@ -8,8 +8,8 @@
 [ext_resource type="Script" path="res://scripts/main_camera.gd" id="3_j5271"]
 [ext_resource type="PackedScene" uid="uid://n7bndryqx7rn" path="res://scenes/player_inventory/crafting_panel/crafting_panel.tscn" id="4_rjybd"]
 [ext_resource type="Texture2D" uid="uid://bgpcy1wmkqrf3" path="res://icon.svg" id="7_ww3em"]
+[ext_resource type="PackedScene" uid="uid://bu5c6n0jrxrk" path="res://modules/entity_manager/entity_manager.tscn" id="8_3k8vs"]
 [ext_resource type="Script" path="res://scripts/grid.gd" id="8_bfphy"]
-[ext_resource type="Script" path="res://scripts/building_tool/entity_manager.gd" id="8_npqq6"]
 [ext_resource type="Script" path="res://scripts/building_tool/building_tool.gd" id="9_06avh"]
 [ext_resource type="Script" path="res://scripts/building_tool/display_box.gd" id="9_ctopb"]
 [ext_resource type="Texture2D" uid="uid://cnabrdx8iqgrd" path="res://resource/atlas_texture_resources/stone_furnace.tres" id="11_jfd28"]
@@ -135,6 +135,7 @@ zoom = Vector2(2, 2)
 script = ExtResource("3_j5271")
 
 [node name="MainTileMap" type="TileMap" parent="."]
+unique_name_in_owner = true
 y_sort_enabled = true
 texture_filter = 1
 tile_set = ExtResource("2_yu83q")
@@ -148,20 +149,14 @@ layer_1/y_sort_enabled = true
 layer_1/tile_data = PackedInt32Array()
 metadata/_edit_lock_ = true
 
-[node name="Grid" type="Node2D" parent="."]
-script = ExtResource("8_bfphy")
+[node name="EntityManager" parent="." instance=ExtResource("8_3k8vs")]
+unique_name_in_owner = true
 
-[node name="EntityManager" type="Node2D" parent="."]
-visible = false
-position = Vector2(60, 76)
-script = ExtResource("8_npqq6")
-
-[node name="BuildingTool" type="Node2D" parent="." node_paths=PackedStringArray("main_tile_map")]
-visible = false
+[node name="BuildingTool" type="Node2D" parent="."]
+unique_name_in_owner = true
 z_index = 1
 position = Vector2(60, 76)
 script = ExtResource("9_06avh")
-main_tile_map = NodePath("../MainTileMap")
 
 [node name="Area2D" type="Area2D" parent="BuildingTool"]
 collision_layer = 0
@@ -172,9 +167,13 @@ position = Vector2(33, 32.5)
 shape = SubResource("RectangleShape2D_uue3b")
 
 [node name="DisplayEntity" type="Sprite2D" parent="BuildingTool"]
+unique_name_in_owner = true
 modulate = Color(1, 1, 1, 0.584314)
 texture = ExtResource("11_jfd28")
 centered = false
+
+[node name="Grid" type="Node2D" parent="."]
+script = ExtResource("8_bfphy")
 
 [node name="DisplayBox" type="NinePatchRect" parent="."]
 visible = false

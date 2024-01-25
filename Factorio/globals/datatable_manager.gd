@@ -5,6 +5,9 @@ extends Node
 
 signal load_complated
 
+
+var excel_data := {}
+
 var item_type := {}   # { "NATURAL_RESOURCES": 1, "LOGISTICS": 2, "PRODUCTIONS": 3, "INTERMEDIA_PRODUCTS": 4 }
 var item_datas := {}  # { "COAL": { "id": "COAL", "name": "coal", "type": 1 }
 var base_items := {}  # {"COAL": BaseItem } 
@@ -14,19 +17,19 @@ func _ready():
 
 func load_resource():
 	var table_path = AssetUtility.get_datatable_path("datatable.xlsx")
-	var data = _get_excel_data(table_path)
+	excel_data = _get_excel_data(table_path)
 	
-	if data.has("item_type"):
+	if excel_data.has("item_type"):
 		item_type = {}
-		for id in data["item_type"]:
-			var type_name = data["item_type"][id].name
+		for id in excel_data["item_type"]:
+			var type_name = excel_data["item_type"][id].name
 			item_type[type_name.to_upper()] = id
 		
-	if data.has("items"):
-		item_datas = data["items"]
+	if excel_data.has("items"):
+		item_datas = excel_data["items"]
 		base_items = {}
-		for id in data["items"]:
-			var item_data = data["items"][id]
+		for id in excel_data["items"]:
+			var item_data = excel_data["items"][id]
 			var file_name = item_data.name.replace(" ","_")  # iron_ore
 			var base_item = BaseItem.new()
 			base_item.id = id
@@ -35,12 +38,27 @@ func load_resource():
 			if FileAccess.file_exists(path):
 				base_item.texture = load(path)
 			base_items[base_item.id] = base_item
-		print(base_items.keys())
+		
 	load_complated.emit()
-
+	
 ## Interface
 func get_item_type(id:String):
 	return DatatableManager.item_datas[id].type
+
+func get_construct_data(id:String):
+	"""
+	{ 
+		"id": "MINING_DRILL", 
+		"size": (2, 2), 
+		"tilemap_source_id": 0, 
+		"tilemap_layer_name": "Entity", 
+		"atlas_coordinates": (2, 3) 
+	}
+	"""
+	if excel_data.has("construct"):
+		var construct_data = excel_data["construct"]
+		if construct_data.has(id):
+			return construct_data[id]
 
 ## Utils
 #region Excel
@@ -92,6 +110,9 @@ func _convert_data_type(data, type:String):
 		"string": return String(data)
 		"int": return int(data)
 		"float": return float(data)
+		"Vector2i": 
+			var res = data.rsplit(",")
+			return Vector2i(int(res[0]), int(res[1]))
 		_: assert(false, "unknown data type")
 	
 

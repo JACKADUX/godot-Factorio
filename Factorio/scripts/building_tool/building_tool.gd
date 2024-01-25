@@ -1,10 +1,11 @@
-extends Node2D
+class_name BuildingTool extends Node2D
 
-@onready var debug = $"../CanvasLayer/Control/Debug"
-@onready var display_box = $"../DisplayBox"
+signal constructed(grid_index)
+signal deconstructed(grid_index)
 
 
-@export var main_tile_map:TileMap
+@onready var display_entity = %DisplayEntity
+
 
 const Rotate0 = 0
 const Rotate90 = TileSetAtlasSource.TRANSFORM_FLIP_H | TileSetAtlasSource.TRANSFORM_TRANSPOSE
@@ -26,38 +27,26 @@ var building_grid_index:Vector2i
 var building_grid_position:Vector2
 
 func _ready():
-	pass
-	#InputHandler.mouse_state_changed.connect(_on_mouse_state_changed)
+	var player_inventory = Globals.player_inventory
+	player_inventory.hand_slot_changed.connect(_on_hand_slot_changed.bind(player_inventory.hand_slot))
+	InputHandler.mouse_state_changed.connect(_on_mouse_state_changed)
+	hide()
 
 func _process(delta):
-	global_position = global_position.lerp(building_grid_position, 0.8)
-	
-	debug.text = str(current_grid_index)
-	
-func _on_mouse_state_changed():
-	_update_grid_index()
-	var atlas_coords = Vector2i(0,3)
-	if InputHandler.is_just_pressed():
-		if InputHandler.button_index == MOUSE_BUTTON_LEFT:
-			_add_entity(building_grid_index, atlas_coords)
-		elif InputHandler.button_index == MOUSE_BUTTON_RIGHT:
-			_remove_entity(building_grid_index)
-
+	if visible:
+		global_position = global_position.lerp(building_grid_position, 0.8)
+			
 func _unhandled_key_input(event):
 	if event is InputEventKey:
 		if event.is_pressed() and event.keycode == KEY_R:
 			direction_index = (direction_index+1) %4
 
+## Interface
+func get_rotation_tile():
+	# 返回 tilemap 的 set_cell 方法 alternative_tile: int 参数
+	return _tile_rotations[direction_index]
+
 ## Utils
-func _add_entity(coords:Vector2i, atlas_coords: Vector2i):
-	#layer: int, coords: Vector2i, source_id: int = -1, atlas_coords: Vector2i = Vector2i(-1, -1), alternative_tile: int = 0
-	main_tile_map.set_cell(1, coords, 0, atlas_coords, _tile_rotations[direction_index])
-
-func _remove_entity(coords:Vector2i):
-	main_tile_map.set_cell(1, coords, 0, Vector2i(-1,-1))
-	
-	
-
 func _update_grid_index():
 	current_grid_index = floor(InputHandler.current_position/Globals.GridSize)
 	current_grid_position = current_grid_index*Globals.GridSize
@@ -76,13 +65,37 @@ func _get_building_index(_grid_index:Vector2i, _position:Vector2, _size:Vector2i
 	return index
 
 
+## OnSignals
+func _on_mouse_state_changed():
+	if not visible:
+		return 
+	_update_grid_index()
+	if InputHandler.is_just_pressed():
+		if InputHandler.button_index == MOUSE_BUTTON_LEFT:
+			constructed.emit(building_grid_index)
+		elif InputHandler.button_index == MOUSE_BUTTON_RIGHT:
+			deconstructed.emit(building_grid_index)
+
+func _on_hand_slot_changed(slot:InventorySlot):
+	if slot.is_null():
+		hide()
+	else:
+		var item = slot.item
+		var cdata = DatatableManager.get_construct_data(item.id)
+		if not cdata:
+			hide()
+			return 
+		building_grid_size = cdata.size 
+		display_entity.texture = item.texture
+		_update_grid_index()
+		show()
+
 func _on_area_2d_body_shape_entered(body_rid, body:TileMap, body_shape_index, local_shape_index):
 	if not body is TileMap:
 		return
 	const EntityLayer = 1
 	
 	var tileset_atlas_source = body.tile_set.get_source(0)
-	
 	
 	var collidedTiles = body.get_used_cells(EntityLayer)
 	var coords = body.get_coords_for_body_rid(body_rid)
@@ -91,8 +104,6 @@ func _on_area_2d_body_shape_entered(body_rid, body:TileMap, body_shape_index, lo
 	
 	var size_in_atlas = tileset_atlas_source.get_tile_size_in_atlas(atlas_coords)
 
-	display_box.size = size_in_atlas*Globals.GridSize
-	display_box.global_position = coords*Globals.GridSize
 
 
 

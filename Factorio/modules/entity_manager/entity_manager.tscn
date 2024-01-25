@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://bu5c6n0jrxrk"]
+
+[ext_resource type="Script" path="res://modules/entity_manager/entity_manager.gd" id="1_wtpkx"]
+[ext_resource type="PackedScene" uid="uid://b6cq2tb41ofir" path="res://modules/entity_manager/entities/base_entity.tscn" id="2_v8udp"]
+
+[node name="EntityManager" type="Node2D"]
+script = ExtResource("1_wtpkx")
+
+[node name="BaseEntity" parent="." instance=ExtResource("2_v8udp")]

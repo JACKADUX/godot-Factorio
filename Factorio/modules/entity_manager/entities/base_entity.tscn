@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b6cq2tb41ofir"]
+
+[ext_resource type="Script" path="res://modules/entity_manager/entities/base_entity.gd" id="1_q7mw8"]
+
+[node name="BaseEntity" type="Node2D"]
+script = ExtResource("1_q7mw8")

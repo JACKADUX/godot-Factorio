@@ -24,6 +24,7 @@ func _feed_data():
 		[Items.IRON_CHEST, Items.TRANSPORT_BELT_1, Items.INSERTER_1],
 		[Items.MINING_DRILL, Items.STONE_FURNACE, Items.ASSEMBLING_MACHINE_1],
 	]
+	_initialize()
 
 func _initialize():
 	for items in carft_items:

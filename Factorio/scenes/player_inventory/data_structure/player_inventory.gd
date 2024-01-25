@@ -15,9 +15,13 @@ func _feed_data():
 	get_slot(1).change(Items.COAL, 12)
 	get_slot(2).change(Items.IRON_ORE, 8)
 	get_slot(3).change(Items.MINING_DRILL, 2)
+	get_slot(4).change(Items.IRON_CHEST, 2)
+	get_slot(5).change(Items.ASSEMBLING_MACHINE_1, 2)
 	change_hotbar_item(0, Items.COAL)
 	change_hotbar_item(1, Items.IRON_ORE)
 	change_hotbar_item(2, Items.MINING_DRILL)
+	change_hotbar_item(3, Items.IRON_CHEST)
+	change_hotbar_item(4, Items.ASSEMBLING_MACHINE_1)
 	_auto_arrange()
 	emit_signal("invetory_changed")
 	
