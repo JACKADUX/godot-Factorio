@@ -10,7 +10,7 @@ Feel free to download and use the source code!
 
 
 ## About me
-My name is Jack ,I'm from china and I am a graphic designer, 2d/3D motion designer, and a software developer.
+My name is Jack ,I'm from china and I am a graphic designer, 2D/3D motion designer, and a software developer.
 
 recently I make tutorials on how to make software with godot
 
