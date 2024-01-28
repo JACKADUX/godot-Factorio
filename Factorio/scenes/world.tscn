@@ -24,10 +24,10 @@ bg_color = Color(0.372549, 0.372549, 0.372549, 1)
 [sub_resource type="LabelSettings" id="LabelSettings_yqcvp"]
 font_size = 24
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_d8tdj"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uue3b"]
 size = Vector2(32, 32)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_uue3b"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d8tdj"]
 size = Vector2(32, 32)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_2efn8"]
@@ -157,23 +157,18 @@ metadata/_edit_lock_ = true
 [node name="EntityManager" parent="." instance=ExtResource("8_3k8vs")]
 unique_name_in_owner = true
 
-[node name="MouseSelectionArea" type="Area2D" parent="."]
-unique_name_in_owner = true
-position = Vector2(60, 76)
-collision_layer = 0
-collision_mask = 4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MouseSelectionArea"]
-position = Vector2(51, 22)
-shape = SubResource("RectangleShape2D_d8tdj")
-debug_color = Color(0.705882, 0.490196, 0, 0.419608)
-
 [node name="BuildingTool" type="Node2D" parent="."]
 unique_name_in_owner = true
 visible = false
 z_index = 1
 position = Vector2(60, 76)
 script = ExtResource("9_06avh")
+
+[node name="DisplayEntity" type="Sprite2D" parent="BuildingTool"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.584314)
+texture = ExtResource("11_jfd28")
+centered = false
 
 [node name="EntityDetectArea" type="Area2D" parent="BuildingTool"]
 unique_name_in_owner = true
@@ -185,11 +180,15 @@ position = Vector2(51, 22)
 shape = SubResource("RectangleShape2D_uue3b")
 debug_color = Color(0.627451, 0.345098, 1, 0.419608)
 
-[node name="DisplayEntity" type="Sprite2D" parent="BuildingTool"]
+[node name="MouseSelectionArea" type="Area2D" parent="BuildingTool"]
 unique_name_in_owner = true
-modulate = Color(1, 1, 1, 0.584314)
-texture = ExtResource("11_jfd28")
-centered = false
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BuildingTool/MouseSelectionArea"]
+position = Vector2(51, 22)
+shape = SubResource("RectangleShape2D_d8tdj")
+debug_color = Color(0.705882, 0.490196, 0, 0.74902)
 
 [node name="Grid" type="Node2D" parent="."]
 script = ExtResource("8_bfphy")

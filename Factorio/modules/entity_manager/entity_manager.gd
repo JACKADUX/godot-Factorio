@@ -1,37 +1,48 @@
 class_name EntityManager extends Node2D
 
-const IRON_CHEST = preload("res://scenes/entities/iron_chest.tscn")
+
+var entities :Array[BaseEntity] = []
 
 func _ready():
 	Globals.temp_entity_manager = self
-
-func _feed_data():
-	#var data = DatatableManager.get_construct_data("IRON_CHEST")
-	pass
-
-func new_entity(item:BaseItem):
-	var ENTITY_PACKED_SCENE:PackedScene
-	match item.id:
-		"IRON_CHEST":
-			ENTITY_PACKED_SCENE = IRON_CHEST
-	if not ENTITY_PACKED_SCENE:
-		push_error("ENTITY_PACKED_SCENE not exists. %s" % item.id)
-		return 
+	#_feed_data()
 	
-	var entity = ENTITY_PACKED_SCENE.instantiate()
-	return entity
+func _feed_data():
+	for i in 100_000:  #MAX 100K 30fps
+		add_entity(new_entity("IRON_CHEST"), Vector2(1+i,1))
 
-func add_entity(value:BaseEntity):
-	add_child(value)
+func new_entity(item_id:String):
+	var _entity :BaseEntity
+	match item_id:
+		"IRON_CHEST":
+			_entity = EntityIronChest.new()
+		
+	if not _entity:
+		push_error("_entity not exists. %s" % item_id)
+		return 
+	return _entity
+
+func add_entity(value:BaseEntity, coords:Vector2):
+	entities.append(value)
+	value.coords = coords
 	value.construct()
-	value.entity_changed.connect(_on_entity_changed.bind(value))
+	#value.entity_changed.connect(_on_entity_changed.bind(value))
 
 func remove_entity(value:BaseEntity):
-	value.entity_changed.disconnect(_on_entity_changed.bind(value))
+	#value.entity_changed.disconnect(_on_entity_changed.bind(value))
 	value.deconstruct()
-	remove_child(value)
-	value.queue_free()
+	entities.erase(value)
 
+func get_entity_by_coords(entity_coords:Vector2):
+	for entity in get_tree().get_nodes_in_group(Globals.group_entity):
+		var coords = entity.get_meta("coords") as Vector2
+		if coords.is_equal_approx(entity_coords):
+			return entity
+			
+
+func _process(delta):
+	for entity in entities:
+		entity.update(delta)
+	
+	
 ## OnSignals
-func _on_entity_changed(value:BaseEntity):
-	print(value)

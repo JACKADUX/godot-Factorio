@@ -1,7 +1,7 @@
 class_name Inventory extends Resource
 
 signal invetory_changed
-
+## FIXME: 空列表占用太多内存，需要其他方式存储！
 @export var _slots :Array[InventorySlot]= []
 
 ## Interface

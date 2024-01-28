@@ -1,8 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://cxbm7b1kvs8di"]
-
-[ext_resource type="PackedScene" uid="uid://b6cq2tb41ofir" path="res://modules/entity_manager/entity/base_entity.tscn" id="1_bukcq"]
-[ext_resource type="Script" path="res://scenes/entities/iron_chest.gd" id="2_8wuga"]
-
-[node name="IronChest" instance=ExtResource("1_bukcq")]
-script = ExtResource("2_8wuga")
-_item_id = "IRON_CHEST"

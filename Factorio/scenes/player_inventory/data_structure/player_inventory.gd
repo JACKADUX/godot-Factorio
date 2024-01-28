@@ -58,6 +58,13 @@ func hold_item(value:BaseItem):
 		if item.is_same_type(value):
 			interact_with_hand_slot(slot)
 			return
+			
+func put_down_hand_item():
+	if hand_slot.is_null():
+		return 
+	add_item(hand_slot.get_item(), hand_slot.get_count())
+	hand_slot.clear()
+	
 
 func interact_with_hand_slot(slot:InventorySlot, flag:int=0):
 	if hand_slot.is_null() and slot.is_null():
