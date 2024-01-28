@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cntr6xfnip6nc"]
+[gd_scene load_steps=21 format=3 uid="uid://cntr6xfnip6nc"]
 
 [ext_resource type="Script" path="res://scenes/world.gd" id="1_cqblf"]
 [ext_resource type="PackedScene" uid="uid://c8mquriqfkhjo" path="res://scenes/player_inventory/player_inventory_ui.tscn" id="1_cugm3"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://bgpcy1wmkqrf3" path="res://icon.svg" id="7_ww3em"]
 [ext_resource type="PackedScene" uid="uid://bu5c6n0jrxrk" path="res://modules/entity_manager/entity_manager.tscn" id="8_3k8vs"]
 [ext_resource type="Script" path="res://scripts/grid.gd" id="8_bfphy"]
+[ext_resource type="Script" path="res://scripts/main_tilem_map.gd" id="8_mrurm"]
 [ext_resource type="Script" path="res://scripts/building_tool/building_tool.gd" id="9_06avh"]
 [ext_resource type="Script" path="res://scripts/building_tool/display_box.gd" id="9_ctopb"]
 [ext_resource type="Texture2D" uid="uid://cnabrdx8iqgrd" path="res://resource/atlas_texture_resources/stone_furnace.tres" id="11_jfd28"]
@@ -23,8 +24,11 @@ bg_color = Color(0.372549, 0.372549, 0.372549, 1)
 [sub_resource type="LabelSettings" id="LabelSettings_yqcvp"]
 font_size = 24
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d8tdj"]
+size = Vector2(32, 32)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uue3b"]
-size = Vector2(58, 57)
+size = Vector2(32, 32)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_2efn8"]
 load_path = "res://.godot/imported/select.png-fde181f7d8a129c21cc388c07f5fb3f8.ctex"
@@ -147,24 +151,39 @@ layer_0/tile_data = PackedInt32Array(0, 393216, 4, 65536, 393216, 4, 131072, 458
 layer_1/name = "Entity"
 layer_1/y_sort_enabled = true
 layer_1/tile_data = PackedInt32Array()
+script = ExtResource("8_mrurm")
 metadata/_edit_lock_ = true
 
 [node name="EntityManager" parent="." instance=ExtResource("8_3k8vs")]
 unique_name_in_owner = true
 
+[node name="MouseSelectionArea" type="Area2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(60, 76)
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MouseSelectionArea"]
+position = Vector2(51, 22)
+shape = SubResource("RectangleShape2D_d8tdj")
+debug_color = Color(0.705882, 0.490196, 0, 0.419608)
+
 [node name="BuildingTool" type="Node2D" parent="."]
 unique_name_in_owner = true
+visible = false
 z_index = 1
 position = Vector2(60, 76)
 script = ExtResource("9_06avh")
 
-[node name="Area2D" type="Area2D" parent="BuildingTool"]
+[node name="EntityDetectArea" type="Area2D" parent="BuildingTool"]
+unique_name_in_owner = true
 collision_layer = 0
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BuildingTool/Area2D"]
-position = Vector2(33, 32.5)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BuildingTool/EntityDetectArea"]
+position = Vector2(51, 22)
 shape = SubResource("RectangleShape2D_uue3b")
+debug_color = Color(0.627451, 0.345098, 1, 0.419608)
 
 [node name="DisplayEntity" type="Sprite2D" parent="BuildingTool"]
 unique_name_in_owner = true
@@ -194,5 +213,3 @@ script = ExtResource("9_ctopb")
 [node name="Icon" type="Sprite2D" parent="."]
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("7_ww3em")
-
-[connection signal="body_shape_entered" from="BuildingTool/Area2D" to="BuildingTool" method="_on_area_2d_body_shape_entered"]

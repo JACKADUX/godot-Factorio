@@ -57,6 +57,12 @@ mouse_middle={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="world"
+2d_physics/layer_2="tm_collision"
+2d_physics/layer_3="tm_selection"
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

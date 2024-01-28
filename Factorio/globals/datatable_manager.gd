@@ -45,20 +45,28 @@ func load_resource():
 func get_item_type(id:String):
 	return DatatableManager.item_datas[id].type
 
-func get_construct_data(id:String):
+func get_tilemap_data():
+	if excel_data.has("tilemap"):
+		return excel_data["tilemap"]
+
+func get_tilemap_data_by(id:String):
 	"""
 	{ 
 		"id": "MINING_DRILL", 
 		"size": (2, 2), 
-		"tilemap_source_id": 0, 
-		"tilemap_layer_name": "Entity", 
-		"atlas_coordinates": (2, 3) 
+		"source_id": 0, 
+		"layer_name": "Entity", 
+		"atlas_coords": (2, 3) 
+		"size_in_atlas": (1, 2), 
+		"texture_origin": (0, 16), 
+		"collision_poly": [2, 2, 2, 2],  ## gap -> left top right bottom
+		"selection_poly": [0, 0, 0, 0]   ## gap -> left top right bottom
 	}
 	"""
-	if excel_data.has("construct"):
-		var construct_data = excel_data["construct"]
-		if construct_data.has(id):
-			return construct_data[id]
+	if excel_data.has("tilemap"):
+		var data = excel_data["tilemap"]
+		if data.has(id):
+			return data[id]
 
 ## Utils
 #region Excel
@@ -110,6 +118,8 @@ func _convert_data_type(data, type:String):
 		"string": return String(data)
 		"int": return int(data)
 		"float": return float(data)
+		"list[int]":
+			return Array(data.rsplit(",")).map(func(x): return int(x.strip_edges()))
 		"Vector2i": 
 			var res = data.rsplit(",")
 			return Vector2i(int(res[0]), int(res[1]))

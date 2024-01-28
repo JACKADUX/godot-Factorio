@@ -1,6 +1,6 @@
 class_name EntityManager extends Node2D
 
-const BASE_ENTITY = preload("res://modules/entity_manager/entities/base_entity.tscn")
+const IRON_CHEST = preload("res://scenes/entities/iron_chest.tscn")
 
 func _ready():
 	Globals.temp_entity_manager = self
@@ -10,8 +10,15 @@ func _feed_data():
 	pass
 
 func new_entity(item:BaseItem):
-	var entity = BASE_ENTITY.instantiate()
-	entity.item = DatatableManager.base_items.IRON_CHEST
+	var ENTITY_PACKED_SCENE:PackedScene
+	match item.id:
+		"IRON_CHEST":
+			ENTITY_PACKED_SCENE = IRON_CHEST
+	if not ENTITY_PACKED_SCENE:
+		push_error("ENTITY_PACKED_SCENE not exists. %s" % item.id)
+		return 
+	
+	var entity = ENTITY_PACKED_SCENE.instantiate()
 	return entity
 
 func add_entity(value:BaseEntity):
