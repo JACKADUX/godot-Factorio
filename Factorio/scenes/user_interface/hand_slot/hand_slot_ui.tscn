@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://e4uxhacqhvgv"]
+
+[ext_resource type="PackedScene" uid="uid://b0ahrnp60stki" path="res://components/inventory/inventory_slot_ui.tscn" id="1_6crie"]
+[ext_resource type="Script" path="res://scenes/user_interface/hand_slot/hand_slot_ui.gd" id="2_ka5rd"]
+
+[node name="HandSlotUI" instance=ExtResource("1_6crie")]
+mouse_filter = 2
+disabled = true
+flat = true
+script = ExtResource("2_ka5rd")
+
+[node name="LabelName" parent="." index="2"]
+visible = false

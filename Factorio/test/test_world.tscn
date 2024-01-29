@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://rpie6isb64tq" path="res://scenes/user_interface/hotbar/hotbar_ui.tscn" id="4_oieoi"]
 [ext_resource type="PackedScene" path="res://scenes/player_inventory/player_inventory_ui.tscn" id="5_m1y4m"]
 [ext_resource type="PackedScene" uid="uid://n7bndryqx7rn" path="res://scenes/user_interface/crafting_panel/crafting_panel.tscn" id="6_swwa5"]
-[ext_resource type="PackedScene" uid="uid://e4uxhacqhvgv" path="res://scenes/user_interface/hand_slot_ui/hand_slot_ui.tscn" id="7_3ir82"]
+[ext_resource type="PackedScene" uid="uid://e4uxhacqhvgv" path="res://scenes/user_interface/hand_slot/hand_slot_ui.tscn" id="7_3ir82"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8rh6b"]
 texture = ExtResource("2_qhj0v")

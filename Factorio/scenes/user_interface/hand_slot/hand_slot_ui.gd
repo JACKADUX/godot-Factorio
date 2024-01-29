@@ -4,11 +4,11 @@ func _process(delta):
 	if visible:
 		global_position = get_global_mouse_position()
 
-func _initialize():
-	set_empty()
+func _initialize(slot:HandSlot):
+	_update(slot)
 	
-func _update(slot:InventorySlot):
-	if not slot:
+func _update(slot:HandSlot):
+	if slot.is_hand_empty():
 		set_empty()
 	else:
 		set_slot(slot)

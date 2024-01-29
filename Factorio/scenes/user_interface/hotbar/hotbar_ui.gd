@@ -4,29 +4,27 @@ signal slot_pressed(index:int)
 
 @export var SLOT_PACKE_SCENE:PackedScene
 
-
-	
 ### Utils
-func _initialize(slots:Array[InventorySlot]):
+func _initialize(inventory:Inventory):
 	# clear
 	for slot in get_children():
 		remove_child(slot)
 		slot.queue_free()
 	# add
-	for i in slots.size():
+	for i in inventory.get_slot_count():
 		var slot = SLOT_PACKE_SCENE.instantiate()
 		add_child(slot)
-		slot.pressed.connect(func(): slot_pressed.emit(slot.get_index()))
+		slot.pressed.connect(func(): slot_pressed.emit(i))
 	# update
-	_update(slots)
+	_update(inventory)
 
-func _update(slots:Array[InventorySlot]):
-	if slots.size() != get_children().size():
-		_initialize(slots)
+func _update(inventory:Inventory):
+	if inventory.get_slot_count() != get_children().size():
+		_initialize(inventory)
 		return
-	for index in slots.size():
+	for index in inventory.get_slot_count():
 		var hotbar_slot = get_child(index)
-		var slot :InventorySlot = slots[index]
+		var slot :InventorySlot = inventory.get_slot(index)
 		if not slot:
 			hotbar_slot.set_empty()
 		else:

@@ -34,6 +34,7 @@ class ProcedureBegainGame extends BaseState:
 	
 	func _feed_data():
 		Globals.player_inventory._feed_data()
+		Globals.hotbar._feed_data()
 		Globals.temp_craft_panel._feed_data()
 		Globals.temp_entity_manager._feed_data()	
 

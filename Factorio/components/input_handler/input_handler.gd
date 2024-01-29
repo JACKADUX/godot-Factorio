@@ -1,4 +1,4 @@
-extends Node
+class_name InputHandler extends Node
 
 signal wheel_scrolled(value)
 signal mouse_state_changed
@@ -19,9 +19,6 @@ var start_position:Vector2
 var current_position:Vector2
 var end_position:Vector2
 
-
-func _unhandled_input(event):
-	handled_input(event)
 
 ## Interface
 func handled_input(event:InputEvent):

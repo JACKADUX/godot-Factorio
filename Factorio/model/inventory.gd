@@ -5,7 +5,6 @@ signal invetory_changed
 var _size :int = 0
 var _slots := {}
 
-## Statics
 func _init(number:int=0) :
 	_size = number
 

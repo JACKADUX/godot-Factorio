@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://rpie6isb64tq" path="res://scenes/user_interface/hotbar/hotbar_ui.tscn" id="2_b6xnb"]
 [ext_resource type="PackedScene" uid="uid://bri0k550q48ul" path="res://components/inventory/inventory_ui.tscn" id="3_ddgym"]
 [ext_resource type="PackedScene" uid="uid://n7bndryqx7rn" path="res://scenes/user_interface/crafting_panel/crafting_panel.tscn" id="4_t8u5c"]
-[ext_resource type="PackedScene" uid="uid://e4uxhacqhvgv" path="res://scenes/user_interface/hand_slot_ui/hand_slot_ui.tscn" id="5_ylqj6"]
+[ext_resource type="PackedScene" uid="uid://e4uxhacqhvgv" path="res://scenes/user_interface/hand_slot/hand_slot_ui.tscn" id="5_kwpgd"]
 
 [sub_resource type="Theme" id="Theme_wdi2a"]
 Label/font_sizes/font_size = 12
@@ -48,7 +48,7 @@ offset_bottom = -35.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="Hotbar" parent="Control/CenterContainer" instance=ExtResource("2_b6xnb")]
+[node name="HotbarUI" parent="Control/CenterContainer" instance=ExtResource("2_b6xnb")]
 unique_name_in_owner = true
 layout_mode = 2
 
@@ -105,7 +105,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 
-[node name="HandSlot" parent="Control" instance=ExtResource("5_ylqj6")]
+[node name="HandSlotUI" parent="Control" instance=ExtResource("5_kwpgd")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 0

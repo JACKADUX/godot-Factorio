@@ -16,8 +16,6 @@ func _enter_tree():
 
 func _ready():
 	get_viewport().size_changed.connect(_check_camera_view_changed)
-	InputHandler.mouse_state_changed.connect(_on_handle_input)
-	InputHandler.wheel_scrolled.connect(_on_wheel_scrolled)
 
 ## Interface
 func wheel_scrolled(value):
@@ -86,10 +84,4 @@ func _get_center_pos() -> Vector2:
 	#get_screen_center_position() 刷新会有问题
 	return global_position+offset
 
-## OnSignals:
-func _on_handle_input():
-	if InputHandler.is_pressed_and_move() and InputHandler.button_index == MOUSE_BUTTON_MIDDLE:
-		set_world_offset(InputHandler.end_position -InputHandler.start_position)
 
-func _on_wheel_scrolled(value):
-	wheel_scrolled(value)

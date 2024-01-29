@@ -5,7 +5,7 @@ var entities :Array[BaseEntity] = []
 
 func _ready():
 	Globals.temp_entity_manager = self
-	_feed_data()
+	#_feed_data()
 	
 func _feed_data():
 	for i in 100_000:  #MAX 100K 30fps
