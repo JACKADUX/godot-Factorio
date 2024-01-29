@@ -1,28 +1,16 @@
-[gd_scene load_steps=21 format=3 uid="uid://cntr6xfnip6nc"]
+[gd_scene load_steps=15 format=3 uid="uid://cntr6xfnip6nc"]
 
 [ext_resource type="Script" path="res://scenes/world.gd" id="1_cqblf"]
-[ext_resource type="PackedScene" uid="uid://c8mquriqfkhjo" path="res://scenes/player_inventory/player_inventory_ui.tscn" id="1_cugm3"]
-[ext_resource type="PackedScene" uid="uid://e4uxhacqhvgv" path="res://scenes/player_inventory/hand_slot_ui/hand_slot_ui.tscn" id="2_kww6n"]
 [ext_resource type="TileSet" uid="uid://dg2wk00sve3dn" path="res://resource/tilemaps/main_tile_map.tres" id="2_yu83q"]
-[ext_resource type="PackedScene" uid="uid://rpie6isb64tq" path="res://scenes/player_inventory/hotbar/hotbar_ui.tscn" id="3_e58vi"]
 [ext_resource type="Script" path="res://scripts/main_camera.gd" id="3_j5271"]
-[ext_resource type="PackedScene" uid="uid://n7bndryqx7rn" path="res://scenes/player_inventory/crafting_panel/crafting_panel.tscn" id="4_rjybd"]
 [ext_resource type="Texture2D" uid="uid://bgpcy1wmkqrf3" path="res://icon.svg" id="7_ww3em"]
 [ext_resource type="PackedScene" uid="uid://bu5c6n0jrxrk" path="res://modules/entity_manager/entity_manager.tscn" id="8_3k8vs"]
 [ext_resource type="Script" path="res://scripts/grid.gd" id="8_bfphy"]
 [ext_resource type="Script" path="res://scripts/main_tilem_map.gd" id="8_mrurm"]
 [ext_resource type="Script" path="res://scripts/building_tool/building_tool.gd" id="9_06avh"]
 [ext_resource type="Script" path="res://scripts/building_tool/display_box.gd" id="9_ctopb"]
+[ext_resource type="PackedScene" uid="uid://bygvjrencilsk" path="res://scenes/user_interface/user_interface.tscn" id="11_2cbnp"]
 [ext_resource type="Texture2D" uid="uid://cnabrdx8iqgrd" path="res://resource/atlas_texture_resources/stone_furnace.tres" id="11_jfd28"]
-
-[sub_resource type="Theme" id="Theme_wdi2a"]
-Label/font_sizes/font_size = 12
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ufwf4"]
-bg_color = Color(0.372549, 0.372549, 0.372549, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_yqcvp"]
-font_size = 24
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uue3b"]
 size = Vector2(32, 32)
@@ -36,102 +24,6 @@ load_path = "res://.godot/imported/select.png-fde181f7d8a129c21cc388c07f5fb3f8.c
 [node name="World" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_cqblf")
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="Control" type="Control" parent="CanvasLayer"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 1
-theme = SubResource("Theme_wdi2a")
-metadata/_edit_lock_ = true
-
-[node name="Debug" type="Label" parent="CanvasLayer/Control"]
-layout_mode = 1
-offset_right = 40.0
-offset_bottom = 23.0
-
-[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/Control"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -304.0
-offset_top = -64.0
-offset_right = 304.0
-offset_bottom = -35.0
-grow_horizontal = 2
-grow_vertical = 0
-
-[node name="Hotbar" parent="CanvasLayer/Control/CenterContainer" instance=ExtResource("3_e58vi")]
-layout_mode = 2
-
-[node name="CenterContainer2" type="CenterContainer" parent="CanvasLayer/Control"]
-visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -352.0
-offset_top = -274.0
-offset_right = 352.0
-offset_bottom = 275.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/CenterContainer2"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_ufwf4")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/CenterContainer2/PanelContainer"]
-layout_mode = 2
-
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/CenterContainer2/PanelContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/CenterContainer2/PanelContainer/HBoxContainer/PanelContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="CanvasLayer/Control/CenterContainer2/PanelContainer/HBoxContainer/PanelContainer/VBoxContainer"]
-layout_mode = 2
-text = "Character"
-label_settings = SubResource("LabelSettings_yqcvp")
-
-[node name="PlayerInventoryUI" parent="CanvasLayer/Control/CenterContainer2/PanelContainer/HBoxContainer/PanelContainer/VBoxContainer" instance=ExtResource("1_cugm3")]
-custom_minimum_size = Vector2(200, 200)
-layout_mode = 2
-
-[node name="PanelContainer2" type="PanelContainer" parent="CanvasLayer/Control/CenterContainer2/PanelContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/Control/CenterContainer2/PanelContainer/HBoxContainer/PanelContainer2"]
-layout_mode = 2
-
-[node name="Label2" type="Label" parent="CanvasLayer/Control/CenterContainer2/PanelContainer/HBoxContainer/PanelContainer2/VBoxContainer2"]
-layout_mode = 2
-text = "Crafting"
-label_settings = SubResource("LabelSettings_yqcvp")
-
-[node name="CraftingPanel" parent="CanvasLayer/Control/CenterContainer2/PanelContainer/HBoxContainer/PanelContainer2/VBoxContainer2" instance=ExtResource("4_rjybd")]
-custom_minimum_size = Vector2(200, 200)
-layout_mode = 2
-
-[node name="HandSlot" parent="CanvasLayer/Control" instance=ExtResource("2_kww6n")]
-visible = false
-layout_mode = 0
-offset_left = 534.0
-offset_top = 115.0
-offset_right = 598.0
-offset_bottom = 179.0
-button_mask = 1
 
 [node name="MainCamera" type="Camera2D" parent="."]
 position = Vector2(359, 186)
@@ -191,6 +83,7 @@ shape = SubResource("RectangleShape2D_d8tdj")
 debug_color = Color(0.705882, 0.490196, 0, 0.74902)
 
 [node name="Grid" type="Node2D" parent="."]
+modulate = Color(1, 1, 1, 0.294118)
 script = ExtResource("8_bfphy")
 
 [node name="DisplayBox" type="NinePatchRect" parent="."]
@@ -212,3 +105,5 @@ script = ExtResource("9_ctopb")
 [node name="Icon" type="Sprite2D" parent="."]
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("7_ww3em")
+
+[node name="UserInterface" parent="." instance=ExtResource("11_2cbnp")]

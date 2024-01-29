@@ -11,7 +11,7 @@ var button_index:MouseButton
 
 var main_camera:Camera2D
 
-var player_inventory := PlayerInventory.create(64)
+var player_inventory := PlayerInventory.new(64)
 
 var temp_craft_panel 
 var temp_entity_manager

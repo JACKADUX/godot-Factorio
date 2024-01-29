@@ -34,7 +34,7 @@ enabled=PackedStringArray("res://addons/excel_reader/plugin.cfg")
 [file_customization]
 
 folder_colors={
-"res://modules/": "yellow",
+"res://model/": "yellow",
 "res://resource/": "purple",
 "res://scenes/": "green"
 }

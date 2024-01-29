@@ -1,12 +1,12 @@
 [gd_scene load_steps=3 format=3 uid="uid://bri0k550q48ul"]
 
-[ext_resource type="Script" path="res://modules/inventory/inventory_ui.gd" id="1_wbmdq"]
-[ext_resource type="PackedScene" uid="uid://b0ahrnp60stki" path="res://modules/inventory/inventory_slot_ui.tscn" id="2_c1wt4"]
+[ext_resource type="Script" path="res://components/inventory/inventory_ui.gd" id="1_wbmdq"]
+[ext_resource type="PackedScene" uid="uid://b0ahrnp60stki" path="res://components/inventory/inventory_slot_ui.tscn" id="2_c1wt4"]
 
 [node name="InventoryUI" type="GridContainer"]
 offset_right = 64.0
 offset_bottom = 64.0
-columns = 4
+columns = 10
 script = ExtResource("1_wbmdq")
 INVENTORY_SLOT_UI_PACKED = ExtResource("2_c1wt4")
 

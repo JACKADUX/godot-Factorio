@@ -1,0 +1,116 @@
+[gd_scene load_steps=9 format=3 uid="uid://bygvjrencilsk"]
+
+[ext_resource type="Script" path="res://scenes/user_interface/user_interface.gd" id="1_0x00i"]
+[ext_resource type="PackedScene" uid="uid://rpie6isb64tq" path="res://scenes/user_interface/hotbar/hotbar_ui.tscn" id="2_b6xnb"]
+[ext_resource type="PackedScene" uid="uid://bri0k550q48ul" path="res://components/inventory/inventory_ui.tscn" id="3_ddgym"]
+[ext_resource type="PackedScene" uid="uid://n7bndryqx7rn" path="res://scenes/user_interface/crafting_panel/crafting_panel.tscn" id="4_t8u5c"]
+[ext_resource type="PackedScene" uid="uid://e4uxhacqhvgv" path="res://scenes/user_interface/hand_slot_ui/hand_slot_ui.tscn" id="5_ylqj6"]
+
+[sub_resource type="Theme" id="Theme_wdi2a"]
+Label/font_sizes/font_size = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ufwf4"]
+bg_color = Color(0.372549, 0.372549, 0.372549, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_yqcvp"]
+font_size = 24
+
+[node name="UserInterface" type="CanvasLayer"]
+script = ExtResource("1_0x00i")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme = SubResource("Theme_wdi2a")
+metadata/_edit_lock_ = true
+
+[node name="Debug" type="Label" parent="Control"]
+layout_mode = 1
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="CenterContainer" type="CenterContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -304.0
+offset_top = -64.0
+offset_right = 304.0
+offset_bottom = -35.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Hotbar" parent="Control/CenterContainer" instance=ExtResource("2_b6xnb")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="CenterContainer2" type="CenterContainer" parent="Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -352.0
+offset_top = -274.0
+offset_right = 352.0
+offset_bottom = 275.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Control/CenterContainer2"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ufwf4")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/CenterContainer2/PanelContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Control/CenterContainer2/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer2/PanelContainer/HBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/CenterContainer2/PanelContainer/HBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Character"
+label_settings = SubResource("LabelSettings_yqcvp")
+
+[node name="PlayerInventoryUI" parent="Control/CenterContainer2/PanelContainer/HBoxContainer/PanelContainer/VBoxContainer" instance=ExtResource("3_ddgym")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PanelContainer2" type="PanelContainer" parent="Control/CenterContainer2/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Control/CenterContainer2/PanelContainer/HBoxContainer/PanelContainer2"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Control/CenterContainer2/PanelContainer/HBoxContainer/PanelContainer2/VBoxContainer2"]
+layout_mode = 2
+text = "Crafting"
+label_settings = SubResource("LabelSettings_yqcvp")
+
+[node name="CraftingPanel" parent="Control/CenterContainer2/PanelContainer/HBoxContainer/PanelContainer2/VBoxContainer2" instance=ExtResource("4_t8u5c")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+
+[node name="HandSlot" parent="Control" instance=ExtResource("5_ylqj6")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 534.0
+offset_top = 115.0
+offset_right = 598.0
+offset_bottom = 179.0
+button_mask = 1

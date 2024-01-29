@@ -3,10 +3,10 @@
 [ext_resource type="Script" path="res://scenes/world.gd" id="1_nkakt"]
 [ext_resource type="Texture2D" uid="uid://btn3aahyi322t" path="res://resource/graphics/resource.png" id="2_qhj0v"]
 [ext_resource type="PackedScene" uid="uid://ynhxqmm6x1qs" path="res://test/test_inserter.tscn" id="3_vbppx"]
-[ext_resource type="PackedScene" uid="uid://rpie6isb64tq" path="res://scenes/player_inventory/hotbar/hotbar_ui.tscn" id="4_oieoi"]
-[ext_resource type="PackedScene" uid="uid://c8mquriqfkhjo" path="res://scenes/player_inventory/player_inventory_ui.tscn" id="5_m1y4m"]
-[ext_resource type="PackedScene" uid="uid://n7bndryqx7rn" path="res://scenes/player_inventory/crafting_panel/crafting_panel.tscn" id="6_swwa5"]
-[ext_resource type="PackedScene" uid="uid://e4uxhacqhvgv" path="res://scenes/player_inventory/hand_slot_ui/hand_slot_ui.tscn" id="7_3ir82"]
+[ext_resource type="PackedScene" uid="uid://rpie6isb64tq" path="res://scenes/user_interface/hotbar/hotbar_ui.tscn" id="4_oieoi"]
+[ext_resource type="PackedScene" path="res://scenes/player_inventory/player_inventory_ui.tscn" id="5_m1y4m"]
+[ext_resource type="PackedScene" uid="uid://n7bndryqx7rn" path="res://scenes/user_interface/crafting_panel/crafting_panel.tscn" id="6_swwa5"]
+[ext_resource type="PackedScene" uid="uid://e4uxhacqhvgv" path="res://scenes/user_interface/hand_slot_ui/hand_slot_ui.tscn" id="7_3ir82"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8rh6b"]
 texture = ExtResource("2_qhj0v")

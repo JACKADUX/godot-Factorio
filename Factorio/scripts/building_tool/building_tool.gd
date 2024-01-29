@@ -116,6 +116,7 @@ func _get_building_index(_grid_index:Vector2i, _position:Vector2, _size:Vector2i
 
 ## OnSignals
 func _on_hand_slot_changed(slot:InventorySlot):
+	return 
 	if slot.is_null():
 		hide()
 	else:

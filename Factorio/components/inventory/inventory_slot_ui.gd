@@ -9,9 +9,10 @@ func _ready():
 		
 ## Interface
 func set_slot(slot:InventorySlot):
-	_set_count(slot.count)
-	_set_texture(slot.item.texture)
-	_set_name(slot.item.name)
+	_set_count(slot.get_count())
+	var item :BaseItem= slot.get_item()
+	_set_texture(item.texture)
+	_set_name(item.name)
 
 func set_empty():
 	_set_count(0)

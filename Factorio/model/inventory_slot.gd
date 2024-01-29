@@ -1,52 +1,51 @@
-class_name InventorySlot extends Resource
+class_name InventorySlot
 
 signal slot_changed
 
-@export var item:BaseItem
-@export var count:int = 0
+var _item:BaseItem
+var _count:int = 0
+
+func _init(item:BaseItem, count:int):
+	_item = item
+	_count = count
 
 ## Interface
 #region Base
 func is_same_type(other:InventorySlot):
-	if is_null() or other.is_null():
-		return false
-	return item.is_same_type(other.get_item())
-
-func is_null():
-	return item == null
+	return _item == other.get_item()
 
 func is_empty():
-	return count <= 0
+	return _count <= 0
 
 func set_item(value:BaseItem):
-	if item != value:
-		item = value
+	if _item != value:
+		_item = value
 		slot_changed.emit()
 		
-func get_item():
-	return item
+func get_item() -> BaseItem:
+	return _item
 
 func set_count(value:int):
-	if count != value:
-		count = value
+	if _count != value:
+		_count = value
 		slot_changed.emit()
 
-func get_count():
-	return count
+func get_count() -> int:
+	return _count
 
-func change(_item:BaseItem, _count:int):
-	item = _item
-	count = _count
+func change(item:BaseItem, count:int):
+	_item = item
+	_count = count
 	slot_changed.emit()
 
 func clear():
-	item = null
-	count = 0
-	slot_changed.emit()
+	## NOTE:持有当前 slot 的 inventory 会通过 slot_changed 信号自动将该对象清除
+	set_count(0)
 
 #endregion
-#
 func can_exchange(other_slot_ui:InventorySlot):
+	if is_same_type(other_slot_ui):
+		return false
 	return true
 
 func exchange(other_slot:InventorySlot):
@@ -62,14 +61,10 @@ func can_stack(other_slot_ui:InventorySlot):
 
 func stack_to(other_slot:InventorySlot):
 	# self -> other_slot_ui
-	other_slot.set_count(other_slot.get_count() + count)
+	other_slot.set_count(other_slot.get_count() + _count)
 	clear()
-
+	
 ## Statics
-static func create(item:BaseItem, count:int):
-	var inventory_slot = InventorySlot.new()
-	inventory_slot.change(item, count)
-	return inventory_slot
 
 
 

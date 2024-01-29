@@ -28,11 +28,10 @@ func _update(inventory:Inventory):
 	for index in count:
 		var slot_ui = get_child(index) as InventorySlotUI
 		var slot = inventory.get_slot(index)
-		if not slot.is_null():
-			slot_ui.set_slot(slot)
-		else:
+		if not slot:
 			slot_ui.set_empty()
-			
+		else:
+			slot_ui.set_slot(slot)
 
 
 

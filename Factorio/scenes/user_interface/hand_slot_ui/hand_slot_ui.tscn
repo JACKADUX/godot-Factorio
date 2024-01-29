@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://e4uxhacqhvgv"]
 
-[ext_resource type="PackedScene" uid="uid://b0ahrnp60stki" path="res://modules/inventory/inventory_slot_ui.tscn" id="1_org4o"]
-[ext_resource type="Script" path="res://scenes/player_inventory/hand_slot_ui/hand_slot_ui.gd" id="2_uiv1b"]
+[ext_resource type="PackedScene" uid="uid://b0ahrnp60stki" path="res://components/inventory/inventory_slot_ui.tscn" id="1_org4o"]
+[ext_resource type="Script" path="res://scenes/user_interface/hand_slot_ui/hand_slot_ui.gd" id="2_uiv1b"]
 
 [node name="HandSlot" instance=ExtResource("1_org4o")]
 mouse_filter = 2

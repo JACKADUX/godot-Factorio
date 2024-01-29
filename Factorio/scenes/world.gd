@@ -1,8 +1,5 @@
 extends Node2D
 
-@onready var center_container_2 = $CanvasLayer/Control/CenterContainer2
-@onready var grid = $Grid
-
 @onready var main_tile_map = %MainTileMap
 @onready var entity_manager = %EntityManager
 @onready var building_tool = %BuildingTool
@@ -12,13 +9,7 @@ func _ready():
 	building_tool.deconstructed.connect(_on_building_tool_deconstructed)
 	building_tool.entity_clicked.connect(_on_entity_clicked)
 		
-func _unhandled_key_input(event):
-	if event is InputEventKey:
-		if event.is_pressed():
-			if event.keycode == KEY_E:
-				center_container_2.visible = not center_container_2.visible
-			if event.keycode == KEY_G:
-				grid.visible = not grid.visible
+
 
 ## 
 
