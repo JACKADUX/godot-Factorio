@@ -39,11 +39,14 @@ func interact_with_hotbar(index:int, hand_slot:HandSlot, inventory:Inventory):
 		var item = slot.get_item()
 		if not _is_hand_empty:
 			var hand_item = hand_slot.get_item()
+				
 			hand_slot.put_item_from_hand(inventory)
 			if item != hand_item:
 				hand_slot.take_item_to_hand(inventory, item)
 		else: 
 			hand_slot.take_item_to_hand(inventory, item)
+			
+			
 
 
 ## OnSignals

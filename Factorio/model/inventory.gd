@@ -68,7 +68,7 @@ func add_item(item:BaseItem, count:int)->bool:
 	return false
 	
 	
-func get_valid_slots():
+func get_not_null_slots():
 	return _slots.values()
 
 

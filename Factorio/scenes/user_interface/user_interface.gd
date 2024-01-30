@@ -40,7 +40,7 @@ func _init_playerui():
 	)
 	## hand_slot
 	var hand_slot = Globals.hand_slot
-	hand_slot.hand_slot_changed.connect(_on_hand_slot_changed)
+	hand_slot.slot_changed.connect(_on_hand_slot_changed)
 	
 	
 	## hotbar

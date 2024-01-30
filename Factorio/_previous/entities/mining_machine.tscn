@@ -1,11 +1,11 @@
 [gd_scene load_steps=7 format=3 uid="uid://r3r0d86iwqxa"]
 
 [ext_resource type="Script" path="res://_previous/entities/mining_machine.gd" id="1_u4rql"]
-[ext_resource type="Script" path="res://modules/entity_manager/components/fuel_power_timer.gd" id="2_8064y"]
-[ext_resource type="Script" path="res://modules/entity_manager/components/fuel_delivery.gd" id="3_ot5ed"]
-[ext_resource type="Script" path="res://modules/entity_manager/components/craft_timer.gd" id="3_q7y2w"]
-[ext_resource type="Script" path="res://modules/entity_manager/components/power_connector.gd" id="4_8pf2t"]
-[ext_resource type="Script" path="res://modules/entity_manager/components/craft_component.gd" id="4_u7cmm"]
+[ext_resource type="Script" path="res://scenes/entity_manager/components/fuel_power_timer.gd" id="2_8064y"]
+[ext_resource type="Script" path="res://scenes/entity_manager/components/fuel_delivery.gd" id="3_ot5ed"]
+[ext_resource type="Script" path="res://scenes/entity_manager/components/craft_timer.gd" id="3_q7y2w"]
+[ext_resource type="Script" path="res://scenes/entity_manager/components/power_connector.gd" id="4_8pf2t"]
+[ext_resource type="Script" path="res://scenes/entity_manager/components/craft_component.gd" id="4_u7cmm"]
 
 [node name="MiningMachine" type="Node2D"]
 script = ExtResource("1_u4rql")

@@ -29,6 +29,7 @@ func load_resource():
 		item_datas = excel_data["items"]
 		base_items = {}
 		for id in excel_data["items"]:
+			## load base_item
 			var item_data = excel_data["items"][id]
 			var file_name = item_data.name.replace(" ","_")  # iron_ore
 			var base_item = BaseItem.new()
@@ -61,6 +62,7 @@ func get_tilemap_data_by(id:String):
 		"texture_origin": (0, 16), 
 		"collision_poly": [2, 2, 2, 2],  ## gap -> left top right bottom
 		"selection_poly": [0, 0, 0, 0]   ## gap -> left top right bottom
+		"rotatable": bool
 	}
 	"""
 	if excel_data.has("tilemap"):
@@ -123,6 +125,8 @@ func _convert_data_type(data, type:String):
 		"Vector2i": 
 			var res = data.rsplit(",")
 			return Vector2i(int(res[0]), int(res[1]))
+		"bool":
+			return bool(data)
 		_: assert(false, "unknown data type")
 	
 

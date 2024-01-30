@@ -5,9 +5,9 @@
 [ext_resource type="TileSet" uid="uid://dg2wk00sve3dn" path="res://resource/tilemaps/main_tile_map.tres" id="2_yu83q"]
 [ext_resource type="Script" path="res://scripts/main_camera.gd" id="3_j5271"]
 [ext_resource type="Texture2D" uid="uid://bgpcy1wmkqrf3" path="res://icon.svg" id="7_ww3em"]
-[ext_resource type="PackedScene" uid="uid://bu5c6n0jrxrk" path="res://modules/entity_manager/entity_manager.tscn" id="8_3k8vs"]
 [ext_resource type="Script" path="res://scripts/grid.gd" id="8_bfphy"]
 [ext_resource type="Script" path="res://scripts/main_tilem_map.gd" id="8_mrurm"]
+[ext_resource type="PackedScene" uid="uid://bu5c6n0jrxrk" path="res://scenes/entity_manager/entity_manager.tscn" id="8_ybm16"]
 [ext_resource type="Script" path="res://scripts/building_tool/display_box.gd" id="9_ctopb"]
 [ext_resource type="PackedScene" uid="uid://bygvjrencilsk" path="res://scenes/user_interface/user_interface.tscn" id="11_2cbnp"]
 [ext_resource type="Texture2D" uid="uid://cnabrdx8iqgrd" path="res://resource/atlas_texture_resources/stone_furnace.tres" id="11_jfd28"]
@@ -97,7 +97,7 @@ layer_1/tile_data = PackedInt32Array()
 script = ExtResource("8_mrurm")
 metadata/_edit_lock_ = true
 
-[node name="EntityManager" parent="." instance=ExtResource("8_3k8vs")]
+[node name="EntityManager" parent="." instance=ExtResource("8_ybm16")]
 unique_name_in_owner = true
 
 [node name="Grid" type="Node2D" parent="."]

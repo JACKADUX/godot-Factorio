@@ -23,11 +23,13 @@ var building_cell_position:Vector2
 var building_direction_index: int = 0:
 	get: return building_direction_index %4
 
+var _curruent_item_rotatable := false
+
 var _detect_collision_count : int = 0
 var _hover_entity_coords:Vector2i
 
 func _ready():
-	Globals.hand_slot.hand_slot_changed.connect(_on_hand_slot_changed.bind(Globals.hand_slot))
+	Globals.hand_slot.slot_changed.connect(_on_hand_slot_changed.bind(Globals.hand_slot))
 	mouse_state_changed.connect(_on_handle_input)
 	wheel_scrolled.connect(_on_wheel_scrolled)
 	
@@ -105,7 +107,10 @@ func _on_handle_input():
 func _unhandled_key_input(event):
 	if event is InputEventKey:
 		if event.is_pressed() and event.keycode == KEY_R: # 旋转
-			building_direction_index += 1 
+			if _curruent_item_rotatable:
+				building_direction_index += 1 
+				_display_entity.rotation_degrees = building_direction_index*90
+			
 		elif event.is_pressed() and event.keycode == KEY_Q: # 拿起/放回物品
 			var hand_slot = Globals.hand_slot
 			if hand_slot.is_hand_empty() and _hover_entity_coords:
@@ -137,7 +142,12 @@ func _on_hand_slot_changed(slot:HandSlot):
 	var tilemap_data = DatatableManager.get_tilemap_data_by(item.id)
 	if not tilemap_data:
 		return 
-		
+	
+	_curruent_item_rotatable = tilemap_data.rotatable
+	if not _curruent_item_rotatable:
+		_display_entity.rotation_degrees = 0
+	else:
+		_display_entity.rotation_degrees = building_direction_index*90
 	_display_entity.show()
 	_display_entity.texture = item.texture
 	
