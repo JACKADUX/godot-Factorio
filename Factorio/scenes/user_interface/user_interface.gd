@@ -14,7 +14,7 @@ extends CanvasLayer
 @onready var craft_container = %CraftContainer
 @onready var chest_inventory_container = %ChestInventoryContainer
 @onready var chest_inventory_ui = %ChestInventoryUI
-
+var _prev_chest_inventory:Inventory
 
 
 func _ready():
@@ -78,15 +78,17 @@ func _show_chest(inventory:Inventory):
 	chest_inventory_container.show()
 	chest_inventory_ui._update(inventory)
 	
-	## FIXME:重复连接
 	var callable = _on_chest_inventory_changed.bind(inventory)
-	if inventory.invetory_changed.is_connected(callable):
-		inventory.invetory_changed.disconnect(callable)
+	if _prev_chest_inventory and _prev_chest_inventory.invetory_changed.is_connected(callable):
+		_prev_chest_inventory.invetory_changed.disconnect(callable)
+	_prev_chest_inventory = inventory
 	inventory.invetory_changed.connect(callable)
+	
 	var callable2 = Globals.hand_slot.handle_input_click_event.bind(inventory)
 	if chest_inventory_ui.slot_pressed.is_connected(callable2):
 		chest_inventory_ui.slot_pressed.disconnect(callable2)
 	chest_inventory_ui.slot_pressed.connect(callable2)
+	
 	
 ## OnSignal
 func _on_player_invetory_changed(player_inventory:PlayerInventory):

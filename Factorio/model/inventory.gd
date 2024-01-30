@@ -43,7 +43,7 @@ func remove_slot(value:InventorySlot):
 	value.slot_changed.disconnect(_on_slot_changed.bind(value))
 	_slots.erase(index)
 	invetory_changed.emit()
-	
+
 # ----------------- other
 func get_item_count_data() -> Dictionary:
 	""" { base_item : count } """
@@ -55,18 +55,23 @@ func get_item_count_data() -> Dictionary:
 		data[item] += slot.get_count()
 	return data
 
-func add_item(item:BaseItem, count:int):
+func add_item(item:BaseItem, count:int)->bool:
 	count = max(0, count)
 	for index in get_slot_count():
 		var slot:InventorySlot = get_slot(index)
 		if not slot:
 			add_slot(InventorySlot.new(item, count), index)
-			return
+			return true
 		if slot.get_item() == item:
 			slot.set_count(slot.get_count()+count)
-			return 
+			return true
+	return false
+	
+	
+func get_valid_slots():
+	return _slots.values()
 
-		
+
 ## Utils
 func _sort(sort_callable:= Callable()):
 	var count_data = get_item_count_data()

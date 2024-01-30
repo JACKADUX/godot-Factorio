@@ -63,7 +63,7 @@ func stack_to(other_slot:InventorySlot):
 	# self -> other_slot_ui
 	other_slot.set_count(other_slot.get_count() + _count)
 	clear()
-	
+
 ## Statics
 
 

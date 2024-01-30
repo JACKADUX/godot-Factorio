@@ -9,6 +9,7 @@ func _feed_data():
 	set_hotbar_item(2, Items.MINING_DRILL)
 	set_hotbar_item(3, Items.IRON_CHEST)
 	set_hotbar_item(4, Items.ASSEMBLING_MACHINE_1)
+	set_hotbar_item(5, Items.INSERTER_1)
 	
 func set_hotbar_item(index:int, item:BaseItem):
 	add_slot(InventorySlot.new(item, 0), index)

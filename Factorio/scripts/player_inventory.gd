@@ -9,6 +9,7 @@ func _feed_data():
 	add_item(Items.COAL, 12)
 	add_item(Items.IRON_ORE, 8)
 	add_item(Items.MINING_DRILL, 2)
+	add_item(Items.INSERTER_1, 2)
 	add_item(Items.IRON_CHEST, 2)
 	add_item(Items.ASSEMBLING_MACHINE_1, 2)
 	_auto_arrange()

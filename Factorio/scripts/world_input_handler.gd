@@ -38,7 +38,7 @@ func _ready():
 	_selection_collision.shape.size = Globals.GridSizeVector*0.8
 	
 	entity_manager.entity_constructed.connect(
-		func(data): main_tile_map.construct_entity(data.id, data.coords)
+		func(data): main_tile_map.construct_entity(data.id, data.coords, data.direction)
 	)
 	entity_manager.entity_deconstructed.connect(
 		func(data):main_tile_map.deconstruct_entity(data.coords)	
@@ -77,7 +77,9 @@ func _on_handle_input():
 				var entity = entity_manager.new_entity(hand_slot.get_item().id)
 				if not entity:
 					return 
-				entity_manager.add_entity(entity, building_cell_coords)	
+				entity.coords = building_cell_coords
+				entity.direction = building_direction_index
+				entity_manager.add_entity(entity)	
 				
 			elif _hover_entity_coords:
 				var entity :BaseEntity = entity_manager.get_entity_by_coords(_hover_entity_coords)
