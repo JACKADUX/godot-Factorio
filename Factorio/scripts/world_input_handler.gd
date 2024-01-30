@@ -3,6 +3,8 @@ extends InputHandler
 @onready var main_camera = %MainCamera
 @onready var main_tile_map = %MainTileMap
 @onready var entity_manager = %EntityManager
+@onready var user_interface = %UserInterface
+
 
 @onready var _display_entity = %DisplayEntity
 @onready var _tilemap_entity_detect_area = %TilemapEntityDetectArea
@@ -34,7 +36,15 @@ func _ready():
 	_tilemap_cell_hovered_area.body_shape_entered.connect(_on_entity_selection_shape_entered)
 	_tilemap_cell_hovered_area.body_shape_exited.connect(_on_entity_selection_shape_exited)
 	_selection_collision.shape.size = Globals.GridSizeVector*0.8
+	
+	entity_manager.entity_constructed.connect(
+		func(data): main_tile_map.construct_entity(data.id, data.coords)
+	)
+	entity_manager.entity_deconstructed.connect(
+		func(data):main_tile_map.deconstruct_entity(data.coords)	
+	)
 
+	
 func _process(delta):
 	_selection_collision.global_position = current_cell_position + Globals.GridSizeHalfVector
 	_detection_collision.global_position = building_cell_position + building_cell_size*Globals.GridSizeHalf
@@ -60,41 +70,36 @@ func _on_handle_input():
 	_update_data()
 	if is_just_pressed():
 		if button_index == MOUSE_BUTTON_LEFT:
-			if _detect_collision_count == 0:
-				var hand_slot = Globals.hand_slot
-				if hand_slot.is_hand_empty():
-					return
+			var hand_slot = Globals.hand_slot
+			if _detect_collision_count == 0 and not hand_slot.is_hand_empty():
 				print("entity created")
-				_debug_building_tool_constructed(building_cell_coords)
+				var player_inventory = Globals.player_inventory
+				var entity = entity_manager.new_entity(hand_slot.get_item().id)
+				if not entity:
+					return 
+				entity_manager.add_entity(entity, building_cell_coords)	
+				
 			elif _hover_entity_coords:
-				print("entity selected")
+				var entity :BaseEntity = entity_manager.get_entity_by_coords(_hover_entity_coords)
+				if not entity:
+					return 
+				print("entity selected:", entity.get_item_id())
+				var data = entity.get_entity_data()
+				if data.has("inventory"):
+					user_interface._show_chest(data.inventory)
 				
 		elif button_index == MOUSE_BUTTON_RIGHT:
 			if _hover_entity_coords:
 				print("entity deleted")
-				_debug_building_tool_deconstructed(_hover_entity_coords)
+				var entity = entity_manager.get_entity_by_coords(building_cell_coords)
+				if not entity:
+					return 
+				entity_manager.remove_entity(entity)
 				
 	if is_pressed_and_move():
 		if button_index == MOUSE_BUTTON_MIDDLE:
 			main_camera.set_world_offset(end_position -start_position)
-	
 
-func _debug_building_tool_constructed(building_cell_coords:Vector2i):
-	var player_inventory = Globals.player_inventory
-	var slot = Globals.hand_slot
-	var cdata = DatatableManager.get_tilemap_data_by(slot.get_item().id)
-	var layer = main_tile_map.entity_layer
-	main_tile_map.set_cell(layer, building_cell_coords, 0, cdata.atlas_coords, main_tile_map.tile_rotations[0])
-	
-	var entity = entity_manager.new_entity(slot.get_item().id)
-	if not entity:
-		return 
-	entity_manager.add_entity(entity, building_cell_coords)	
-
-func _debug_building_tool_deconstructed(building_cell_coords:Vector2i):
-	var layer = main_tile_map.entity_layer
-	main_tile_map.set_cell(layer, building_cell_coords, 0, Vector2i(-1,-1))
-	
 func _unhandled_key_input(event):
 	if event is InputEventKey:
 		if event.is_pressed() and event.keycode == KEY_R: # 旋转

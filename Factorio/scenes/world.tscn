@@ -60,6 +60,7 @@ debug_color = Color(0.705882, 0.490196, 0, 0.74902)
 
 [node name="SelectionBox" type="NinePatchRect" parent="WorldInputHandler"]
 unique_name_in_owner = true
+visible = false
 z_index = 1
 texture_filter = 1
 offset_left = 60.0
@@ -108,3 +109,4 @@ scale = Vector2(0.1, 0.1)
 texture = ExtResource("7_ww3em")
 
 [node name="UserInterface" parent="." instance=ExtResource("11_2cbnp")]
+unique_name_in_owner = true

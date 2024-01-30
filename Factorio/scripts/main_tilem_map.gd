@@ -78,6 +78,13 @@ func get_building_coords(_position:Vector2, building_size:Vector2i ) -> Vector2:
 			coords.y = cell_index.y -(building_size.y/2-1)
 	return coords
 
+func construct_entity(item_id:String, coords:Vector2i):
+	var tilemap_data = DatatableManager.get_tilemap_data_by(item_id)
+	set_cell(entity_layer, coords, 0, tilemap_data.atlas_coords, tile_rotations[0])
+	
+func deconstruct_entity(coords:Vector2i):
+	set_cell(entity_layer, coords, 0, Vector2i(-1,-1))
+
 ## Utils
 func _create_custom_collision(tile_data:TileData, c_layer:int, polygon_index:int, size_in_atlas:Vector2i, gaps:Array):
 	tile_data.add_collision_polygon(c_layer)

@@ -1,10 +1,16 @@
-class_name BaseEntity extends RefCounted
+class_name BaseEntity
 
 var item_id :String = "" : get=get_item_id
 var coords:Vector2   # grid_index
 
 func get_item_id() -> String:
 	return ""
+
+func get_entity_data() -> Dictionary:
+	var data = {}
+	data["id"] = item_id
+	data["coords"] = coords
+	return data
 
 func construct():
 	pass

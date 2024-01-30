@@ -42,3 +42,14 @@ func interact_with_hand_slot(inventory:Inventory, index:int):
 			stack_to(slot)
 			clear()
 
+func handle_input_click_event(index:int, inventory:Inventory):
+	## NOTE:此方法用于处理与slot交互时的事件
+	match Globals.button_index:
+		MOUSE_BUTTON_LEFT:
+			interact_with_hand_slot(inventory, index)
+
+
+
+
+
+
