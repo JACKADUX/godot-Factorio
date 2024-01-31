@@ -11,7 +11,7 @@ func _initialize(inventory:Inventory):
 		remove_child(slot)
 		slot.queue_free()
 	# add
-	for i in inventory.get_slot_count():
+	for i in inventory.size():
 		var slot = SLOT_PACKE_SCENE.instantiate()
 		add_child(slot)
 		slot.pressed.connect(func(): slot_pressed.emit(i))
@@ -19,10 +19,10 @@ func _initialize(inventory:Inventory):
 	_update(inventory)
 
 func _update(inventory:Inventory):
-	if inventory.get_slot_count() != get_children().size():
+	if inventory.size() != get_children().size():
 		_initialize(inventory)
 		return
-	for index in inventory.get_slot_count():
+	for index in inventory.size():
 		var hotbar_slot = get_child(index)
 		var slot :InventorySlot = inventory.get_slot(index)
 		if not slot:

@@ -13,7 +13,7 @@ var main_camera:Camera2D
 
 var hotbar := Hotbar.new(10)
 var player_inventory := PlayerInventory.new(64)
-var hand_slot := HandSlot.new()
+var hand_inventory := Inventory.new(1)
 
 var temp_craft_panel 
 var temp_entity_manager

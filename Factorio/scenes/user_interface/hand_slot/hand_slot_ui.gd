@@ -4,20 +4,21 @@ func _process(delta):
 	if visible:
 		global_position = get_global_mouse_position()
 
-func _initialize(slot:HandSlot):
-	_update(slot)
+func _initialize(inventory:Inventory):
+	_update(inventory)
 	
-func _update(slot:HandSlot):
-	if slot.is_hand_empty():
+func _update(inventory:Inventory):
+	var slots = inventory.get_valid_slots()
+	if not slots:
 		set_empty()
 	else:
-		set_slot(slot)
+		set_slot(slots[0])
 
 ## Interface
 func set_slot(slot:InventorySlot):
 	show()
-	_set_count(slot.get_count())
-	_set_texture(slot.get_item().texture)
+	_set_count(slot.get_amount())
+	_set_texture(DatatableManager.get_item_texture(slot.get_id()))
 		
 func set_empty():
 	hide()

@@ -7,7 +7,7 @@ signal slot_pressed(index:int)
 
 ## Utils
 func _initialize(inventory:Inventory):
-	var count = inventory.get_slot_count()
+	var count = inventory.size()
 	# clear
 	for child in get_children():
 		remove_child(child)
@@ -21,7 +21,7 @@ func _initialize(inventory:Inventory):
 	_update(inventory)
 
 func _update(inventory:Inventory):
-	var count = inventory.get_slot_count()
+	var count = inventory.size()
 	if count != get_children().size():
 		_initialize(inventory)
 		return 

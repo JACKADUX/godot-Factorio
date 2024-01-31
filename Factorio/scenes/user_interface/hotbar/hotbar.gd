@@ -2,6 +2,10 @@ class_name Hotbar extends Inventory
 
 signal hotbar_changed
 
+func _init(number:int=0) :
+	super(number)
+	remove_empty_slot = false
+
 func _feed_data():
 	var Items = DatatableManager.base_items
 	set_hotbar_item(0, Items.COAL)
@@ -11,8 +15,8 @@ func _feed_data():
 	set_hotbar_item(4, Items.ASSEMBLING_MACHINE_1)
 	set_hotbar_item(5, Items.INSERTER_1)
 	
-func set_hotbar_item(index:int, item:BaseItem):
-	add_slot(InventorySlot.new(item, 0), index)
+func set_hotbar_item(index:int, item_id:String):
+	add_slot(InventorySlot.new(item_id, 0), index)
 	hotbar_changed.emit()
 	
 func remove_hotbar_item(index:int):
@@ -21,36 +25,25 @@ func remove_hotbar_item(index:int):
 	hotbar_changed.emit()
 	
 func update_hotbar(inventory:Inventory):
-	var data = inventory.get_item_count_data()
-	for slot:InventorySlot in _slots.values():
-		var item = slot.get_item()
-		var count = data[item] if data.has(item) else 0
-		slot.set_count(count)
+	var data = inventory.get_amount_data()
+	for slot:InventorySlot in get_valid_slots():
+		var item = slot.get_id()
+		var amount = data[item] if data.has(item) else 0
+		slot.set_amount(amount)
 	
-func interact_with_hotbar(index:int, hand_slot:HandSlot, inventory:Inventory):
-	var slot:InventorySlot = get_slot(index)
-	var _is_hand_empty = hand_slot.is_hand_empty()
-	if not slot and _is_hand_empty:
+func interact_with_hotbar(index:int, hand_inventory:Inventory, inventory:Inventory):
+	var hotbar_slot:InventorySlot = get_slot(index)
+	var hand_slot:InventorySlot = hand_inventory.get_slot(0)
+	if not hotbar_slot and not hand_slot:
 		return 
-	if not slot:
-		if not _is_hand_empty:
-			set_hotbar_item(index, hand_slot.get_item())
+	elif not hotbar_slot:
+		set_hotbar_item(index, hand_slot.get_id())
+	elif not hand_slot:
+		Inventory.transfer(inventory, hotbar_slot.get_id(), -1, hand_inventory)
 	else:
-		var item = slot.get_item()
-		if not _is_hand_empty:
-			var hand_item = hand_slot.get_item()
-				
-			hand_slot.put_item_from_hand(inventory)
-			if item != hand_item:
-				hand_slot.take_item_to_hand(inventory, item)
-		else: 
-			hand_slot.take_item_to_hand(inventory, item)
+		Inventory.transfer(hand_inventory, hand_slot.get_id(), -1, inventory)
+		if not hotbar_slot.is_same_id(hand_slot):
+			Inventory.transfer(inventory, hotbar_slot.get_id(), -1, hand_inventory)
+
 			
 			
-
-
-## OnSignals
-func _on_slot_changed(slot:InventorySlot):
-	## NOTE: 覆写 Inventory, 保证数量为0的slot不被删除
-	invetory_changed.emit()
-		

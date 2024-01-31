@@ -8,9 +8,9 @@ signal load_complated
 
 var excel_data := {}
 
-var item_type := {}   # { "NATURAL_RESOURCES": 1, "LOGISTICS": 2, "PRODUCTIONS": 3, "INTERMEDIA_PRODUCTS": 4 }
-var item_datas := {}  # { "COAL": { "id": "COAL", "name": "coal", "type": 1 }
-var base_items := {}  # {"COAL": BaseItem } 
+var item_type := {} # { "NATURAL_RESOURCES": 1, "LOGISTICS": 2, "PRODUCTIONS": 3, "INTERMEDIA_PRODUCTS": 4 }
+var item_datas := {}  # { "COAL": { "id": "COAL", "name": "coal", "type": 1 , "texture": load }
+var base_items := {}
 
 func _ready():
 	pass
@@ -19,32 +19,39 @@ func load_resource():
 	var table_path = AssetUtility.get_datatable_path("datatable.xlsx")
 	excel_data = _get_excel_data(table_path)
 	
-	if excel_data.has("item_type"):
+	var item_type_datas = excel_data.get("item_type", {})
+	if item_type_datas:
 		item_type = {}
-		for id in excel_data["item_type"]:
-			var type_name = excel_data["item_type"][id].name
-			item_type[type_name.to_upper()] = id
+		for id in item_type_datas:
+			item_type[id] = item_type_datas[id].id
+			
 		
-	if excel_data.has("items"):
-		item_datas = excel_data["items"]
+	item_datas = excel_data.get("items", {})
+	if item_datas:
 		base_items = {}
-		for id in excel_data["items"]:
+		for id in item_datas:
+			base_items[id] = id
 			## load base_item
-			var item_data = excel_data["items"][id]
+			var item_data = item_datas[id]
 			var file_name = item_data.name.replace(" ","_")  # iron_ore
-			var base_item = BaseItem.new()
-			base_item.id = id
-			base_item.name = item_data.name
+			
 			var path = AssetUtility.get_atlas_texture_resource_path(file_name)
 			if FileAccess.file_exists(path):
-				base_item.texture = load(path)
-			base_items[base_item.id] = base_item
-		
+				item_data.texture = load(path)
 	load_complated.emit()
 	
 ## Interface
+func get_item_name(id:String):
+	return DatatableManager.item_datas[id].name
+	
 func get_item_type(id:String):
 	return DatatableManager.item_datas[id].type
+	
+func get_item_texture(id:String):
+	return DatatableManager.item_datas[id].texture
+
+func is_item_constructable(id:String):
+	return DatatableManager.item_datas[id].constructable
 
 func get_tilemap_data():
 	if excel_data.has("tilemap"):

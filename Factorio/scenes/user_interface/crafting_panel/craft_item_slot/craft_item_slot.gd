@@ -4,8 +4,8 @@ class_name CraftItemSlot extends Button
 @onready var label_count = %LabelCount
 
 
-func set_item(item:BaseItem, count:int):
-	_set_texture(item.texture)
+func set_item(id:String, count:int):
+	_set_texture(DatatableManager.get_item_texture(id))
 	_set_count(count)
 
 func set_empty():

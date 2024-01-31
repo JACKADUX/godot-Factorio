@@ -29,7 +29,7 @@ var _detect_collision_count : int = 0
 var _hover_entity_coords:Vector2i
 
 func _ready():
-	Globals.hand_slot.slot_changed.connect(_on_hand_slot_changed.bind(Globals.hand_slot))
+	Globals.hand_inventory.inventory_changed.connect(_on_hand_inventory_changed.bind(Globals.hand_inventory))
 	mouse_state_changed.connect(_on_handle_input)
 	wheel_scrolled.connect(_on_wheel_scrolled)
 	
@@ -72,18 +72,7 @@ func _on_handle_input():
 	_update_data()
 	if is_just_pressed():
 		if button_index == MOUSE_BUTTON_LEFT:
-			var hand_slot = Globals.hand_slot
-			if _detect_collision_count == 0 and not hand_slot.is_hand_empty():
-				print("entity created")
-				var player_inventory = Globals.player_inventory
-				var entity = entity_manager.new_entity(hand_slot.get_item().id)
-				if not entity:
-					return 
-				entity.coords = building_cell_coords
-				entity.direction = building_direction_index
-				entity_manager.add_entity(entity)	
-				
-			elif _hover_entity_coords:
+			if _hover_entity_coords:
 				var entity :BaseEntity = entity_manager.get_entity_by_coords(_hover_entity_coords)
 				if not entity:
 					return 
@@ -91,6 +80,23 @@ func _on_handle_input():
 				var data = entity.get_entity_data()
 				if data.has("inventory"):
 					user_interface._show_chest(data.inventory)
+					
+			var hand_inventory = Globals.hand_inventory
+			var hand_slot = hand_inventory.get_slot(0)
+			if _detect_collision_count == 0 and hand_slot :
+				var id = hand_slot.get_id()
+				if not DatatableManager.is_item_constructable(id):
+					return
+				var player_inventory = Globals.player_inventory
+				var entity = entity_manager.new_entity(id)
+				if not entity:
+					return 
+				entity.coords = building_cell_coords
+				entity.direction = building_direction_index
+				entity_manager.add_entity(entity)	
+				print("entity created")
+				
+			
 				
 		elif button_index == MOUSE_BUTTON_RIGHT:
 			if _hover_entity_coords:
@@ -112,12 +118,12 @@ func _unhandled_key_input(event):
 				_display_entity.rotation_degrees = building_direction_index*90
 			
 		elif event.is_pressed() and event.keycode == KEY_Q: # 拿起/放回物品
-			var hand_slot = Globals.hand_slot
-			if hand_slot.is_hand_empty() and _hover_entity_coords:
+			var hand_slot = Globals.hand_inventory.get_slot(0)
+			if not hand_slot and _hover_entity_coords:
 				var item_id = main_tile_map.get_item_id_from(_hover_entity_coords)
-				Globals.hand_slot.take_item_to_hand(Globals.player_inventory, DatatableManager.base_items[item_id])
-			else:
-				Globals.hand_slot.put_item_from_hand(Globals.player_inventory)
+				Inventory.transfer(Globals.player_inventory, item_id, -1, Globals.hand_inventory)
+			elif hand_slot:
+				Inventory.transfer(Globals.hand_inventory, hand_slot.get_id(), -1, Globals.player_inventory)
 			
 
 ##
@@ -134,12 +140,13 @@ func _on_wheel_scrolled(value):
 	_update_data()
 	main_camera.wheel_scrolled(value)
 
-func _on_hand_slot_changed(slot:HandSlot):
+func _on_hand_inventory_changed(inventory:Inventory):
 	_display_entity.hide()
-	if slot.is_hand_empty():
+	var slots = inventory.get_valid_slots()
+	if not slots:
 		return 
-	var item :BaseItem = slot.get_item()
-	var tilemap_data = DatatableManager.get_tilemap_data_by(item.id)
+	var item_id :String = slots[0].get_id()
+	var tilemap_data = DatatableManager.get_tilemap_data_by(item_id)
 	if not tilemap_data:
 		return 
 	
@@ -149,7 +156,7 @@ func _on_hand_slot_changed(slot:HandSlot):
 	else:
 		_display_entity.rotation_degrees = building_direction_index*90
 	_display_entity.show()
-	_display_entity.texture = item.texture
+	_display_entity.texture = DatatableManager.item_datas[item_id].texture
 	
 	building_cell_size = tilemap_data.size 
 	_detection_collision.shape.size = building_cell_size*Globals.GridSize*0.8
