@@ -1,7 +1,5 @@
 class_name EntityInserter1 extends BaseEntity
 
-signal work_progress(value:float)
-
 var input_coords:Vector2i:
 	get: return coords - Directions[direction]
 var output_coords:Vector2i:
@@ -34,6 +32,8 @@ func get_item_id() -> String:
 
 func get_entity_data() -> Dictionary:
 	var data = super()
+	data["inventory"] = _inventory
+	data["work_progress"] = _get_progress()
 	return data
 
 func construct(_entity_manager):
@@ -75,6 +75,9 @@ func _entity_notification(msg, what:NotificationType):
 			elif _WSC.is_end_state():
 				_end_insert()
 ## Utils
+func _get_progress():
+	return (1-(_busy_timer.time_left/_busy_duration))*100
+
 func _update_inventory(_entity :BaseEntity): ## FIXME: 需要更好的实现
 	if not _entity:
 		return 
@@ -109,8 +112,8 @@ func _start_insert():
 	_WSC.to_busy_state()
 	
 func _update_insert():
-	var progress = (1-(_busy_timer.time_left/_busy_duration))*100
-	work_progress.emit(progress)
+	pass
+	#work_progress.emit(progress)
 	
 	#print("insert progress: ",_busy_timer.time_left)
 	

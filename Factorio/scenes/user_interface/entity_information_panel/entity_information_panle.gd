@@ -7,44 +7,60 @@ extends PanelContainer
 @onready var inventory_ui = %InventoryUI
 @onready var work_h_box_container = %WorkHBoxContainer
 
+@onready var productivity_h_box_container = %ProductivityHBoxContainer
+@onready var productivity_progress_bar = $VBoxContainer/ProductivityHBoxContainer/ProductivityProgressBar
+@onready var fuel_h_box_container = %FuelHBoxContainer
+@onready var fuel_progress_bar = $VBoxContainer/FuelHBoxContainer/FuelProgressBar
+
+@onready var input_inventory_ui = %InputInventoryUI
+@onready var fuel_inventory_ui = %FuelInventoryUI
+@onready var output_inventory_ui = %OutputInventoryUI
+
+@onready var inventory_h_box_container = %InventoryHBoxContainer
+@onready var input_inventory_h_box_container = %InputInventoryHBoxContainer
+@onready var fuel_inventory_h_box_container = %FuelInventoryHBoxContainer
+@onready var output_inventory_h_box_container = %OutputInventoryHBoxContainer
+
 
 var _prev:BaseEntity
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	global_position = get_global_mouse_position()
-
-func get_inventory(entity):
-	var entity_inventory
-	var id = entity.get_item_id()
-	if id == "IRON_CHEST":
-		entity_inventory = entity.inventory
-	elif id == "INSERTER_1":
-		entity_inventory = entity._inventory
-	return entity_inventory
-
+	
+	if not _prev:
+		return 
+	var data = _prev.get_entity_data()
+	if data.has("inventory"):
+		inventory_ui._update(data.inventory)
+	if data.has("work_progress"):
+		work_progress_bar.value = data.work_progress
+	if data.has("productivity_progress"):
+		productivity_progress_bar.value = data.productivity_progress
+	if data.has("fuel_progress"):
+		fuel_progress_bar.value = data.fuel_progress
+	if data.has("input_inventory"):
+		input_inventory_ui._update(data.input_inventory)
+	if data.has("fuel_inventory"):
+		fuel_inventory_ui._update(data.fuel_inventory)
+	if data.has("output_inventory"):
+		output_inventory_ui._update(data.output_inventory)
+		
 func update(entity:BaseEntity):
-	if _prev:
-		var entity_inventory = get_inventory(_prev)
-		if entity_inventory:
-			entity_inventory.inventory_changed.disconnect(inventory_ui._update.bind(entity_inventory))	
-		if _prev.is_worker:
-			_prev.work_progress.disconnect(work_progress_bar.set_value)
 	if not entity:
 		_prev = null
 		hide()
 		return 
-	
+	size = Vector2.ZERO
 	_prev = entity
 	show()
-	var id = entity.get_item_id()
-	label.text = id
-	var entity_inventory = get_inventory(entity)
-	if entity_inventory:
-		entity_inventory.inventory_changed.connect(inventory_ui._update.bind(entity_inventory))	
-		inventory_ui._update(entity_inventory)
-	if entity.is_worker:
-		work_h_box_container.show()
-		entity.work_progress.connect(work_progress_bar.set_value)
-	else:
-		work_h_box_container.hide()
+	var data = _prev.get_entity_data()
+	
+	label.text = data.id
+	inventory_h_box_container.visible = data.has("inventory")
+	input_inventory_h_box_container.visible = data.has("input_inventory")
+	fuel_inventory_h_box_container.visible = data.has("fuel_inventory")
+	output_inventory_h_box_container.visible = data.has("output_inventory")
+	work_h_box_container.visible = data.has("work_progress")
+	productivity_h_box_container.visible = data.has("productivity_progress")
+	fuel_h_box_container.visible = data.has("fuel_progress")
 

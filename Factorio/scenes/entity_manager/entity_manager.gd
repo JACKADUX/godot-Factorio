@@ -30,7 +30,10 @@ func _feed_data():
 	e.coords = Vector2i(7,5)
 	e.inventory.input(Items.IRON_ORE, 100)
 	add_entity(e)
-
+	
+	e = new_entity("MINING_DRILL")
+	e.coords = Vector2i(9,5)
+	add_entity(e)
 
 func _process(delta):
 	_work_notification.emit(delta)
@@ -46,6 +49,8 @@ func new_entity(item_id:String):
 			_entity = EntityIronChest.new()
 		"INSERTER_1":
 			_entity = EntityInserter1.new()
+		"MINING_DRILL":
+			_entity = EntityMiningDrill.new()
 		
 	if not _entity:
 		push_error("_entity not exists. %s" % item_id)

@@ -8,8 +8,8 @@
 size = Vector2(64, 64)
 
 [node name="EntityInformationPanle" type="PanelContainer"]
-offset_right = 215.0
-offset_bottom = 170.0
+offset_right = 143.0
+offset_bottom = 59.0
 mouse_filter = 2
 script = ExtResource("1_yku45")
 
@@ -41,11 +41,99 @@ text = "work"
 
 [node name="WorkProgressBar" type="ProgressBar" parent="VBoxContainer/WorkHBoxContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="InventoryUI" type="GridContainer" parent="VBoxContainer"]
+[node name="ProductivityHBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/ProductivityHBoxContainer"]
+layout_mode = 2
+text = "Productivity"
+
+[node name="ProductivityProgressBar" type="ProgressBar" parent="VBoxContainer/ProductivityHBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="FuelHBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/FuelHBoxContainer"]
+layout_mode = 2
+text = "Fuel"
+
+[node name="FuelProgressBar" type="ProgressBar" parent="VBoxContainer/FuelHBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="InventoryHBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/InventoryHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Inventory"
+
+[node name="InventoryUI" type="GridContainer" parent="VBoxContainer/InventoryHBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 10
+script = ExtResource("2_xxq1h")
+INVENTORY_SLOT_UI_PACKED = ExtResource("3_kybui")
+
+[node name="InputInventoryHBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/InputInventoryHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Input Inventory"
+
+[node name="InputInventoryUI" type="GridContainer" parent="VBoxContainer/InputInventoryHBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 10
+script = ExtResource("2_xxq1h")
+INVENTORY_SLOT_UI_PACKED = ExtResource("3_kybui")
+
+[node name="FuelInventoryHBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/FuelInventoryHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Fuel Inventory"
+
+[node name="FuelInventoryUI" type="GridContainer" parent="VBoxContainer/FuelInventoryHBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 10
+script = ExtResource("2_xxq1h")
+INVENTORY_SLOT_UI_PACKED = ExtResource("3_kybui")
+
+[node name="OutputInventoryHBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/OutputInventoryHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Output Inventory"
+
+[node name="OutputInventoryUI" type="GridContainer" parent="VBoxContainer/OutputInventoryHBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 columns = 10

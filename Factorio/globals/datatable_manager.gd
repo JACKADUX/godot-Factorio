@@ -77,6 +77,21 @@ func get_tilemap_data_by(id:String):
 		if data.has(id):
 			return data[id]
 
+func is_fuel(id:String):
+	return id in excel_data.get("fuel").keys()
+
+func get_fuel_value(id:String):
+	# 单位是 MJ
+	if is_fuel(id):
+		return excel_data.get("fuel")[id].value
+
+func get_fuel_time(fuel_value:int, max_consumption:int):
+	# 1 MJ = 1,000,000 J
+	# 1 kW = 1,000 W
+	# 1 W = 1 J/s
+	# fuel_value -> MJ   max_consumption -> kW
+	return fuel_value*1000/max_consumption
+
 ## Utils
 #region Excel
 

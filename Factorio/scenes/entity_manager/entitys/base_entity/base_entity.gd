@@ -19,6 +19,7 @@ var construct_notification := false
 var deconstruct_notification := false
 
 func get_item_id() -> String:
+	assert('entity should override this function')
 	return ""
 
 func get_entity_data() -> Dictionary:
