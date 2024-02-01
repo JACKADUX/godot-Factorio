@@ -1,0 +1,53 @@
+[gd_scene load_steps=5 format=3 uid="uid://x5c0kdwlhh5r"]
+
+[ext_resource type="Script" path="res://scenes/user_interface/entity_information_panel/entity_information_panle.gd" id="1_yku45"]
+[ext_resource type="Script" path="res://components/inventory/inventory_ui.gd" id="2_xxq1h"]
+[ext_resource type="PackedScene" uid="uid://b0ahrnp60stki" path="res://components/inventory/inventory_slot_ui.tscn" id="3_kybui"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_5scr8"]
+size = Vector2(64, 64)
+
+[node name="EntityInformationPanle" type="PanelContainer"]
+offset_right = 215.0
+offset_bottom = 170.0
+mouse_filter = 2
+script = ExtResource("1_yku45")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+mouse_filter = 2
+texture = SubResource("PlaceholderTexture2D_5scr8")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "name"
+
+[node name="WorkHBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/WorkHBoxContainer"]
+layout_mode = 2
+text = "work"
+
+[node name="WorkProgressBar" type="ProgressBar" parent="VBoxContainer/WorkHBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="InventoryUI" type="GridContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 10
+script = ExtResource("2_xxq1h")
+INVENTORY_SLOT_UI_PACKED = ExtResource("3_kybui")

@@ -1,9 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://cntr6xfnip6nc"]
+[gd_scene load_steps=16 format=3 uid="uid://cntr6xfnip6nc"]
 
 [ext_resource type="Script" path="res://scenes/world.gd" id="1_cqblf"]
 [ext_resource type="Script" path="res://scripts/world_input_handler.gd" id="2_b55l8"]
 [ext_resource type="TileSet" uid="uid://dg2wk00sve3dn" path="res://resource/tilemaps/main_tile_map.tres" id="2_yu83q"]
 [ext_resource type="Script" path="res://scripts/main_camera.gd" id="3_j5271"]
+[ext_resource type="PackedScene" uid="uid://x5c0kdwlhh5r" path="res://scenes/user_interface/entity_information_panel/entity_information_panle.tscn" id="5_48m1g"]
 [ext_resource type="Texture2D" uid="uid://bgpcy1wmkqrf3" path="res://icon.svg" id="7_ww3em"]
 [ext_resource type="Script" path="res://scripts/grid.gd" id="8_bfphy"]
 [ext_resource type="Script" path="res://scripts/main_tilem_map.gd" id="8_mrurm"]
@@ -74,6 +75,12 @@ patch_margin_top = 15
 patch_margin_right = 15
 patch_margin_bottom = 15
 script = ExtResource("9_ctopb")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="WorldInputHandler"]
+
+[node name="EntityInformationPanle" parent="WorldInputHandler/CanvasLayer" instance=ExtResource("5_48m1g")]
+unique_name_in_owner = true
+visible = false
 
 [node name="MainCamera" type="Camera2D" parent="."]
 unique_name_in_owner = true

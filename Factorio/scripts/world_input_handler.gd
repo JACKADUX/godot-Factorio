@@ -13,6 +13,7 @@ extends InputHandler
 @onready var _selection_collision:= _tilemap_cell_hovered_area.get_child(0)
 @onready var _selection_box = %SelectionBox
 
+@onready var entity_information_panle = %EntityInformationPanle
 
 var current_cell_coords:Vector2i
 var current_cell_position:Vector2
@@ -184,13 +185,19 @@ func _on_entity_selection_shape_entered(body_rid, tile_map:TileMap, body_shape_i
 	var tilemap_data = DatatableManager.get_tilemap_data_by(item_id)
 	_selection_box.size = tilemap_data.size*Globals.GridSize
 	
+	## debug
+	var entity = entity_manager.get_entity_by_coords(_hover_entity_coords)
+	entity_information_panle.update(entity)
+	
 func _on_entity_selection_shape_exited(body_rid, tile_map:TileMap, body_shape_index, local_shape_index):
 	if not tile_map is MainTileMap:
 		return
 	#_hover_entity_coords = tile_map.get_coords_for_body_rid(body_rid)
 	_selection_box.hide()
 	_hover_entity_coords = Vector2i.ZERO
-
+	
+	## debug
+	entity_information_panle.update(null)
 
 
 

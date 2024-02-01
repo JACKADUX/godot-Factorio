@@ -1,5 +1,6 @@
 class_name EntityInserter1 extends BaseEntity
 
+signal work_progress(value:float)
 
 var input_coords:Vector2i:
 	get: return coords - Directions[direction]
@@ -108,7 +109,9 @@ func _start_insert():
 	_WSC.to_busy_state()
 	
 func _update_insert():
-	pass
+	var progress = (1-(_busy_timer.time_left/_busy_duration))*100
+	work_progress.emit(progress)
+	
 	#print("insert progress: ",_busy_timer.time_left)
 	
 func _end_insert():

@@ -9,6 +9,8 @@ extends CanvasLayer
 @onready var hotbar_ui = %HotbarUI
 
 
+@onready var close_button = %CloseButton
+
 @onready var main_container = %MainContainer
 @onready var player_inventory_container = %PlayerInventoryContainer
 @onready var craft_container = %CraftContainer
@@ -18,6 +20,7 @@ var _prev_chest_inventory:Inventory
 
 
 func _ready():
+	close_button.pressed.connect(root.hide)
 	_init_playerui()
 	
 
@@ -30,7 +33,6 @@ func _unhandled_key_input(event):
 				_show_craft()
 
 ## Utils
-
 func _init_playerui():
 	var player_inventory = Globals.player_inventory
 	Globals.player_inventory.inventory_changed.connect(_on_player_invetory_changed.bind(player_inventory))

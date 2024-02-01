@@ -71,64 +71,75 @@ grow_vertical = 2
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ufwf4")
 
-[node name="MainContainer" type="HBoxContainer" parent="Control/Root/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/Root/PanelContainer"]
+layout_mode = 2
+
+[node name="CloseButton" type="Button" parent="Control/Root/PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_horizontal = 8
+text = "X"
+
+[node name="MainContainer" type="HBoxContainer" parent="Control/Root/PanelContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="PlayerInventoryContainer" type="PanelContainer" parent="Control/Root/PanelContainer/MainContainer"]
+[node name="PlayerInventoryContainer" type="PanelContainer" parent="Control/Root/PanelContainer/VBoxContainer/MainContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/Root/PanelContainer/MainContainer/PlayerInventoryContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/Root/PanelContainer/VBoxContainer/MainContainer/PlayerInventoryContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Control/Root/PanelContainer/MainContainer/PlayerInventoryContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="Control/Root/PanelContainer/VBoxContainer/MainContainer/PlayerInventoryContainer/VBoxContainer"]
 layout_mode = 2
 text = "Character"
 label_settings = SubResource("LabelSettings_yqcvp")
 
-[node name="PlayerInventoryUI" parent="Control/Root/PanelContainer/MainContainer/PlayerInventoryContainer/VBoxContainer" instance=ExtResource("3_ddgym")]
+[node name="PlayerInventoryUI" parent="Control/Root/PanelContainer/VBoxContainer/MainContainer/PlayerInventoryContainer/VBoxContainer" instance=ExtResource("3_ddgym")]
 unique_name_in_owner = true
 layout_mode = 2
 columns = 8
 
-[node name="CraftContainer" type="PanelContainer" parent="Control/Root/PanelContainer/MainContainer"]
+[node name="CraftContainer" type="PanelContainer" parent="Control/Root/PanelContainer/VBoxContainer/MainContainer"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="Control/Root/PanelContainer/MainContainer/CraftContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="Control/Root/PanelContainer/VBoxContainer/MainContainer/CraftContainer"]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="Control/Root/PanelContainer/MainContainer/CraftContainer/VBoxContainer2"]
+[node name="Label2" type="Label" parent="Control/Root/PanelContainer/VBoxContainer/MainContainer/CraftContainer/VBoxContainer2"]
 layout_mode = 2
 text = "Crafting"
 label_settings = SubResource("LabelSettings_yqcvp")
 
-[node name="CraftingPanel" parent="Control/Root/PanelContainer/MainContainer/CraftContainer/VBoxContainer2" instance=ExtResource("4_t8u5c")]
+[node name="CraftingPanel" parent="Control/Root/PanelContainer/VBoxContainer/MainContainer/CraftContainer/VBoxContainer2" instance=ExtResource("4_t8u5c")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 
-[node name="ChestInventoryContainer" type="PanelContainer" parent="Control/Root/PanelContainer/MainContainer"]
+[node name="ChestInventoryContainer" type="PanelContainer" parent="Control/Root/PanelContainer/VBoxContainer/MainContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="Control/Root/PanelContainer/MainContainer/ChestInventoryContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="Control/Root/PanelContainer/VBoxContainer/MainContainer/ChestInventoryContainer"]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="Control/Root/PanelContainer/MainContainer/ChestInventoryContainer/VBoxContainer2"]
+[node name="Label2" type="Label" parent="Control/Root/PanelContainer/VBoxContainer/MainContainer/ChestInventoryContainer/VBoxContainer2"]
 layout_mode = 2
 text = "Chest"
 label_settings = SubResource("LabelSettings_yqcvp")
 
-[node name="ChestInventoryUI" parent="Control/Root/PanelContainer/MainContainer/ChestInventoryContainer/VBoxContainer2" instance=ExtResource("3_ddgym")]
+[node name="ChestInventoryUI" parent="Control/Root/PanelContainer/VBoxContainer/MainContainer/ChestInventoryContainer/VBoxContainer2" instance=ExtResource("3_ddgym")]
 unique_name_in_owner = true
 layout_mode = 2
 
 [node name="HandSlotUI" parent="Control" instance=ExtResource("5_kwpgd")]
 unique_name_in_owner = true
 visible = false
+custom_minimum_size = Vector2(64, 64)
 layout_mode = 0
 offset_left = 534.0
 offset_top = 115.0

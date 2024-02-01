@@ -15,6 +15,7 @@ func _init(wait_time:float=1):
 	_time = 0
 
 func start(time_sec:float=-1):
+	_time = 0
 	if time_sec > 0:
 		_wait_time = time_sec
 		_stoped = false
