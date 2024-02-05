@@ -25,7 +25,7 @@ func _ready():
 	
 	## add collision and selection
 	var collision_layer = 0
-	
+
 	for id in data:
 		var item_data = data[id]
 		var alternative_tile = 0
@@ -58,13 +58,13 @@ func get_tilemap_layer(layer_name:String):
 			return layer
 
 
-func construct_entity(item_id:String, coords:Vector2i, direction:int=0):
-	var tilemap_data = DatatableManager.get_tilemap_data_by(item_id)
+func construct_entity(id:int, coords:Vector2i, direction:int=0):
+	var tilemap_data = DatatableManager.get_tilemap_data_by(id)
 	var tile_rotate = 0 if not tilemap_data.rotatable else tile_rotations[direction]
 	set_cell(entity_layer, coords, tilemap_data.source_id, tilemap_data.atlas_coords, tile_rotate)
 	
-func deconstruct_entity(item_id:String, coords:Vector2i):
-	var tilemap_data = DatatableManager.get_tilemap_data_by(item_id)
+func deconstruct_entity(id:int, coords:Vector2i):
+	var tilemap_data = DatatableManager.get_tilemap_data_by(id)
 	set_cell(entity_layer, coords, tilemap_data.source_id, Vector2i(-1,-1))
 
 ## Utils

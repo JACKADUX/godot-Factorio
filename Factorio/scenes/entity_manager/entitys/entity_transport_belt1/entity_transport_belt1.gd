@@ -29,28 +29,19 @@ var _bits = 0  # -> 0000
 var insert_first = 8
 # 位运算？
 
-func has_item_in_bit(index:SlotIndex):
-	return (_bits & 1 << (index - 1)) > 0
-
-func set_item_in_bit(index:SlotIndex):
-	return _bits | 1 << (index - 1)
-
-func get_item_in_bit(index:SlotIndex):
-	return _bits & ~( 1 << (index - 1))
-	
 
 func move_belt():
 	pass
 	
-func _init():
+
+func _init(id:int):
+	super(id)
 	is_worker = true
 	construct_notification = true
 	deconstruct_notification = true
 	_WSC = WorkStateComponent.new()
 	add_component(_WSC)
 
-func get_item_id() -> String:
-	return "TRANSPORT_BELT_1"
 
 func get_entity_data() -> Dictionary:
 	var data = super()

@@ -9,7 +9,7 @@ var _components := []
 
 var _constructed:= false
 
-var item_id :String = "" : get=get_item_id
+var id :int = 0
 var coords:=Vector2i.ZERO  # cell
 var size:=Vector2i.ZERO  # cell
 var direction:int= 0
@@ -18,13 +18,15 @@ var is_worker:= false
 var construct_notification := false
 var deconstruct_notification := false
 
-func get_item_id() -> String:
-	assert('entity should override this function')
-	return ""
+func _init(id:int):
+	self.id = id
+
+func get_item_id() -> int:
+	return id
 
 func get_entity_data() -> Dictionary:
 	var data = {}
-	data["id"] = item_id
+	data["id"] = id
 	data["coords"] = coords
 	data["size"] = size
 	data["direction"] = direction

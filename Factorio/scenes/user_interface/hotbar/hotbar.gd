@@ -2,9 +2,8 @@ class_name Hotbar extends Inventory
 
 signal hotbar_changed
 
-func _init(number:int=0) :
+func _init(number:int=0):
 	super(number)
-	remove_empty_slot = false
 
 func _feed_data():
 	var Items = DatatableManager.base_items
@@ -15,8 +14,8 @@ func _feed_data():
 	set_hotbar_item(4, Items.TRANSPORT_BELT_1)
 	set_hotbar_item(5, Items.INSERTER_1)
 	
-func set_hotbar_item(index:int, item_id:String):
-	add_slot(InventorySlot.new(item_id, 0), index)
+func set_hotbar_item(index:int, id:int):
+	override_slot(index, id, 0)
 	hotbar_changed.emit()
 	
 func remove_hotbar_item(index:int):
@@ -26,24 +25,24 @@ func remove_hotbar_item(index:int):
 	
 func update_hotbar(inventory:Inventory):
 	var data = inventory.get_amount_data()
-	for slot:InventorySlot in get_valid_slots():
-		var item = slot.get_id()
-		var amount = data[item] if data.has(item) else 0
-		slot.set_amount(amount)
+	for slot in get_slots():
+		var id = slot[0]
+		var amount = data[id] if data.has(id) else 0
+		slot[1] = amount
 	
 func interact_with_hotbar(index:int, hand_inventory:Inventory, inventory:Inventory):
-	var hotbar_slot:InventorySlot = get_slot(index)
-	var hand_slot:InventorySlot = hand_inventory.get_slot(0)
+	var hotbar_slot:Array[int] = get_slot(index)
+	var hand_slot:Array[int] = hand_inventory.get_slot(0)
 	if not hotbar_slot and not hand_slot:
 		return 
 	elif not hotbar_slot:
-		set_hotbar_item(index, hand_slot.get_id())
+		set_hotbar_item(index, hand_slot[0])
 	elif not hand_slot:
-		Inventory.transfer(inventory, hotbar_slot.get_id(), -1, hand_inventory)
+		Inventory.transfer(inventory, hotbar_slot[0], -1, hand_inventory)
 	else:
-		Inventory.transfer(hand_inventory, hand_slot.get_id(), -1, inventory)
-		if not hotbar_slot.is_same_id(hand_slot):
-			Inventory.transfer(inventory, hotbar_slot.get_id(), -1, hand_inventory)
+		Inventory.transfer(hand_inventory, hand_slot[0], -1, inventory)
+		if hotbar_slot[0] != hand_slot[0]:
+			Inventory.transfer(inventory, hotbar_slot[0], -1, hand_inventory)
 
 			
 			

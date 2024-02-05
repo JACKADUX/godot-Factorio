@@ -89,7 +89,8 @@ func _on_slot_pressed(index:int, inventory:Inventory):
 	## NOTE:此方法用于处理与slot交互时的事件
 	match Globals.button_index:
 		MOUSE_BUTTON_LEFT:
-			Inventory.interact(Globals.hand_inventory, 0, inventory, index)
+			#Inventory.interact(Globals.hand_inventory, 0, inventory, index)
+			pass
 
 func _on_player_invetory_changed(player_inventory:PlayerInventory):
 	player_inventory_ui._update(player_inventory)

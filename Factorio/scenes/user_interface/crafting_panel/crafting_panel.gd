@@ -15,7 +15,7 @@ func _ready():
 	_initialize()
 	
 func _feed_data():
-	var Items = DatatableManager.item_datas
+	var Items = DatatableManager.base_items
 	carft_items = [
 		[Items.COAL, Items.IRON_ORE],
 		[Items.IRON_CHEST, Items.TRANSPORT_BELT_1, Items.INSERTER_1],
@@ -27,13 +27,13 @@ func _initialize():
 	for items in carft_items:
 		var hbox_container = HBoxContainer.new()
 		add_child(hbox_container)
-		for item_data in items:
+		for id in items:
 			var slot:CraftItemSlot = slot_packed_scene.instantiate()
 			hbox_container.add_child(slot)
 			var count = 1
-			slot.set_item(item_data.id, count)
+			slot.set_item(id, count)
 			slot.pressed.connect(func():
-				slot_pressed.emit(item_data.id, count)
+				slot_pressed.emit(id, count)
 				)
 			
 

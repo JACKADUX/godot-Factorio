@@ -1,4 +1,4 @@
-class_name Inventory
+class_name InventoryOld
 
 signal inventory_changed
 
@@ -108,47 +108,47 @@ func _on_slot_changed(slot:InventorySlot):
 		inventory_changed.emit()
 
 
-## Statics
-static func interact(inventory:Inventory, index:int, other_inventory:Inventory, other_index:int) -> bool:
-	var slot: InventorySlot = inventory.get_slot(index)
-	var other_slot:InventorySlot = other_inventory.get_slot(other_index)
-	if not slot and not other_slot:
-		return false
-	elif not slot:	
-		slot = InventorySlot.new(other_slot.get_id(), other_slot.get_amount())
-		inventory.add_slot(slot, index)
-		other_slot.clear()
-	elif not other_slot:
-		other_slot = InventorySlot.new(slot.get_id(), slot.get_amount())
-		other_inventory.add_slot(other_slot, other_index)
-		slot.clear()
-	else:
-		if slot.can_exchange(other_slot):
-			slot.exchange(other_slot)
-		elif slot.can_stack(other_slot):
-			slot.stack_to(other_slot)
-	return true
-	
-static func transfer(from_inventroy:Inventory, id:String, request_amount:int, to_inventory:Inventory):
-	## 当 request_amount < 0 时， request_amount 就等于第一个 id slot 的 amount
-	if request_amount == 0:
-		return 
-	var slots = from_inventroy.find_slots(id)
-	if not slots:
-		return 
-	if request_amount < 0:
-		request_amount = slots[0].get_amount()
-		 
-	for slot:InventorySlot in slots:
-		var amount = slot.get_amount()
-		var transfer_amount = request_amount if request_amount < amount else amount
-		request_amount -= transfer_amount
-		var res = to_inventory.input(id, transfer_amount)
-		if not res:
-			break
-		slot.set_amount(amount-transfer_amount)
-		if request_amount <= 0:
-			break
+### Statics
+#static func interact(inventory:Inventory, index:int, other_inventory:Inventory, other_index:int) -> bool:
+	#var slot: InventorySlot = inventory.get_slot(index)
+	#var other_slot:InventorySlot = other_inventory.get_slot(other_index)
+	#if not slot and not other_slot:
+		#return false
+	#elif not slot:	
+		#slot = InventorySlot.new(other_slot.get_id(), other_slot.get_amount())
+		#inventory.add_slot(slot, index)
+		#other_slot.clear()
+	#elif not other_slot:
+		#other_slot = InventorySlot.new(slot.get_id(), slot.get_amount())
+		#other_inventory.add_slot(other_slot, other_index)
+		#slot.clear()
+	#else:
+		#if slot.can_exchange(other_slot):
+			#slot.exchange(other_slot)
+		#elif slot.can_stack(other_slot):
+			#slot.stack_to(other_slot)
+	#return true
+	#
+#static func transfer(from_inventroy:Inventory, id:String, request_amount:int, to_inventory:Inventory):
+	### 当 request_amount < 0 时， request_amount 就等于第一个 id slot 的 amount
+	#if request_amount == 0:
+		#return 
+	#var slots = from_inventroy.find_slots(id)
+	#if not slots:
+		#return 
+	#if request_amount < 0:
+		#request_amount = slots[0].get_amount()
+		 #
+	#for slot:InventorySlot in slots:
+		#var amount = slot.get_amount()
+		#var transfer_amount = request_amount if request_amount < amount else amount
+		#request_amount -= transfer_amount
+		#var res = to_inventory.input(id, transfer_amount)
+		#if not res:
+			#break
+		#slot.set_amount(amount-transfer_amount)
+		#if request_amount <= 0:
+			#break
 
 
 

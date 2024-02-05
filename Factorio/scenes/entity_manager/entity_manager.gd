@@ -17,25 +17,25 @@ func _ready():
 
 func _feed_data():
 	var Items = DatatableManager.base_items
-	var e = new_entity("IRON_CHEST")
+	var e = new_entity(Items.IRON_CHEST)
 	e.coords = Vector2i(5,5)
 	e.inventory.input(Items.COAL, 100)
 	add_entity(e)
 	
-	e = new_entity("INSERTER_1")
+	e = new_entity(Items.INSERTER_1)
 	e.coords = Vector2i(6,5)
 	add_entity(e)
 	
-	e = new_entity("IRON_CHEST")
+	e = new_entity(Items.IRON_CHEST)
 	e.coords = Vector2i(7,5)
 	e.inventory.input(Items.IRON_ORE, 100)
 	add_entity(e)
 	
-	e = new_entity("MINING_DRILL")
+	e = new_entity(Items.MINING_DRILL)
 	e.coords = Vector2i(9,5)
 	add_entity(e)
 	
-	e = new_entity("TRANSPORT_BELT_1")
+	e = new_entity(Items.TRANSPORT_BELT_1)
 	e.coords = Vector2i(9,3)
 	add_entity(e)
 
@@ -46,22 +46,23 @@ func _process(delta):
 func get_entities():
 	return entities
 		
-func new_entity(item_id:String):
+func new_entity(id:int):
 	var _entity :BaseEntity
-	match item_id:
-		"IRON_CHEST":
-			_entity = EntityIronChest.new()
-		"INSERTER_1":
-			_entity = EntityInserter1.new()
-		"MINING_DRILL":
-			_entity = EntityMiningDrill.new()
-		"TRANSPORT_BELT_1":
-			_entity = EntityTransportBelt1.new()
+	var Items = DatatableManager.base_items
+	match id:
+		Items.IRON_CHEST:
+			_entity = EntityIronChest.new(id)
+		Items.INSERTER_1:
+			_entity = EntityInserter1.new(id)
+		Items.MINING_DRILL:
+			_entity = EntityMiningDrill.new(id)
+		Items.TRANSPORT_BELT_1:
+			_entity = EntityTransportBelt1.new(id)
 		
 	if not _entity:
-		push_error("_entity not exists. %s" % item_id)
+		push_error("_entity not exists. %s" % id)
 		return 
-	_entity.size = DatatableManager.get_tilemap_data_by(item_id).size
+	_entity.size = DatatableManager.get_tilemap_data_by(id).size
 	return _entity
 
 func add_entity(value:BaseEntity):

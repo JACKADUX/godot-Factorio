@@ -24,7 +24,7 @@ func _update(inventory:Inventory):
 		return
 	for index in inventory.size():
 		var hotbar_slot = get_child(index)
-		var slot :InventorySlot = inventory.get_slot(index)
+		var slot := inventory.get_slot(index)
 		if not slot:
 			hotbar_slot.set_empty()
 		else:

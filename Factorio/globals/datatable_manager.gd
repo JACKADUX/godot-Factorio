@@ -9,11 +9,12 @@ signal load_complated
 var excel_data := {}
 
 var item_type := {} # { "NATURAL_RESOURCES": 1, "LOGISTICS": 2, "PRODUCTIONS": 3, "INTERMEDIA_PRODUCTS": 4 }
-var item_datas := {}  # { "COAL": { "id": "COAL", "name": "coal", "type": 1 , "texture": load }
-var base_items := {}
+var item_datas := {}  # { 1001: { "id": "COAL", "real_id":1001 "name": "coal", "type": 1 , "texture": load }
+var base_items := {}  # { "COAL" : 1001 }
+
 
 func _ready():
-	pass
+	load_resource()
 
 func load_resource():
 	var table_path = AssetUtility.get_datatable_path("datatable.xlsx")
@@ -24,40 +25,49 @@ func load_resource():
 		item_type = {}
 		for id in item_type_datas:
 			item_type[id] = item_type_datas[id].id
-			
 		
-	item_datas = excel_data.get("items", {})
-	if item_datas:
+	var items = excel_data.get("items", {})
+	item_datas = {}
+	if items:
 		base_items = {}
-		for id in item_datas:
-			base_items[id] = id
+		for id in items:
+			var real_id = items[id].real_id
+			base_items[id] = real_id
 			## load base_item
-			var item_data = item_datas[id]
+			var item_data = items[id]
 			var file_name = item_data.name.replace(" ","_")  # iron_ore
 			
 			var path = AssetUtility.get_atlas_texture_resource_path(file_name)
 			if FileAccess.file_exists(path):
 				item_data.texture = load(path)
+			item_datas[real_id] = item_data
+			
 	load_complated.emit()
 	
 ## Interface
-func get_item_name(id:String):
+func get_item_string_id(id:int):
+	return DatatableManager.item_datas[id].id
+	
+func get_item_name(id:int):
 	return DatatableManager.item_datas[id].name
 	
-func get_item_type(id:String):
+func get_item_type(id:int):
 	return DatatableManager.item_datas[id].type
 	
-func get_item_texture(id:String):
+func get_item_texture(id:int):
 	return DatatableManager.item_datas[id].texture
 
-func is_item_constructable(id:String):
+func is_item_constructable(id:int):
 	return DatatableManager.item_datas[id].constructable
+
+func get_item_max_count(id:int):
+	return 128
 
 func get_tilemap_data():
 	if excel_data.has("tilemap"):
 		return excel_data["tilemap"]
 
-func get_tilemap_data_by(id:String):
+func get_tilemap_data_by(id:int):
 	"""
 	{ 
 		"id": "MINING_DRILL", 
@@ -72,18 +82,21 @@ func get_tilemap_data_by(id:String):
 		"rotatable": bool
 	}
 	"""
+	var string_id = get_item_string_id(id)
 	if excel_data.has("tilemap"):
 		var data = excel_data["tilemap"]
-		if data.has(id):
-			return data[id]
+		if data.has(string_id):
+			return data[string_id]
 
-func is_fuel(id:String):
-	return id in excel_data.get("fuel").keys()
+func is_fuel(id:int):
+	var string_id = get_item_string_id(id)
+	return string_id in excel_data.get("fuel").keys()
 
-func get_fuel_value(id:String):
+func get_fuel_value(id:int):
+	var string_id = get_item_string_id(id)
 	# 单位是 MJ
 	if is_fuel(id):
-		return excel_data.get("fuel")[id].value
+		return excel_data.get("fuel")[string_id].value
 
 func get_fuel_time(fuel_value:int, max_consumption:int):
 	# 1 MJ = 1,000,000 J

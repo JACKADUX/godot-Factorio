@@ -18,7 +18,8 @@ var _idle_duration:float = 0.5
 
 var _WSC : WorkStateComponent
 
-func _init():
+func _init(id:int):
+	super(id)
 	is_worker = true
 	construct_notification = true
 	deconstruct_notification = true
@@ -27,9 +28,6 @@ func _init():
 	add_component(_WSC)
 	
 ## Overrides
-func get_item_id() -> String:
-	return "INSERTER_1"
-
 func get_entity_data() -> Dictionary:
 	var data = super()
 	data["inventory"] = _inventory
@@ -103,10 +101,10 @@ func _start_insert():
 		return 
 	if not _input_invantory:
 		return
-	var _slots = _input_invantory.get_valid_slots()
+	var _slots = _input_invantory.get_slots()
 	if not _slots:
 		return 
-	Inventory.transfer(_input_invantory, _slots[0].get_id(), _transfer_count, _inventory)
+	Inventory.transfer(_input_invantory, _slots[0][0], _transfer_count, _inventory)
 	if not _inventory.get_slot(0):
 		return 
 	_WSC.to_busy_state()
@@ -124,7 +122,7 @@ func _end_insert():
 		return 
 	if not _output_invantory:
 		return
-	Inventory.transfer(_inventory, slot.get_id(), slot.get_amount(), _output_invantory)
+	Inventory.transfer(_inventory, slot[0], slot[1], _output_invantory)
 	if _inventory.get_slot(0):
 		return 
 	_WSC.to_idle_state()

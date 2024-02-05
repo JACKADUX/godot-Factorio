@@ -15,12 +15,11 @@ func _feed_data():
 	input(Items.TRANSPORT_BELT_1, 2)
 	_auto_arrange()
 	inventory_changed.emit()
-
+	
 ## Utils
 func _auto_arrange():
-	_sort(func(a,b):
-			return DatatableManager.get_item_type(a) < DatatableManager.get_item_type(b)
-	)
+	# 直接比较id 进行排序
+	_sort(func(a,b): return a < b)
 
 	
 	

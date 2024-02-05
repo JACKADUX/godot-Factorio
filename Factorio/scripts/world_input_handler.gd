@@ -60,7 +60,7 @@ func _on_handle_input():
 					return 
 			var hand_slot = Globals.hand_inventory.get_slot(0)
 			if _constructable and hand_slot :
-				var id = hand_slot.get_id()
+				var id = hand_slot[0]
 				if not DatatableManager.is_item_constructable(id):
 					return
 				var player_inventory = Globals.player_inventory
@@ -90,7 +90,7 @@ func _unhandled_key_input(event):
 			if not hand_slot and hovered_entity:
 				Inventory.transfer(Globals.player_inventory, hovered_entity.get_item_id(), -1, Globals.hand_inventory)
 			elif hand_slot:
-				Inventory.transfer(Globals.hand_inventory, hand_slot.get_id(), -1, Globals.player_inventory)
+				Inventory.transfer(Globals.hand_inventory, hand_slot[0], -1, Globals.player_inventory)
 			
 ##
 func _update_data():
@@ -109,10 +109,10 @@ func _on_wheel_scrolled(value):
 func _on_hand_inventory_changed(inventory:Inventory):
 	construct_entity_size = Vector2.ZERO
 	_display_entity.hide()
-	var slots = inventory.get_valid_slots()
+	var slots = inventory.get_slots()
 	if not slots:
 		return 
-	var item_id :String = slots[0].get_id()
+	var item_id :int = slots[0][0]
 	var tilemap_data = DatatableManager.get_tilemap_data_by(item_id)
 	if not tilemap_data:
 		return 

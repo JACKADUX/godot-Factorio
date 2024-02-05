@@ -4,7 +4,6 @@ signal slot_pressed(index:int)
 
 @export var INVENTORY_SLOT_UI_PACKED :PackedScene
 
-
 ## Utils
 func _initialize(inventory:Inventory):
 	var count = inventory.size()

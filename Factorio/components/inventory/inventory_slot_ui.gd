@@ -8,11 +8,10 @@ func _ready():
 	set_empty()
 		
 ## Interface
-func set_slot(slot:InventorySlot):
-	_set_count(slot.get_amount())
-	var item_id = slot.get_id()
-	_set_texture(DatatableManager.get_item_texture(item_id))
-	_set_name(DatatableManager.get_item_name(item_id))
+func set_slot(slot:Array[int]):
+	_set_count(slot[1])
+	_set_texture(DatatableManager.get_item_texture(slot[0]))
+	_set_name(DatatableManager.get_item_name(slot[0]))
 
 func set_empty():
 	_set_count(0)

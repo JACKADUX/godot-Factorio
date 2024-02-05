@@ -55,7 +55,7 @@ func update(entity:BaseEntity):
 	show()
 	var data = _prev.get_entity_data()
 	
-	label.text = data.id
+	label.text = DatatableManager.get_item_string_id(data.id)
 	inventory_h_box_container.visible = data.has("inventory")
 	input_inventory_h_box_container.visible = data.has("input_inventory")
 	fuel_inventory_h_box_container.visible = data.has("fuel_inventory")
