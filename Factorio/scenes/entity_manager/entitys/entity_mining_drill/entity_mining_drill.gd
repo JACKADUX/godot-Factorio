@@ -85,7 +85,7 @@ func _entity_notification(msg, what:NotificationType):
 		NotificationType.Work:
 			#msg = delta 
 			if _WSC.is_idle_state():
-				_idel()
+				_idel_work()
 				return 
 				
 			if _fuel_timer.is_stoped():
@@ -116,7 +116,7 @@ func _feed_fuel() -> bool:
 	return true
 
 
-func _idel():
+func _idel_work():
 	# 没矿 -> 空闲
 	## FIXME: 在矿挖完后可以断开 _entity_notification 避免无效调用
 	_id = ""

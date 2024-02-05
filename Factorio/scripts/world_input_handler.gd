@@ -7,84 +7,59 @@ extends InputHandler
 
 
 @onready var _display_entity = %DisplayEntity
-@onready var _tilemap_entity_detect_area = %TilemapEntityDetectArea
-@onready var _detection_collision:= _tilemap_entity_detect_area.get_child(0)
-@onready var _tilemap_cell_hovered_area = %TilemapCellHoveredArea
-@onready var _selection_collision:= _tilemap_cell_hovered_area.get_child(0)
 @onready var _selection_box = %SelectionBox
 
 @onready var entity_information_panle = %EntityInformationPanle
 
 var current_cell_coords:Vector2i
-var current_cell_position:Vector2
 
-var building_cell_size:Vector2i
-var building_cell_coords:Vector2i
-var building_cell_position:Vector2
+var hovered_entity:BaseEntity
+var construct_entity_size:Vector2i
+var construct_entity_coords:Vector2i
+var _constructable := false
+
 var building_direction_index: int = 0:
 	get: return building_direction_index %4
 
 var _curruent_item_rotatable := false
 
-var _detect_collision_count : int = 0
-var _hover_entity_coords:Vector2i
+
 
 func _ready():
 	Globals.hand_inventory.inventory_changed.connect(_on_hand_inventory_changed.bind(Globals.hand_inventory))
 	mouse_state_changed.connect(_on_handle_input)
 	wheel_scrolled.connect(_on_wheel_scrolled)
 	
-	_tilemap_entity_detect_area.body_shape_entered.connect(_on_entity_collision_shape_entered)
-	_tilemap_entity_detect_area.body_shape_exited.connect(_on_entity_collision_shape_exited)
-	_tilemap_cell_hovered_area.body_shape_entered.connect(_on_entity_selection_shape_entered)
-	_tilemap_cell_hovered_area.body_shape_exited.connect(_on_entity_selection_shape_exited)
-	_selection_collision.shape.size = Globals.GridSizeVector*0.8
-	
 	entity_manager.entity_constructed.connect(
 		func(data): main_tile_map.construct_entity(data.id, data.coords, data.direction)
 	)
 	entity_manager.entity_deconstructed.connect(
-		func(data):main_tile_map.deconstruct_entity(data.coords)	
+		func(data):main_tile_map.deconstruct_entity(data.id, data.coords)	
 	)
 
-	
-func _process(delta):
-	_selection_collision.global_position = current_cell_position + Globals.GridSizeHalfVector
-	_detection_collision.global_position = building_cell_position + building_cell_size*Globals.GridSizeHalf
-	
-	## display_entity
-	var _dis_sqr = _display_entity.global_position.distance_squared_to(building_cell_position)
-	if _dis_sqr > 2000:
-		## NOTE: 解决鼠标起始位置过远时的延迟问题
-		_display_entity.global_position = building_cell_position
-	else:
-		_display_entity.global_position = _display_entity.global_position.lerp(building_cell_position, 0.6)
-	if _detect_collision_count != 0:
-		_display_entity.modulate = Color(1,0,0, 0.6)
-	else:
-		_display_entity.modulate = Color(0,1,0, 0.6)
-	
-	
+
 func _unhandled_input(event):
 	handled_input(event)
 	
 func _on_handle_input():
 	## NOTE: _unhandled_input
+	if is_pressed_and_move():
+		if button_index == MOUSE_BUTTON_MIDDLE:
+			main_camera.set_world_offset(end_position -start_position)
+	
 	_update_data()
+	_check_construct_entity()
+	
 	if is_just_pressed():
 		if button_index == MOUSE_BUTTON_LEFT:
-			if _hover_entity_coords:
-				var entity :BaseEntity = entity_manager.get_entity_by_coords(_hover_entity_coords)
-				if not entity:
-					return 
-				print("entity selected:", entity.get_item_id())
-				var data = entity.get_entity_data()
+			if hovered_entity:
+				print("entity selected:", hovered_entity.get_item_id())
+				var data = hovered_entity.get_entity_data()
 				if data.has("inventory"):
 					user_interface._show_chest(data.inventory)
-					
-			var hand_inventory = Globals.hand_inventory
-			var hand_slot = hand_inventory.get_slot(0)
-			if _detect_collision_count == 0 and hand_slot :
+					return 
+			var hand_slot = Globals.hand_inventory.get_slot(0)
+			if _constructable and hand_slot :
 				var id = hand_slot.get_id()
 				if not DatatableManager.is_item_constructable(id):
 					return
@@ -92,25 +67,17 @@ func _on_handle_input():
 				var entity = entity_manager.new_entity(id)
 				if not entity:
 					return 
-				entity.coords = building_cell_coords
+				entity.coords = construct_entity_coords
 				entity.direction = building_direction_index
 				entity_manager.add_entity(entity)	
 				print("entity created")
 				
-			
-				
-		elif button_index == MOUSE_BUTTON_RIGHT:
-			if _hover_entity_coords:
-				print("entity deleted")
-				var entity = entity_manager.get_entity_by_coords(building_cell_coords)
-				if not entity:
-					return 
-				entity_manager.remove_entity(entity)
-				
-	if is_pressed_and_move():
-		if button_index == MOUSE_BUTTON_MIDDLE:
-			main_camera.set_world_offset(end_position -start_position)
 
+		elif button_index == MOUSE_BUTTON_RIGHT:
+			if hovered_entity:
+				entity_manager.remove_entity(hovered_entity)
+				print("entity deleted")
+				
 func _unhandled_key_input(event):
 	if event is InputEventKey:
 		if event.is_pressed() and event.keycode == KEY_R: # 旋转
@@ -120,28 +87,27 @@ func _unhandled_key_input(event):
 			
 		elif event.is_pressed() and event.keycode == KEY_Q: # 拿起/放回物品
 			var hand_slot = Globals.hand_inventory.get_slot(0)
-			if not hand_slot and _hover_entity_coords:
-				var item_id = main_tile_map.get_item_id_from(_hover_entity_coords)
-				Inventory.transfer(Globals.player_inventory, item_id, -1, Globals.hand_inventory)
+			if not hand_slot and hovered_entity:
+				Inventory.transfer(Globals.player_inventory, hovered_entity.get_item_id(), -1, Globals.hand_inventory)
 			elif hand_slot:
 				Inventory.transfer(Globals.hand_inventory, hand_slot.get_id(), -1, Globals.player_inventory)
 			
-
 ##
 func _update_data():
-	current_cell_coords = floor(current_position/Globals.GridSize)
-	current_cell_position = current_cell_coords*Globals.GridSize
-	if building_cell_size:
-		building_cell_coords = main_tile_map.get_building_coords(current_position, building_cell_size)
-		building_cell_position = building_cell_coords*Globals.GridSize
-
+	var new_coords = Vector2i(floor(current_position/Globals.GridSize))
+	if new_coords == current_cell_coords:
+		return 
+	current_cell_coords = new_coords
+	_check_hovered_entity()
+	
+	
 ## OnSignals:
-
 func _on_wheel_scrolled(value):
-	_update_data()
 	main_camera.wheel_scrolled(value)
+	_update_data()
 
 func _on_hand_inventory_changed(inventory:Inventory):
+	construct_entity_size = Vector2.ZERO
 	_display_entity.hide()
 	var slots = inventory.get_valid_slots()
 	if not slots:
@@ -150,7 +116,6 @@ func _on_hand_inventory_changed(inventory:Inventory):
 	var tilemap_data = DatatableManager.get_tilemap_data_by(item_id)
 	if not tilemap_data:
 		return 
-	
 	_curruent_item_rotatable = tilemap_data.rotatable
 	if not _curruent_item_rotatable:
 		_display_entity.rotation_degrees = 0
@@ -159,45 +124,33 @@ func _on_hand_inventory_changed(inventory:Inventory):
 	_display_entity.show()
 	_display_entity.texture = DatatableManager.item_datas[item_id].texture
 	
-	building_cell_size = tilemap_data.size 
-	_detection_collision.shape.size = building_cell_size*Globals.GridSize*0.8
+	construct_entity_size = tilemap_data.size 
 	_update_data()
 
 
-# --------------------- Area2D
-func _on_entity_collision_shape_entered(body_rid, tile_map:TileMap, body_shape_index, local_shape_index):
-	if not tile_map is MainTileMap:
+func _check_hovered_entity():
+	var entity = entity_manager.get_entity_by_coords(current_cell_coords)
+	if entity == hovered_entity:
+		return 
+	hovered_entity = entity
+	if not entity:
+		_selection_box.hide()
+		entity_information_panle.update(null)
 		return
-	_detect_collision_count += 1
-		
-func _on_entity_collision_shape_exited(body_rid, tile_map:TileMap, body_shape_index, local_shape_index):
-	if not tile_map is MainTileMap:
-		return
-	_detect_collision_count -= 1
-
-func _on_entity_selection_shape_entered(body_rid, tile_map:TileMap, body_shape_index, local_shape_index):
-	if not tile_map is MainTileMap:
-		return
-	_hover_entity_coords = tile_map.get_coords_for_body_rid(body_rid)
 	_selection_box.show()
-	_selection_box.global_position = _hover_entity_coords*Globals.GridSize
-	var item_id = main_tile_map.get_item_id_from(_hover_entity_coords)
-	var tilemap_data = DatatableManager.get_tilemap_data_by(item_id)
-	_selection_box.size = tilemap_data.size*Globals.GridSize
-	
+	_selection_box.size = hovered_entity.size*Globals.GridSize
+	_selection_box.global_position = hovered_entity.coords*Globals.GridSize
 	## debug
-	var entity = entity_manager.get_entity_by_coords(_hover_entity_coords)
 	entity_information_panle.update(entity)
 	
-func _on_entity_selection_shape_exited(body_rid, tile_map:TileMap, body_shape_index, local_shape_index):
-	if not tile_map is MainTileMap:
-		return
-	#_hover_entity_coords = tile_map.get_coords_for_body_rid(body_rid)
-	_selection_box.hide()
-	_hover_entity_coords = Vector2i.ZERO
-	
-	## debug
-	entity_information_panle.update(null)
+func _check_construct_entity():
+	construct_entity_coords = entity_manager.get_construct_coords(current_position, construct_entity_size)
+	_display_entity.global_position = construct_entity_coords*Globals.GridSize
+	_constructable = not entity_manager.has_intersect_entities(Rect2i(construct_entity_coords, construct_entity_size))
+	if not _constructable:
+		_display_entity.modulate = Color(1,0,0, 0.6)
+	else:
+		_display_entity.modulate = Color(0,1,0, 0.6)
 
 
 

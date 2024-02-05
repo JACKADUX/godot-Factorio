@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bi863lihnahse"
-path="res://.godot/imported/tilemap-belt-animation-Sheet2.png-be2958bf56781dfe96c32d942aff7cb2.ctex"
+path="res://.godot/imported/transport_belt1.png-4e11559433ba6c1fafd5bd4354ff9e94.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resource/graphics/tilemap-belt-animation-Sheet2.png"
-dest_files=["res://.godot/imported/tilemap-belt-animation-Sheet2.png-be2958bf56781dfe96c32d942aff7cb2.ctex"]
+source_file="res://resource/graphics/transport_belt1.png"
+dest_files=["res://.godot/imported/transport_belt1.png-4e11559433ba6c1fafd5bd4354ff9e94.ctex"]
 
 [params]
 

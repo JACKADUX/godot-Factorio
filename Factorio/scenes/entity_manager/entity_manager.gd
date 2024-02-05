@@ -34,6 +34,10 @@ func _feed_data():
 	e = new_entity("MINING_DRILL")
 	e.coords = Vector2i(9,5)
 	add_entity(e)
+	
+	e = new_entity("TRANSPORT_BELT_1")
+	e.coords = Vector2i(9,3)
+	add_entity(e)
 
 func _process(delta):
 	_work_notification.emit(delta)
@@ -51,6 +55,8 @@ func new_entity(item_id:String):
 			_entity = EntityInserter1.new()
 		"MINING_DRILL":
 			_entity = EntityMiningDrill.new()
+		"TRANSPORT_BELT_1":
+			_entity = EntityTransportBelt1.new()
 		
 	if not _entity:
 		push_error("_entity not exists. %s" % item_id)
@@ -94,9 +100,56 @@ func remove_entity(value:BaseEntity):
 			value._entity_notification.bind(BaseEntity.NotificationType.Deconstruct)
 			)
 		
-func get_entity_by_coords(entity_coords:Vector2i):
+func get_entity_by_coords(coords:Vector2i):
 	for entity in get_entities():
-		var coords = entity.coords
-		if coords == entity_coords:
+		if coords == entity.coords:
 			return entity
+		if Rect2i(entity.coords, entity.size).has_point(coords):
+			return entity
+
+func get_construct_coords(_position:Vector2, entity_size:Vector2i ) -> Vector2:
+	""" 根据传入的鼠标位置和建筑尺寸(ixj) 返回应该建造的cell coords (左上角)"""
+	var cell_index = Vector2i(floor(_position/Globals.GridSize))
+	var coords = cell_index-entity_size/2
+	if entity_size.x % 2 == 0:
+		if _position.x > (cell_index.x+ 0.5)*Globals.GridSize:
+			coords.x = cell_index.x -(entity_size.x/2-1)
+	if entity_size.y % 2 == 0:
+		if _position.y > (cell_index.y+ 0.5)*Globals.GridSize :
+			coords.y = cell_index.y -(entity_size.y/2-1)
+	return coords
+
+func has_intersect_entities(rect:Rect2i)-> bool:
+	for entity in get_entities():
+		if Rect2i(entity.coords, entity.size).intersects(rect):
+			return true
+	return false
+
+func get_intersect_entities(rect:Rect2i):
+	var entities := []
+	for entity in get_entities():
+		if Rect2i(entity.coords, entity.size).intersects(rect):
+			entities.append(entities)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

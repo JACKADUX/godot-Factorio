@@ -12,6 +12,7 @@ func _feed_data():
 	input(Items.INSERTER_1, 2)
 	input(Items.IRON_CHEST, 2)
 	input(Items.ASSEMBLING_MACHINE_1, 2)
+	input(Items.TRANSPORT_BELT_1, 2)
 	_auto_arrange()
 	inventory_changed.emit()
 

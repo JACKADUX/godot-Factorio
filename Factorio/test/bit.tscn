@@ -1,0 +1,152 @@
+[gd_scene load_steps=2 format=3 uid="uid://cdhcauuf6fn71"]
+
+[ext_resource type="Script" path="res://test/bit.gd" id="1_xcmao"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xcmao")
+
+[node name="LineEdit" type="LineEdit" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 221.0
+offset_top = 181.0
+offset_right = 288.063
+offset_bottom = 212.0
+text = "0"
+
+[node name="LineEdit2" type="LineEdit" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 300.0
+offset_top = 180.0
+offset_right = 367.063
+offset_bottom = 211.0
+text = "0"
+
+[node name="Button" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 223.0
+offset_top = 233.0
+offset_right = 289.0
+offset_bottom = 266.0
+disabled = true
+text = "<<"
+
+[node name="Button2" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 300.0
+offset_top = 232.0
+offset_right = 366.0
+offset_bottom = 265.0
+text = ">>"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 133.0
+offset_top = 281.0
+offset_right = 219.0
+offset_bottom = 304.0
+text = "insert - OR:"
+
+[node name="LineEditOR" type="LineEdit" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 231.0
+offset_top = 277.0
+offset_right = 368.0
+offset_bottom = 308.0
+text = "0"
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 0
+offset_left = 109.0
+offset_top = 330.0
+offset_right = 221.0
+offset_bottom = 353.0
+text = "remove - AND:"
+
+[node name="LineEditAND" type="LineEdit" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 230.0
+offset_top = 325.0
+offset_right = 367.0
+offset_bottom = 356.0
+text = "0"
+
+[node name="Label3" type="Label" parent="."]
+layout_mode = 0
+offset_left = 379.0
+offset_top = 372.0
+offset_right = 491.0
+offset_bottom = 395.0
+text = "result"
+
+[node name="Label4" type="Label" parent="."]
+layout_mode = 0
+offset_left = 109.0
+offset_top = 372.0
+offset_right = 221.0
+offset_bottom = 395.0
+text = "has item index:"
+
+[node name="LineEditHasItem" type="LineEdit" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 232.0
+offset_top = 368.0
+offset_right = 369.0
+offset_bottom = 399.0
+text = "0"
+
+[node name="Label5" type="Label" parent="."]
+layout_mode = 0
+offset_left = 111.0
+offset_top = 414.0
+offset_right = 229.0
+offset_bottom = 437.0
+text = "set item index:"
+
+[node name="LineEditSetItem" type="LineEdit" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 234.0
+offset_top = 410.0
+offset_right = 371.0
+offset_bottom = 441.0
+text = "0"
+
+[node name="Label6" type="Label" parent="."]
+layout_mode = 0
+offset_left = 111.0
+offset_top = 456.0
+offset_right = 229.0
+offset_bottom = 479.0
+text = "get item index:"
+
+[node name="LineEditGetItem" type="LineEdit" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 234.0
+offset_top = 452.0
+offset_right = 371.0
+offset_bottom = 483.0
+text = "0"
+
+[connection signal="text_changed" from="LineEdit" to="." method="_on_line_edit_text_changed"]
+[connection signal="text_changed" from="LineEdit2" to="." method="_on_line_edit_2_text_changed"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
+[connection signal="text_submitted" from="LineEditOR" to="." method="_on_line_edit_or_text_submitted"]
+[connection signal="text_submitted" from="LineEditAND" to="." method="_on_line_edit_and_text_submitted"]
+[connection signal="text_submitted" from="LineEditHasItem" to="." method="_on_line_edit_has_item_text_submitted"]
+[connection signal="text_submitted" from="LineEditSetItem" to="." method="_on_line_edit_set_item_text_submitted"]
+[connection signal="text_submitted" from="LineEditGetItem" to="." method="_on_line_edit_get_item_text_submitted"]

@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Factorio"
 config/tags=PackedStringArray("开源项目")
-run/main_scene="res://main.tscn"
+run/main_scene="res://test/bit.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.png"
 
@@ -61,7 +61,6 @@ mouse_middle={
 
 2d_physics/layer_1="world"
 2d_physics/layer_2="tm_collision"
-2d_physics/layer_3="tm_selection"
 
 [rendering]
 
