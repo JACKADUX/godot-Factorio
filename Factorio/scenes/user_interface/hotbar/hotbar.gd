@@ -7,20 +7,19 @@ func _init(number:int=0):
 
 func _feed_data():
 	var Items = DatatableManager.base_items
-	set_hotbar_item(0, Items.COAL)
-	set_hotbar_item(1, Items.IRON_ORE)
-	set_hotbar_item(2, Items.MINING_DRILL)
-	set_hotbar_item(3, Items.IRON_CHEST)
+	set_hotbar_item(1, Items.COAL)
+	set_hotbar_item(2, Items.IRON_ORE)
+	set_hotbar_item(3, Items.INSERTER_1)
 	set_hotbar_item(4, Items.TRANSPORT_BELT_1)
-	set_hotbar_item(5, Items.INSERTER_1)
+	set_hotbar_item(5, Items.IRON_CHEST)
+	set_hotbar_item(8, Items.MINING_DRILL)
 	
 func set_hotbar_item(index:int, id:int):
-	override_slot(index, id, 0)
+	override_slot(index, id, 1)
 	hotbar_changed.emit()
 	
 func remove_hotbar_item(index:int):
-	var slot = get_slot(index)
-	remove_slot(slot)
+	remove_slot(index)
 	hotbar_changed.emit()
 	
 func update_hotbar(inventory:Inventory):

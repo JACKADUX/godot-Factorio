@@ -31,6 +31,7 @@ func _feed_data():
 	e.inventory.input(Items.IRON_ORE, 100)
 	add_entity(e)
 	
+
 	e = new_entity(Items.MINING_DRILL)
 	e.coords = Vector2i(9,5)
 	add_entity(e)
@@ -38,6 +39,7 @@ func _feed_data():
 	e = new_entity(Items.TRANSPORT_BELT_1)
 	e.coords = Vector2i(9,3)
 	add_entity(e)
+
 
 func _process(delta):
 	_work_notification.emit(delta)

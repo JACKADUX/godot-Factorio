@@ -10,28 +10,80 @@ extends Control
 @onready var line_edit_test = %LineEditTest
 
 func test():
-	print(2**62-1)
-	print(len(int2bin(2**63-1)))
-
+	var a = [1,2,3,4,5]
+	a.insert(1,10)
+	print(a)
+	
+	#
+	#var t = Time.get_ticks_msec()
+	#var v = 2**60-1
+	#print(int2bin(v))
+	#for i in range(10000):
+		#get_index_from(v, 30)
+	#print(Time.get_ticks_msec()-t)
+	#for i in range(10000):
+		#get_index_from_simp(v, 30)
+	#print(Time.get_ticks_msec()-t)
+	
 func _on_line_edit_test_text_submitted(new_text):
 	var value = int(line_edit_1.text)
 	var x = value
 	var count = 0
+	var index = int(line_edit_test.text)
 	print(int2bin(value))
-	while true:
+	print(get_real_index(value, index))
+	#while true:
 		#print(x, " - ", count, " - ", int2bin(x))
+		#x = x&(x-1)
+		#if x == 0:
+			#break
+		#count += 1 
+	#print(get_index_from_simp(value, index))
+	#print(get_index_from(value, index))
+	
+	#print(get_real_index(value, int(line_edit_test.text)))
+
+
+func logWithBase(value, base): 
+	return log(value) / log(base)
+
+
+func get_index_from_simp(number:int, real_index:int):
+	# 是 get_index_from 的 三倍 （10000）
+	var total = -1
+	var count = -1
+	var x = number
+	while true:
+		if count == real_index:
+			break
+		if x == 0:
+			break
+		if (x & 1):
+			count += 1
+		x = x >> 1
+		total += 1
+	return total
+
+func get_index_from(number:int, real_index:int):
+	var count = 0
+	var x = number
+	while true:
+		if count == real_index:
+			break
 		x = x&(x-1)
 		if x == 0:
 			break
 		count += 1 
-	print(get_real_index(value, int(line_edit_test.text)))
+	return log(x & (-x)) / log(2)
 
 
 func get_real_index(number:int, index:int):
 	var count = 0
 	number = number & ((1 << index)-1)
+	if number == 0:
+		return -1
 	while true:
-		print(number, " - ", count, " - ", int2bin(number))
+		#print(number, " - ", count, " - ", int2bin(number))
 		number = number & (number-1)
 		if number == 0:
 			break

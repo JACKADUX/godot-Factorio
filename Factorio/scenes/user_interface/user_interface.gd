@@ -87,10 +87,43 @@ func _show_chest(inventory:Inventory):
 ## OnSignal
 func _on_slot_pressed(index:int, inventory:Inventory):
 	## NOTE:此方法用于处理与slot交互时的事件
+	var hand_inventory := Globals.hand_inventory as Inventory
 	match Globals.button_index:
 		MOUSE_BUTTON_LEFT:
 			#Inventory.interact(Globals.hand_inventory, 0, inventory, index)
-			pass
+			var hand_has_slot = hand_inventory.has_slot(0)
+			var inventory_has_slot = inventory.has_slot(index)
+			if not hand_has_slot and not inventory_has_slot:
+				return
+			elif not inventory_has_slot:
+				var slot = hand_inventory.get_slot(0)
+				inventory.override_slot(index, slot[0], slot[1])
+				hand_inventory.remove_slot(0)
+			elif not hand_has_slot:
+				var slot = inventory.get_slot(index)
+				hand_inventory.override_slot(0, slot[0], slot[1])
+				inventory.remove_slot(index)
+			else:
+				# 两边都有东西 一样的话手上的放下去 否则直接交换
+				var slot = inventory.get_slot(index)
+				var hand_slot = hand_inventory.get_slot(0)
+				if slot[0] == hand_slot[0]:
+					var max_count = DatatableManager.get_item_max_count(slot[0])
+					var target_amount = slot[1]
+					var hand_amount = hand_slot[1]
+					if max_count <= target_amount: # 如果是满的就会交换
+						hand_inventory.override_slot(0, slot[0], slot[1])
+						inventory.override_slot(index, hand_slot[0], hand_slot[1])
+					else:
+						var space_amount = max_count -target_amount
+						var real_transfer = hand_amount if hand_amount <= space_amount else space_amount
+						hand_amount -= real_transfer
+						hand_inventory.override_slot(0, slot[0], hand_amount)
+						inventory.override_slot(index, hand_slot[0], target_amount+real_transfer)
+					
+				else:
+					hand_inventory.override_slot(0, slot[0], slot[1])
+					inventory.override_slot(index, hand_slot[0], hand_slot[1])
 
 func _on_player_invetory_changed(player_inventory:PlayerInventory):
 	player_inventory_ui._update(player_inventory)

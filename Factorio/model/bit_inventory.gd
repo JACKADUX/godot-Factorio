@@ -31,16 +31,21 @@ func get_slot(index:int) -> Array[int]:
 	var r_index = _get_slot_index(index)
 	return _slots[r_index]
 	
-
 func override_slot(index:int, id:int, count:int):
 	assert( 0 <= index and index < _size)
+	if count == 0:
+		remove_slot(index)
+		return 
 	index+=1
 	var slot := new_slot(id, count)
 	var r_index = _get_slot_index(index)
 	if _has_one(index):
 		_slots[r_index] = slot
 	else:
-		_slots.insert(r_index, slot)
+		if r_index + 1 > _slots.size():
+			_slots.append(slot)
+		else:
+			_slots.insert(r_index+1, slot)
 	_bits = _set_one(index)
 	inventory_changed.emit()
 
@@ -61,21 +66,21 @@ func input(id:int, count:int):
 	# 无脑塞进来, 返回无法塞进inventory的数量
 	var max_count = DatatableManager.get_item_max_count(id)
 	var counter_index = 0
-	var before_count = count
 	for i in _size:
 		if count == 0:
 			break
-		if _has_one(i):
+		if _has_one(i+1):
 			# 有物体
-			var slot = get_slot(counter_index)
+			var slot = _slots[counter_index]
+			var slot_id = slot[0]
 			var amount = slot[1]
-			if slot[0] == id:
+			if slot_id == id:
 				var space_left = max_count-amount
 				if count <= space_left:
-					slot[1] += count
+					_set_slot_amount(counter_index, amount+count)
 					count = 0
 				else:
-					slot[1] = max_count
+					_set_slot_amount(counter_index, max_count)
 					count -= space_left
 			counter_index += 1
 		else:
@@ -86,8 +91,6 @@ func input(id:int, count:int):
 			else:
 				override_slot(i, id, count)
 				count = 0
-	if before_count != count:
-		inventory_changed.emit()
 	return count
 
 func get_amount_data() -> Dictionary:
@@ -101,9 +104,8 @@ func get_amount_data() -> Dictionary:
 	return data
 
 
-
-
-
+	
+	
 ## Utils
 func _sort(sort_callable:Callable):
 	# FIXME: 循环引用
@@ -123,6 +125,17 @@ func _sort(sort_callable:Callable):
 			#amount = left
 	pass	
 
+func _set_slot_amount(real_index:int, amount:int):
+	## 暂时不使用，需要 real_index进行内部转换再作为开放接口 否则容易出错
+	assert( 0 <= real_index and real_index < _slots.size())
+	if amount <= 0:
+		# clear
+		var index = _get_slot_bit_index(real_index)
+		remove_slot(index)
+	else:
+		_slots[real_index][1] = amount
+		inventory_changed.emit()
+
 ## Statics
 static func transfer(from_inventroy:Inventory, id:int, request_amount:int, to_inventory:Inventory):
 	## 当 request_amount < 0 时， request_amount 就等于第一个 id slot 的 amount
@@ -133,8 +146,7 @@ static func transfer(from_inventroy:Inventory, id:int, request_amount:int, to_in
 		return 
 	if request_amount < 0:
 		request_amount = slots[0][1]  # slot [id, amount]
-	var before_request_amount = request_amount
-	# 重来！
+
 	for slot in slots:
 		if request_amount == 0:
 			break
@@ -143,11 +155,10 @@ static func transfer(from_inventroy:Inventory, id:int, request_amount:int, to_in
 		var left = to_inventory.input(id, transfer_amount)
 		var real_transfer_amount = transfer_amount-left
 		request_amount -= real_transfer_amount 
-		slot[1] -= real_transfer_amount
+		
+		var index = from_inventroy.get_slots().find(slot)
+		from_inventroy._set_slot_amount(index, amount-real_transfer_amount)
 	
-	if before_request_amount != request_amount:
-		from_inventroy.inventory_changed.emit()
-		to_inventory.inventory_changed.emit()
 	return request_amount  # 多出实际存储量的部分
 
 
@@ -166,6 +177,8 @@ func _get_slot_index(bit_index:int):
 	var count = 0
 	var x = _bits
 	x = x & ((1 << bit_index)-1)  # 保留前index 位
+	if x == 0:
+		return -1
 	while true:
 		x = x & (x-1)
 		if x == 0:
@@ -173,3 +186,17 @@ func _get_slot_index(bit_index:int):
 		count += 1 
 	return count
 	
+func _get_slot_bit_index(real_index:int):
+	# 通过 slot 的 real_index 计算在 _bits 中的 bit_index (从0开始
+	# 10100101  -> real_index == 2
+	# --1-----  -> return 5
+	var count = 0
+	var x = _bits
+	while true:
+		if count == real_index:
+			break
+		x = x&(x-1)
+		if x == 0:
+			break
+		count += 1 
+	return log(x & (-x)) / log(2)
