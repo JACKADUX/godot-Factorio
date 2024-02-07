@@ -1,0 +1,52 @@
+[gd_scene load_steps=3 format=3 uid="uid://cpd03n65rqoyj"]
+
+[ext_resource type="Script" path="res://test/test_bit_belt.gd" id="1_c2r8d"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_epc3j"]
+font_size = 64
+
+[node name="test_bit_belt" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_c2r8d")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 85.0
+offset_right = 148.0
+offset_bottom = 114.0
+text = "add"
+
+[node name="Button2" type="Button" parent="."]
+layout_mode = 0
+offset_left = 159.0
+offset_top = 84.0
+offset_right = 235.0
+offset_bottom = 115.0
+text = "move"
+
+[node name="Button3" type="Button" parent="."]
+layout_mode = 0
+offset_left = 251.0
+offset_top = 84.0
+offset_right = 327.0
+offset_bottom = 115.0
+text = "remove"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 75.0
+offset_top = 147.0
+offset_right = 302.0
+offset_bottom = 235.0
+text = "0000"
+label_settings = SubResource("LabelSettings_epc3j")
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="Button3" to="." method="_on_button_3_pressed"]

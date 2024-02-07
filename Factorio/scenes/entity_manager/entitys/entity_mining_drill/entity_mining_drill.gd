@@ -6,7 +6,7 @@ var _fuel_timer:CustomTimer
 var output_coords:Vector2i:
 	get: return coords + Directions[direction]
 	
-var _input_invantory:Inventory
+var _input_inventory:Inventory
 var _fuel_inventory:Inventory
 var _output_inventory:Inventory
 	
@@ -40,7 +40,7 @@ func _init(id:int):
 
 func get_entity_data() -> Dictionary:
 	var data = super()
-	data["input_inventory"] = _input_invantory
+	data["input_inventory"] = _input_inventory
 	data["output_inventory"] = _output_inventory
 	data["fuel_inventory"] = _fuel_inventory
 	data["productivity_progress"] = productivity_progress*100
@@ -57,8 +57,8 @@ func _get_fuel_progress():
 func construct(_entity_manager):
 	super(_entity_manager)
 	
-	_input_invantory = Inventory.new(1)
-	_input_invantory.input(1001, 100)
+	_input_inventory = Inventory.new(1)
+	_input_inventory.input(1001, 100)
 	
 	_fuel_inventory = Inventory.new(1)
 	_fuel_inventory.input(1001, 100)
@@ -122,7 +122,7 @@ func _idel_work():
 	_work_timer.stop()
 
 func _start_work():
-	var slots = _input_invantory.get_slots()
+	var slots = _input_inventory.get_slots()
 	if not slots:
 		_WSC.to_idle_state()
 		return 
@@ -136,22 +136,22 @@ func _update_work():
 	productivity_progress = _get_progress()*productivity+_extrue_product
 	if productivity_progress >= 1:
 		_extrue_product = 0
-		var slots = _input_invantory.get_slots()
+		var slots = _input_inventory.get_slots()
 		if not slots:
 			_WSC.to_idle_state()
 			return 
 		var count = 1
-		Inventory.transfer(_input_invantory, _id, count, _output_inventory)
+		Inventory.transfer(_input_inventory, _id, count, _output_inventory)
 		
 func _end_work():
-	var slots = _input_invantory.get_slots()
+	var slots = _input_inventory.get_slots()
 	if not slots:
 		_WSC.to_idle_state()
 		return 
 	
 	_extrue_product += productivity
 	var count = 1
-	Inventory.transfer(_input_invantory, _id, count, _output_inventory)
+	Inventory.transfer(_input_inventory, _id, count, _output_inventory)
 	## FIXME: 目标空间满了的情况也要考虑！
 	_WSC.to_start_state()
 

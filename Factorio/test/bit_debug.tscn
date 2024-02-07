@@ -45,7 +45,6 @@ offset_left = 223.0
 offset_top = 233.0
 offset_right = 289.0
 offset_bottom = 266.0
-disabled = true
 text = "<<"
 
 [node name="Button2" type="Button" parent="."]

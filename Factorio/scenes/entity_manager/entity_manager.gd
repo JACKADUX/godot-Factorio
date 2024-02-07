@@ -31,7 +31,6 @@ func _feed_data():
 	e.inventory.input(Items.IRON_ORE, 100)
 	add_entity(e)
 	
-
 	e = new_entity(Items.MINING_DRILL)
 	e.coords = Vector2i(9,5)
 	add_entity(e)

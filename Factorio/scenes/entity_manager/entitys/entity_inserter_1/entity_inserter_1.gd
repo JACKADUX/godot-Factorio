@@ -5,8 +5,8 @@ var input_coords:Vector2i:
 var output_coords:Vector2i:
 	get: return coords + Directions[direction]
 
-var _input_invantory:Inventory
-var _output_invantory:Inventory
+var _input_inventory:Inventory
+var _output_inventory:Inventory
 
 var _inventory:Inventory
 
@@ -85,26 +85,26 @@ func _update_inventory(_entity :BaseEntity): ## FIXME: 需要更好的实现
 	var rect = Rect2i(data.coords, data.size)
 	if rect.has_point(input_coords):
 		if _entity._constructed:
-			_input_invantory = data.inventory
+			_input_inventory = data.inventory
 		else:
-			_input_invantory = null
+			_input_inventory = null
 	elif rect.has_point(output_coords):
 		if _entity._constructed:
-			_output_invantory = data.inventory	
+			_output_inventory = data.inventory	
 		else:
-			_output_invantory = null
+			_output_inventory = null
 		
 func _start_insert():
 	var slot = _inventory.get_slot(0)
 	if slot:
 		_WSC.to_end_state()
 		return 
-	if not _input_invantory:
+	if not _input_inventory:
 		return
-	var _slots = _input_invantory.get_slots()
+	var _slots = _input_inventory.get_slots()
 	if not _slots:
 		return 
-	Inventory.transfer(_input_invantory, _slots[0][0], _transfer_count, _inventory)
+	Inventory.transfer(_input_inventory, _slots[0][0], _transfer_count, _inventory)
 	if not _inventory.get_slot(0):
 		return 
 	_WSC.to_busy_state()
@@ -120,9 +120,9 @@ func _end_insert():
 	if not slot:
 		_WSC.to_start_state()
 		return 
-	if not _output_invantory:
+	if not _output_inventory:
 		return
-	Inventory.transfer(_inventory, slot[0], slot[1], _output_invantory)
+	Inventory.transfer(_inventory, slot[0], slot[1], _output_inventory)
 	if _inventory.get_slot(0):
 		return 
 	_WSC.to_idle_state()
