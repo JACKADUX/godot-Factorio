@@ -2,15 +2,15 @@ class_name WorkStateComponent extends EntityBaseComponent
 
 signal work_state_changed
 
-enum WorkState {Idle, Start, Busy, End}
-var work_state := WorkState.Idle:
+enum WorkState {Idel, Start, Busy, End}
+var work_state := WorkState.Idel:
 	set(value):
 		if work_state != value:
 			work_state = value
 			work_state_changed.emit()
 
-func is_idle_state():
-	return work_state == WorkState.Idle
+func is_idel_state():
+	return work_state == WorkState.Idel
 func is_start_state():
 	return work_state == WorkState.Start
 func is_busy_state():
@@ -18,8 +18,8 @@ func is_busy_state():
 func is_end_state():
 	return work_state == WorkState.End
 	
-func to_idle_state():
-	work_state = WorkState.Idle
+func to_idel_state():
+	work_state = WorkState.Idel
 func to_start_state():
 	work_state = WorkState.Start
 func to_busy_state():

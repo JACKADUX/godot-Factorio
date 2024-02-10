@@ -13,6 +13,8 @@ static func get_real_index(number:int, index:int):
 	assert(has_one(number, index))
 	var count = 0
 	number = number & ((1 << index)-1)  # 保留前index 位
+	if number == 0:
+		return -1
 	while true:
 		number = number & (number-1)
 		if number == 0:

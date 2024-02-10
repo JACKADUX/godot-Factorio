@@ -62,7 +62,7 @@ func _entity_notification(msg, what:NotificationType):
 			_update_inventory(msg)	
 		NotificationType.Work:
 			#msg = delta 
-			if _WSC.is_idle_state():
+			if _WSC.is_idel_state():
 				_idle_timer.update(msg)
 				_update_insert()
 			elif _WSC.is_start_state():
@@ -125,7 +125,7 @@ func _end_insert():
 	Inventory.transfer(_inventory, slot[0], slot[1], _output_inventory)
 	if _inventory.get_slot(0):
 		return 
-	_WSC.to_idle_state()
+	_WSC.to_idel_state()
 	
 
 	

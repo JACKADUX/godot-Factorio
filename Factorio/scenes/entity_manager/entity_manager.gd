@@ -12,6 +12,10 @@ enum EntityNotification {NewEntityConsturct}
 
 var entities :Array[BaseEntity] = []
 
+var belts = []
+
+var _t:float = 0
+
 func _ready():
 	Globals.temp_entity_manager = self
 
@@ -35,14 +39,35 @@ func _feed_data():
 	e.coords = Vector2i(9,5)
 	add_entity(e)
 	
-	e = new_entity(Items.TRANSPORT_BELT_1)
-	e.coords = Vector2i(9,3)
-	add_entity(e)
+	var input_belt
+	var first
+	for i in 10:
+		e = new_entity(Items.TRANSPORT_BELT_1)
+		e.coords = Vector2i(2+i,3)
+		if i == 0:
+			first = e
+		#if randf()>0.5:
+			e._belt_1.push_front(Items.COAL)
+		add_entity(e)
+		e.input_transport_belt = input_belt
+		input_belt = e
+		belts.append(e)
+	#first.input_transport_belt = e
 
-
+	
 func _process(delta):
 	_work_notification.emit(delta)
-		
+	queue_redraw()
+	
+	## _debug
+	_t += delta
+	if _t >= 1 :
+		_t = 0
+		if randf() > 0.2:
+			belts[0]._belt_1.push_front([DatatableManager.base_items.COAL, DatatableManager.base_items.IRON_ORE].pick_random())
+		if randf() > 0.5:
+			belts[-1]._belt_1.pop_end()
+		 
 ## Interface
 func get_entities():
 	return entities
@@ -134,6 +159,19 @@ func get_intersect_entities(rect:Rect2i):
 			entities.append(entities)
 
 
+func _draw():
+	for entity in get_entities():
+		if entity.get_item_id() ==  DatatableManager.base_items.TRANSPORT_BELT_1:
+			var bits = entity._belt_1._bits
+			if not bits:
+				continue
+			var inds = entity._belt_1._get_indexs()
+			for i in inds:
+				var c = Color.AQUA
+				if entity._belt_1._slots[inds.find(i)] == DatatableManager.base_items.COAL:
+					c = Color(0.2,0.2,0.2)
+				var offset = Vector2i(8*i, 0)
+				draw_circle(entity.coords*Globals.GridSize+Vector2i(0, Globals.GridSizeHalf)+offset, 4, c)
 
 
 

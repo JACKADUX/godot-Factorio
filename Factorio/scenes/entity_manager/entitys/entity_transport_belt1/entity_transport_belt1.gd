@@ -1,5 +1,6 @@
 class_name EntityTransportBelt1 extends BaseEntity
 
+var _work_timer:CustomTimer
 var _WSC : WorkStateComponent
 
 var input_coords:Vector2i:
@@ -12,12 +13,9 @@ var belt_speed :int = 15 # item/s
 var pixcel_speed:int = 92 # px/s   (Globals.Size/_max_count) * (15/line_count) = 60 + Globals.Size = 92
 var transport_duration = 8/92.0
 
+var input_transport_belt:EntityTransportBelt1
+
 var _belt_1 := SingleBelt.new()
-
-var _input_inventory:Inventory
-var _output_inventory:Inventory
-
-var _timer :float = 0
 
 func _init(id:int):
 	super(id)
@@ -30,19 +28,21 @@ func _init(id:int):
 
 func get_entity_data() -> Dictionary:
 	var data = super()
-	data["input_inventory"] = _input_inventory
-	data["output_inventory"] = _output_inventory
+	#data["belt"] = [_belt_1._slots, _belt_1._bits]
 	return data
 
 func construct(_entity_manager):
 	super(_entity_manager)
 	
-	_input_inventory = Inventory.new(4)
-	_input_inventory.input(1001, 500)
-	
-	_output_inventory = Inventory.new(4)
+	_work_timer = CustomTimer.new(transport_duration)
+	_work_timer.timeout.connect(_WSC.to_end_state)
+	_work_timer.start()
+
 	_WSC.to_start_state()
-	
+
+func get_output():
+	return _belt_1.pop_end()
+
 func _entity_notification(msg, what:NotificationType):
 	match what:
 		NotificationType.Construct:
@@ -53,34 +53,30 @@ func _entity_notification(msg, what:NotificationType):
 			pass
 		NotificationType.Work:
 			#msg = delta 
-			if _WSC.is_idle_state():
+			if _WSC.is_idel_state():
 				_idel_work()
 			elif _WSC.is_start_state():
 				_start_work()
 			elif _WSC.is_busy_state():
-				_timer += msg
-				if _timer >= transport_duration:
-					_timer -= transport_duration
-					_update_work()
+				_work_timer.update(msg)
+				_update_work()
 			elif _WSC.is_end_state():
 				_end_work()
 
 func _idel_work():
-	pass
+	if input_transport_belt:
+		_WSC.to_start_state()
 	
 func _start_work():
-	#_bit_set_1()
+	if input_transport_belt and _belt_1.has_input_space():
+		var from_input = input_transport_belt.get_output()
+		if from_input:
+			_belt_1.push_front(from_input)
 	_WSC.to_busy_state()
 	
 func _update_work():
-	#if _bit_is_full():  # 1111
-	#	_WSC.to_end_state()
-	#	return 
-	#_bit_shift()
-	_WSC.to_end_state()
+	pass
 	
 func _end_work():
-	#_bit_clear_4()
+	_belt_1.shift()
 	_WSC.to_start_state()
-
-# ------- bit

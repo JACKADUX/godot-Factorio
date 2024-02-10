@@ -83,7 +83,7 @@ func _entity_notification(msg, what:NotificationType):
 	match what:
 		NotificationType.Work:
 			#msg = delta 
-			if _WSC.is_idle_state():
+			if _WSC.is_idel_state():
 				_idel_work()
 				return 
 				
@@ -124,7 +124,7 @@ func _idel_work():
 func _start_work():
 	var slots = _input_inventory.get_slots()
 	if not slots:
-		_WSC.to_idle_state()
+		_WSC.to_idel_state()
 		return 
 	_id = slots[0][0]
 	# 只要存在矿就先开始挖,挖完再拿
@@ -138,7 +138,7 @@ func _update_work():
 		_extrue_product = 0
 		var slots = _input_inventory.get_slots()
 		if not slots:
-			_WSC.to_idle_state()
+			_WSC.to_idel_state()
 			return 
 		var count = 1
 		Inventory.transfer(_input_inventory, _id, count, _output_inventory)
@@ -146,7 +146,7 @@ func _update_work():
 func _end_work():
 	var slots = _input_inventory.get_slots()
 	if not slots:
-		_WSC.to_idle_state()
+		_WSC.to_idel_state()
 		return 
 	
 	_extrue_product += productivity

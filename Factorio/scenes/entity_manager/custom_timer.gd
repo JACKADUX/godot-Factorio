@@ -8,7 +8,7 @@ var _time:float = 0
 var one_time:=false
 
 var time_left:float:
-	get: return _wait_time -_time
+	get: return clamp(_wait_time -_time, 0, _wait_time)
 
 func _init(wait_time:float=1):
 	_wait_time = wait_time
@@ -33,10 +33,12 @@ func update(delta:float):
 		return 
 	_time += delta
 	if _time >= _wait_time:
+		_time = 0
 		if one_time:
 			## NOTE: 这个时机很重要！需要留意顺序
 			stop()
-		_time -= _wait_time
 		timeout.emit()
+		
+		
 		
 	
